@@ -34,8 +34,9 @@ class DatabaseSeeder extends Seeder
         RoomType::create(['name' => 'Superior']);
 
         $roomtypes = RoomType::all();
-        foreach ($roomtypes as $roomtype) {
+        foreach ($roomtypes as $index => $roomtype) {
             Room::create([
+                'id' => $index + 1,
                 'total_room' => mt_rand(2, 5),
                 'no_beds' => mt_rand(1, 4),
                 'price' => mt_rand(100, 200),

@@ -37,6 +37,8 @@ class RoomController extends Controller {
             'price' => ['required', 'numeric'],
             'desc' => ['required', 'string'],
             'image' => ['required', 'image', 'max:2048'],
+        ], [
+            'room_type_id.unique' => 'This Room Type already exists in room table. please create a new room type'
         ]);
         $imageName = time() . '.' . $request->file('image')->extension();
 
@@ -71,6 +73,7 @@ class RoomController extends Controller {
     public function edit(int $id) {
 
         $room = Room::findOrFail($id);
+        $this->authorize('update', $room);
         $types = RoomType::all();
         return view('admin.rooms.edit', compact('room', 'types'));
     }
@@ -116,6 +119,7 @@ class RoomController extends Controller {
      */
     public function destroy(int $id) {
         $room = Room::findOrFail($id);
+        $this->authorize('delete', $room);
         $room->delete();
         return redirect()->route('admin.rooms.index')
             ->with('message', 'Room has been deleted!');

@@ -51,6 +51,7 @@ class RoomTypeController extends Controller {
      */
     public function edit(int $id) {
         $type = RoomType::findOrFail($id);
+        $this->authorize('update', $type);
 
         return view('admin.roomtypes.edit', compact('type'));
     }
@@ -76,6 +77,7 @@ class RoomTypeController extends Controller {
     public function destroy(int $id) {
 
         $type = RoomType::findOrFail($id);
+        $this->authorize('delete', $type);
         $type->delete();
         return redirect()->route('admin.roomtypes.index')
             ->with('message', 'Your RoomType has been deleted!');
