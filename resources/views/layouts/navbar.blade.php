@@ -9,22 +9,22 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                       href="{{ route('home') }}">Home</a>
+                       href="{{ route('home') }}">Accueil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About As</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Rooms</a>
+                    <a class="nav-link" href="#">Chambres</a>
                 </li>
                 @guest()
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}"
-                           href="{{ route('login') }}">Login</a>
+                           href="{{ route('login') }}">Connexion</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('register') ? 'active' : '' }}"
-                           href="{{ route('register') }}">Register</a>
+                           href="{{ route('register') }}">S'inscrire</a>
                     </li>
                 @else
                     <li class="nav-item dropdown">
@@ -32,15 +32,15 @@
                            aria-expanded="false">{{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">My Bookings</a></li>
-                            <li><a class="dropdown-item" href="#">My Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Mes Réservations</a></li>
+                            <li><a class="dropdown-item" href="#">Mon Profil</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
                                 <form method="post" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-link dropdown-item">Logout</button>
+                                    <button type="submit" class="btn btn-link dropdown-item">Déconnexion</button>
                                 </form>
                             </li>
                         </ul>

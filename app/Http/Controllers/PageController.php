@@ -2,56 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Room;
-use App\Models\RoomType;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
+use App\Models\City;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
-class PageController extends Controller {
+class PageController extends Controller
+{
+    /**
+     * Homepage — display all cities for the client to choose from.
+     * Flow entry point: City → Hotels → Hotel Detail → Reserve
+     */
+    public function index(): View
+    {
+        $cities = City::withCount('hotels')->get();
 
-    public function index(): View {
-
-        $rooms = Room::with('roomtype')->where('status', 1)->get();
-        return view('pages.home', compact('rooms'));
+        return view('pages.home', compact('cities'));
     }
 
-    public function list_rooms() {
-
-        $rooms = Room::with('roomtype')->where('status', 1)->get();
-        return view('pages.list-rooms', compact('rooms'));
-    }
-
-    public function search(Request $request) {
-
-        $validatedData = $request->validate([
-            'check_in' => ['required', 'date', 'after:today'],
-            'check_out' => ['required', 'date', 'after:check_in'],
-            'no_peron' => ['required']
-        ]);
-        $rooms = Room::with('roomtype')->where('status', 1)
-            ->whereHas('orders', function (Builder $query) use ($validatedData) {
-                $query->whereBetween('check_in', [$validatedData['check_in'], $validatedData['check_out']])
-                    ->orWhereBetween('check_out', [$validatedData['check_in'], $validatedData['check_out']]);
-            }, '<', DB::raw('rooms.total_room'))->get();
-        $searched = true;
-        $fields = $validatedData;
-        return view('pages.list-rooms', compact('rooms', 'searched', 'fields'));
-    }
-
-    public function showProfile() {
+    /**
+     * Show authenticated user's profile.
+     */
+    public function showProfile(): View
+    {
         return view('pages.profile', ['user' => Auth::user()]);
     }
 
-    public function updateProfile(Request $request) {
-        $user = Auth::user();
-        $user->phone = $request->phone;
-        $user->name = $request->name;
+    /**
+     * Update authenticated user's profile details.
+     */
+    public function updateProfile(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name'      => ['required', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
+            'phone'     => ['nullable', 'string', 'max:20'],
+        ]);
+
+        $user            = Auth::user();
+        $user->name      = $request->name;
         $user->last_name = $request->last_name;
+        $user->phone     = $request->phone;
         $user->save();
 
-        return redirect()->route('profile');
+        return redirect()->route('profile')
+            ->with('message', 'Profile updated successfully.');
     }
 }

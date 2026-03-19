@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,14 +25,14 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <title>Hotel Management System</title>
+    <title>Hotilat</title>
 </head>
 <body>
     <!-- Admin Panel -->
-    @if(isset($adminView))
+    @if(isset($AdminView))
         <div class="container-fluid">
             <div class="row flex-nowrap">
-                @include('admin.sidebar')
+                @include('Admin.sidebar')
                 <div class="col py-3">
                     @yield('content')
                 </div>

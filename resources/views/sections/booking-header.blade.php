@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-md-3">
                             <select name="no_peron" class="form-select @error('no_peron') is-invalid @enderror">
-                                <option value="">Adult</option>
+                                <option value="">Adulte</option>
                                 @for ($i = 1; $i <= 4; $i++)
                                     <option @selected(old('no_peron', $fields['no_peron'] ?? '') == $i)
                                             value="{{ $i }}">{{ $i }}</option>
@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-md-3">
                             <select class="form-select">
-                                <option value="">Child</option>
+                                <option value="">Enfant</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    <button type="submit" class="btn btn-primary w-100">Soumettre</button>
                 </div>
             </form>
         </div>

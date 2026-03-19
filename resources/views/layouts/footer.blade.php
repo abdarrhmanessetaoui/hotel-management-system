@@ -3,7 +3,7 @@
         <div class="row g-5">
             <div class="col-md-6 col-lg-5">
                 <h6 class="section-title text-start text-primary text-uppercase mb-4">Contact</h6>
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, Casablanca, Morocco</p>
                 <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                 <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
                 <div class="d-flex pt-2">
@@ -16,20 +16,22 @@
             <div class="col-md-6 col-lg-7">
                 <div class="row gy-5 g-4">
                     <div class="col-md-6">
-                        <h6 class="section-title text-start text-primary text-uppercase mb-4">Company</h6>
-                        <a class="btn btn-link" href="">About Us</a>
-                        <a class="btn btn-link" href="">Contact Us</a>
-                        <a class="btn btn-link" href="">Privacy Policy</a>
-                        <a class="btn btn-link" href="">Terms & Condition</a>
-                        <a class="btn btn-link" href="">Support</a>
+                        <h6 class="section-title text-start text-primary text-uppercase mb-4">Entreprise</h6>
+                        <a class="btn btn-link" href="">À Propos de Nous</a>
+                        <a class="btn btn-link" href="">Contactez-nous</a>
+                        <a class="btn btn-link" href="">Politique de Confidentialité</a>
+                        <a class="btn btn-link" href="">Termes et Conditions</a>
+                        <a class="btn btn-link" href="">Assistance</a>
                     </div>
                     <div class="col-md-6">
                         <h6 class="section-title text-start text-primary text-uppercase mb-4">Services</h6>
-                        <a class="btn btn-link" href="">Food & Restaurant</a>
-                        <a class="btn btn-link" href="">Spa & Fitness</a>
-                        <a class="btn btn-link" href="">Sports & Gaming</a>
-                        <a class="btn btn-link" href="">Event & Party</a>
-                        <a class="btn btn-link" href="">GYM & Yoga</a>
+                        <a class="btn btn-link" href="">Restauration</a>
+                        <a class="btn btn-link" href="">
+Spa & Fitness
+</a>
+                        <a class="btn btn-link" href="">Sports & Jeux</a>
+                        <a class="btn btn-link" href="">Événements & Fêtes</a>
+                        <a class="btn btn-link" href="">Gym & Yoga</a>
                     </div>
                 </div>
             </div>

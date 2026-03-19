@@ -2,20 +2,21 @@
 
 @section('header')
     @include('layouts.header')
-    <!-- Carousel -->
+    {{-- Carousel stays exactly as-is --}}
     @include('sections.carousel')
 @endsection
 
 @section('content')
-    <!-- Service -->
+    {{-- Service section stays exactly as-is --}}
     @include('sections.service')
-    <!-- Room -->
-    @include('sections.room-container-brief')
-    <!-- Testimonial -->
+
+    {{-- CHANGED: was sections.room-container-brief
+         Now displays city cards using the same card design --}}
+    @include('sections.city-container', ['cities' => $cities])
+
+    {{-- All remaining sections stay exactly as-is --}}
     @include('sections.testimonial')
-    <!-- Team -->
     @include('sections.team')
-    <!-- Newsletter -->
     @include('sections.newsletter')
 @endsection
 

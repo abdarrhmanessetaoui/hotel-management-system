@@ -6,7 +6,7 @@
             <h3>Create Room Types</h3>
         </div>
         <div class="card-body">
-            <form class="row g-3" method="post" action="{{ route('admin.roomtypes.store') }}">
+            <form class="row g-3" method="post" action="{{ route('Admin.roomtypes.store') }}">
                 @csrf
                 <div class="col-auto">
                     <label class="form-label">Room Type Name</label>
