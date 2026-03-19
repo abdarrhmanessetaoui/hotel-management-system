@@ -6,28 +6,35 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
+        // Drop old rooms table to rebuild with new structure
+        Schema::dropIfExists('rooms');
+
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->integer('total_room');
-            $table->integer('no_beds');
-            $table->double('price');
+
+            // Each room belongs to exactly one hotel
+            $table->foreignId('hotel_id')
+                  ->constrained('hotels')
+                  ->onDelete('cascade');
+
+            $table->string('room_number');           // e.g. "101", "202A"
+            $table->string('type');                  // single | double | suite | deluxe
+            $table->decimal('price', 10, 2);         // Price per night
             $table->string('image')->nullable();
-            $table->boolean('status')->default(1);
-            $table->text('desc');
-            $table->bigInteger('room_type_id')->unsigned();
-            $table->foreign('room_type_id')->references('id')->on('room_types')->onDelete('cascade');
+            $table->text('description')->nullable();
+
+            // available = bookable, unavailable = under maintenance / blocked
+            $table->enum('status', ['available', 'unavailable'])->default('available');
+
             $table->timestamps();
+
+            // Unique constraint: no two rooms in the same hotel share a room number
+            $table->unique(['hotel_id', 'room_number']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('rooms');

@@ -3,17 +3,17 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h2>Upcoming Booking</h2>
+            <h2>Réservations à Venir</h2>
         </div>
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">Room Name</th>
-                    <th scope="col">Check in</th>
-                    <th scope="col">Check out</th>
-                    <th scope="col">Total price</th>
-                    <th scope="col">Booked on</th>
+                    <th scope="col">Nom de la Chambre</th>
+                    <th scope="col">Arrivée</th>
+                    <th scope="col">Départ</th>
+                    <th scope="col">Prix Total</th>
+                    <th scope="col">Réservé le</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,7 +26,11 @@
                         <td>{{ $order->created_at }}</td>
                     </tr>
                 @empty
-                    <p class="text-primary fw-bold">You don't have any orders.</p>
+                    <tr>
+                        <td colspan="5">
+                            <p class="text-primary fw-bold mb-0">Vous n'avez aucune commande.</p>
+                        </td>
+                    </tr>
                 @endforelse
                 </tbody>
             </table>

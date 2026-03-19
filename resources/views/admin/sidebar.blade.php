@@ -6,12 +6,12 @@
         <div class="dropdown pb-4">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                <span class="d-none d-sm-inline mx-1">admin</span>
+                <span class="d-none d-sm-inline mx-1">Admin</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                 <li><form method="post" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="btn btn-link dropdown-item">Sign out</button>
+                        <button type="submit" class="btn btn-link dropdown-item">Se déconnecter</button>
                     </form>
                 </li>
             </ul>
@@ -19,29 +19,25 @@
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             <li class="nav-item">
                 <a href="{{ route('home') }}" class="nav-link align-middle px-0">
-                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Accueil</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('admin.index') }}" class="nav-link align-middle px-0">
-                    <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span>
+                <a href="{{ route('Admin.index') }}" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Tableau de Bord</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.orders.index') }}" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                <a href="{{ route('Admin.reservations.index') }}" class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Réservations</span></a>
             </li>
             <li>
-                <a href="{{ route('admin.roomtypes.index') }}" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Room Type</span></a>
-            </li>
-            <li>
-                <a href="{{ route('admin.rooms.index') }}" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Rooms</span></a>
+                <a href="{{ route('Admin.rooms.index') }}" class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Chambres</span></a>
             </li>
             <li>
                 <a href="#" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
+                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Clients</span> </a>
             </li>
         </ul>
     </div>

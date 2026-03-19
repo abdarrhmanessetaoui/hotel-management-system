@@ -4,124 +4,122 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Room;
-use App\Models\RoomType;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class RoomController extends Controller {
-
+class RoomController extends Controller
+{
     /**
-     * Display a listing of the resource.
+     * Get the hotel assigned to the current admin.
+     * Aborts with 403 if no hotel is assigned.
      */
-    public function index() {
-
-        $rooms = Room::with('roomtype')->get();
-        return view('admin.rooms.index', compact('rooms'));
+    private function getAdminHotel()
+    {
+        $hotel = Auth::user()->hotel;
+        abort_if(!$hotel, 403, 'No hotel assigned to your account.');
+        return $hotel;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create() {
-        $types = RoomType::all();
-        return view('admin.rooms.create', compact('types'));
+    public function index(): View
+    {
+        $hotel = $this->getAdminHotel();
+        $rooms = $hotel->rooms()->orderBy('room_number')->get();
+
+        return view('admin.rooms.index', compact('hotel', 'rooms'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {
-        $request->validate([
-            'room_type_id' => ['required', 'exists:room_types,id', 'unique:rooms'],
-            'total_room' => ['required', 'numeric'],
-            'no_beds' => ['required', 'numeric'],
-            'price' => ['required', 'numeric'],
-            'desc' => ['required', 'string'],
-            'image' => ['required', 'image', 'max:2048'],
-        ], [
-            'room_type_id.unique' => 'This Room Type already exists in room table. please create a new room type'
-        ]);
-        $imageName = time() . '.' . $request->file('image')->extension();
+    public function create(): View
+    {
+        $hotel = $this->getAdminHotel();
+        return view('admin.rooms.create', compact('hotel'));
+    }
 
-        // download image
-        $request->file('image')->move(public_path('img'), $imageName);
-        $imagePath = 'img/' . $imageName;
+    public function store(Request $request): RedirectResponse
+    {
+        $hotel = $this->getAdminHotel();
 
-        Room::create([
-            'room_type_id' => $request->room_type_id,
-            'total_room' => $request->total_room,
-            'no_beds' => $request->no_beds,
-            'price' => $request->price,
-            'desc' => $request->desc,
-            'image' => $imagePath,
-            'status' => $request->has('status') ? 1 : 0
+        $validated = $request->validate([
+            'room_number' => ['required', 'string', 'max:10'],
+            'type'        => ['required', 'in:single,double,suite,deluxe'],
+            'price'       => ['required', 'numeric', 'min:0'],
+            'description' => ['nullable', 'string'],
+            'image'       => ['nullable', 'image', 'max:2048'],
+            'status'      => ['required', 'in:available,unavailable'],
         ]);
 
-        return redirect()->route('admin.rooms.index')
-            ->with('message', 'Room has been created!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Room $room) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id) {
-
-        $room = Room::findOrFail($id);
-        $this->authorize('update', $room);
-        $types = RoomType::all();
-        return view('admin.rooms.edit', compact('room', 'types'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, int $id) {
-
-        $request->validate([
-            'room_type_id' => ['required', 'exists:room_types,id'],
-            'total_room' => ['required', 'numeric'],
-            'no_beds' => ['required', 'numeric'],
-            'price' => ['required', 'numeric'],
-            'desc' => ['required', 'string'],
-            'image' => ['nullable', 'image', 'max:2048'],
-        ]);
-
-        $room = Room::findOrFail($id);
-        $room->room_type_id = $request->room_type_id;
-        $room->total_room = $request->total_room;
-        $room->no_beds = $request->no_beds;
-        $room->price = $request->price;
-        $room->desc = $request->desc;
-        $room->status = $request->has('status') ? 1 : 0;
-
-        if ($request->hasFile('image') && !empty($request->file('image'))) {
-            $imageName = time() . '.' . $request->file('image')->extension();
-
-            // download image
-            $request->file('image')->move(public_path('img'), $imageName);
-            $imagePath = 'img/' . $imageName;
-            $room->image = $imagePath;
+        // Ensure room number is unique within this hotel
+        $exists = $hotel->rooms()->where('room_number', $validated['room_number'])->exists();
+        if ($exists) {
+            return back()->withInput()
+                ->withErrors(['room_number' => 'Room number already exists in this hotel.']);
         }
-        $room->save();
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->file('image')->extension();
+            $request->file('image')->move(public_path('img/rooms'), $imageName);
+            $imagePath = 'img/rooms/' . $imageName;
+        }
+
+        $hotel->rooms()->create([
+            'room_number' => $validated['room_number'],
+            'type'        => $validated['type'],
+            'price'       => $validated['price'],
+            'description' => $validated['description'],
+            'image'       => $imagePath,
+            'status'      => $validated['status'],
+        ]);
 
         return redirect()->route('admin.rooms.index')
-            ->with('message', 'Room has been updated!');
+            ->with('message', 'Room created successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(int $id) {
-        $room = Room::findOrFail($id);
-        $this->authorize('delete', $room);
-        $room->delete();
+    public function edit(Room $room): View
+    {
+        $hotel = $this->getAdminHotel();
+
+        // Prevent admin from editing rooms of other hotels
+        abort_if($room->hotel_id !== $hotel->id, 403);
+
+        return view('admin.rooms.edit', compact('hotel', 'room'));
+    }
+
+    public function update(Request $request, Room $room): RedirectResponse
+    {
+        $hotel = $this->getAdminHotel();
+        abort_if($room->hotel_id !== $hotel->id, 403);
+
+        $validated = $request->validate([
+            'room_number' => ['required', 'string', 'max:10'],
+            'type'        => ['required', 'in:single,double,suite,deluxe'],
+            'price'       => ['required', 'numeric', 'min:0'],
+            'description' => ['nullable', 'string'],
+            'image'       => ['nullable', 'image', 'max:2048'],
+            'status'      => ['required', 'in:available,unavailable'],
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->file('image')->extension();
+            $request->file('image')->move(public_path('img/rooms'), $imageName);
+            $validated['image'] = 'img/rooms/' . $imageName;
+        }
+
+        $room->update($validated);
+
         return redirect()->route('admin.rooms.index')
-            ->with('message', 'Room has been deleted!');
+            ->with('message', 'Room updated successfully.');
+    }
+
+    public function destroy(Room $room): RedirectResponse
+    {
+        $hotel = $this->getAdminHotel();
+        abort_if($room->hotel_id !== $hotel->id, 403);
+
+        $room->delete();
+
+        return redirect()->route('admin.rooms.index')
+            ->with('message', 'Room deleted successfully.');
     }
 }

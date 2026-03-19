@@ -6,7 +6,7 @@
             <h3>Edit Room Types</h3>
         </div>
         <div class="card-body">
-            <form class="row g-3" method="post" action="{{ route('admin.roomtypes.update', ['roomtype' => $type->id]) }}">
+            <form class="row g-3" method="post" action="{{ route('Admin.roomtypes.update', ['roomtype' => $type->id]) }}">
                 @csrf
                 @method('put')
                 <div class="col-auto">

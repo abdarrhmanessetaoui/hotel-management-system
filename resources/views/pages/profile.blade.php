@@ -6,10 +6,10 @@
     <div class="container-fluid page-header mb-5 p-0" style="background-image: url(img/carousel-1.jpg);">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center pb-5">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Rooms</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Chambres</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Accueil</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
                         <li class="breadcrumb-item text-white active" aria-current="page">Profile</li>
                     </ol>
@@ -25,7 +25,7 @@
         <div class="col-12 col-sm-8 col-md-7 col-lg-6">
             <div class="card shadow-lg">
                 <div class="card-header">
-                    <h3>My Profile</h3>
+                    <h3>Mon Profil</h3>
                 </div>
                 <div class="card-body">
                     <form class="row g-3" method="post" action="{{ route('profile') }}">
@@ -48,7 +48,7 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <label class="form-label">Phone</label>
+                            <label class="form-label">Téléphone</label>
                             <input type="text" name="phone" value="{{ old('phone', $user->phone) }}"
                                    class="form-control @error('phone') is-invalid @enderror">
                             @error('phone')

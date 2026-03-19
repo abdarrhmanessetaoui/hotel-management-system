@@ -2,48 +2,79 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable {
-
+class User extends Authenticatable
+{
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * Role constants — single source of truth.
      */
+    const ROLE_CLIENT     = 'client';
+    const ROLE_ADMIN      = 'admin';
+    const ROLE_SUPERADMIN = 'superadmin';
+
     protected $fillable = [
-        'name', 'email', 'password', 'last_name', 'phone', 'is_admin'
+        'name',
+        'last_name',
+        'email',
+        'password',
+        'phone',
+        'role',   // client | admin | superadmin
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_admin' => 'boolean'
     ];
 
-    public function orders(): HasMany {
+    // ─── Relationships ────────────────────────────────────────────────────────
 
-        return $this->hasMany(Order::class, 'user_id', 'id');
+    /**
+     * A client user has many reservations.
+     */
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class, 'user_id', 'id');
+    }
+
+    /**
+     * A hotel admin manages one hotel.
+     */
+    public function hotel(): HasOne
+    {
+        return $this->hasOne(Hotel::class, 'admin_id', 'id');
+    }
+
+    // ─── Role Helpers ─────────────────────────────────────────────────────────
+
+    public function isClient(): bool
+    {
+        return $this->role === self::ROLE_CLIENT;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === self::ROLE_SUPERADMIN;
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
     }
 }

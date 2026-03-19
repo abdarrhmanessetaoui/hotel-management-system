@@ -6,31 +6,62 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class Room extends Model {
-
+class Room extends Model
+{
     use HasFactory;
 
     protected $fillable = [
-        'total_room',
-        'no_beds',
+        'hotel_id',
+        'room_number',
+        'type',        // e.g. single, double, suite, deluxe
         'price',
         'image',
-        'status',
-        'desc',
-        'room_type_id',
+        'description',
+        'status',      // available | unavailable
     ];
 
     protected $casts = [
-        'status' => 'boolean'
+        'price'  => 'decimal:2',
+        'status' => 'string',
     ];
 
-    public function roomtype(): BelongsTo {
-        return $this->belongsTo(RoomType::class, 'room_type_id', 'id');
+    // ─── Relationships ────────────────────────────────────────────────────────
+
+    /**
+     * Room belongs to a hotel.
+     */
+    public function hotel(): BelongsTo
+    {
+        return $this->belongsTo(Hotel::class, 'hotel_id', 'id');
     }
 
-    public function orders(): HasMany {
-        return $this->hasMany(Order::class, 'room_id', 'id');
+    /**
+     * Room has many reservations.
+     */
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class, 'room_id', 'id');
+    }
+
+    // ─── Helpers ─────────────────────────────────────────────────────────────
+
+    /**
+     * Check if the room is available (no active/confirmed reservations
+     * overlapping the given date range).
+     */
+    public function isAvailableFor(string $checkIn, string $checkOut): bool
+    {
+        return !$this->reservations()
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->where(function ($query) use ($checkIn, $checkOut) {
+                $query->whereBetween('check_in',  [$checkIn, $checkOut])
+                      ->orWhereBetween('check_out', [$checkIn, $checkOut])
+                      ->orWhere(function ($q) use ($checkIn, $checkOut) {
+                          $q->where('check_in',  '<=', $checkIn)
+                            ->where('check_out', '>=', $checkOut);
+                      });
+            })
+            ->exists();
     }
 }
