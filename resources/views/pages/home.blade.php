@@ -2,22 +2,31 @@
 
 @section('header')
     @include('layouts.header')
-    {{-- Carousel stays exactly as-is --}}
+
+    {{-- 1. HOOK — grab attention immediately --}}
     @include('sections.carousel')
 @endsection
 
 @section('content')
-    {{-- Service section stays exactly as-is --}}
-    @include('sections.service')
 
-    {{-- CHANGED: was sections.room-container-brief
-         Now displays city cards using the same card design --}}
+    {{-- 2. ACTION — main goal: browse cities & book --}}
     @include('sections.city-container', ['cities' => $cities])
 
-    {{-- All remaining sections stay exactly as-is --}}
+    {{-- 3. WHY US — build confidence after they've seen the offer --}}
+    @include('sections.service')
+
+    {{-- 4. SOCIAL PROOF — validate the decision --}}
     @include('sections.testimonial')
-    @include('sections.team')
+    
+    {{-- 6. HUMAN — creator / team, personalize the brand --}}
+    <div id="team">
+        @include('sections.team')
+    </div>
+    
+    {{-- 5. CAPTURE — newsletter before they leave --}}
     @include('sections.newsletter')
+
+
 @endsection
 
 @section('footer')

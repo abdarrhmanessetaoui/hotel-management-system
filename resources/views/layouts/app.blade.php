@@ -32,7 +32,11 @@
     @if(isset($AdminView))
         <div class="container-fluid">
             <div class="row flex-nowrap">
-                @include('Admin.sidebar')
+                @if(Auth::check() && Auth::user()->isSuperAdmin())
+                    @include('superadmin.sidebar')
+                @else
+                    @include('Admin.sidebar')
+                @endif
                 <div class="col py-3">
                     @yield('content')
                 </div>

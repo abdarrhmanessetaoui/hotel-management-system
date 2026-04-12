@@ -1,12 +1,4 @@
-{{-- Admin Statistiques Panel (Phase 11)
-     Intended to be used by the Admin dashboard view.
 
-     Expected bindings:
-     - $hotel
-     - $rooms (optional)
-     - $reservations (optional)
-     - $stats (required/optional array)
---}}
 <div class="card mt-4">
     <div class="card-header">
         <h3>Statistiques</h3>

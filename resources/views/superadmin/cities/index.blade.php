@@ -1,54 +1,52 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- Super Admin - Cities List (Phase 12) --}}
     @include('components.show-success')
 
-    {{-- Controller provides: $cities --}}
     <div class="card">
-        <div class="card-header">
-            <h3>Toutes les Villes<a href="{{ route('superAdmin.cities.create') }}" class="btn btn-success rounded-circle ms-2">
-                    <i class="fa-solid fa-plus"></i>
-                </a>
-            </h3>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Toutes les Villes</h3>
+            <a href="{{ route('superadmin.cities.create') }}" class="btn btn-success btn-sm">
+                <i class="fa-solid fa-plus me-1"></i>Ajouter
+            </a>
         </div>
-
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Hôtels</th>
-                    <th scope="col">Image</th>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Hôtels</th>
+                    <th>Image</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse($cities as $city)
                     <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
+                        <th>{{ $loop->iteration }}</th>
                         <td>{{ $city->name }}</td>
                         <td>{{ $city->hotels_count ?? 0 }}</td>
                         <td>
                             @if(!empty($city->image))
-                                <img src="{{ Str::startsWith($city->image, 'http') ? $city->image : asset($city->image) }}" width="50" height="40" alt="{{ $city->name }}">
+                                <img src="{{ Str::startsWith($city->image,'http') ? $city->image : asset($city->image) }}"
+                                     width="50" height="40" class="rounded" alt="{{ $city->name }}">
                             @else
                                 <span class="text-muted">-</span>
                             @endif
                         </td>
                         <td>
-                            <div class="btn-group" role="group">
-                                <a class="btn btn-warning"
-                                   href="{{ route('superAdmin.cities.edit', ['city' => $city->id]) }}">
+                            <div class="btn-group">
+                                <a class="btn btn-warning btn-sm"
+                                   href="{{ route('superadmin.cities.edit', $city->id) }}">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-
                                 <form method="post"
-                                      action="{{ route('superAdmin.cities.destroy', ['city' => $city->id]) }}">
+                                      action="{{ route('superadmin.cities.destroy', $city->id) }}"
+                                      onsubmit="return confirm('Supprimer cette ville ?')">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="btn btn-danger">
+                                    <button type="submit" class="btn btn-danger btn-sm">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </form>
@@ -67,4 +65,3 @@
         </div>
     </div>
 @endsection
-
