@@ -63,6 +63,16 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a href="{{ route('superadmin.chatbot-suggestions.index') }}"
+               class="nav-link d-flex align-items-center gap-2 px-3 py-2
+                      {{ request()->routeIs('superadmin.chatbot-suggestions.*') ? 'active' : 'text-white-50' }}">
+                <i class="bi bi-robot fs-5 flex-shrink-0"></i>
+                <span class="d-none d-sm-inline">Chatbot</span>
+            </a>
+        </li>
+
+
     </ul>
 
     {{-- User badge pinned to bottom --}}

@@ -13,7 +13,8 @@
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+
 
     <!-- Libraries Stylesheet -->
     <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
@@ -23,9 +24,12 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
+
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/chatbot.css') }}" rel="stylesheet">
     <title>Hotilat</title>
+
 </head>
 <body>
     <!-- Admin Panel -->
@@ -54,7 +58,13 @@
             <!-- Footer -->
             @yield('footer')
         </div>
+
+        {{-- ── Step 1 & 5: Native Chatbot Visibility ──── --}}
+        @if(!Auth::check() || Auth::user()->isClient())
+            @include('components.chatbot')
+        @endif
     @endif
+
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

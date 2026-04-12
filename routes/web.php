@@ -93,8 +93,18 @@ Route::prefix('superadmin')
         Route::resource('reservations', SuperAdminReservationController::class)
             ->only(['index', 'show', 'update', 'destroy']);
 
+        Route::resource('chatbot-suggestions', \App\Http\Controllers\SuperAdmin\ChatbotSuggestionController::class);
+
+
         Route::get('/testing', function () {
             return view('pages.testing-checklist');
         }
         )->name('testing');
     });
+
+// ─── Chatbot API (Web Native) ───────────────────────────────────────────────
+Route::prefix('api/chatbot')->group(function() {
+    Route::post('/init', [App\Http\Controllers\ChatbotController::class, 'startSession'])->name('chatbot.init');
+    Route::post('/send', [App\Http\Controllers\ChatbotController::class, 'sendMessage'])->name('chatbot.send');
+    Route::post('/rate', [App\Http\Controllers\ChatbotController::class, 'rateSession'])->name('chatbot.rate');
+});

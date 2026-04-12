@@ -1,0 +1,133 @@
+/* ── Chatbot Native Integration ──── */
+:root {
+    --chat-primary: #FEA116; /* Same as --primary */
+    --chat-dark: #0F172B;    /* Same as --dark */
+    --chat-light: #F1F8FF;   /* Same as --light */
+}
+
+.chatbot-wrapper {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* ── Step 1: Floating Button ──── */
+.chatbot-fab {
+    width: 55px;
+    height: 55px;
+    background-color: var(--chat-primary);
+    border: none;
+    border-radius: 50%;
+    box-shadow: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+
+
+
+
+/* ── Step 2: Chat Window (Hidden by default) ──── */
+.chat-window {
+    width: 330px; /* Improved width */
+    height: 480px;
+    position: relative;
+    display: none;
+    flex-direction: column;
+    margin-bottom: 20px;
+    animation: none;
+    z-index: 10000;
+    overflow: hidden; /* Fixes sharp corners in header */
+}
+
+
+
+.chat-window.active {
+    display: flex;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Original Spacing & Typography ──── */
+.chat-header {
+    background-color: var(--chat-dark);
+    color: #FFFFFF;
+    padding: 18px 20px; /* Better padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f8fafc; /* Slightly better contrast */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* ── Step 4 Refined: Aligned Messages ──── */
+.msg {
+    max-width: 85%;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    border-radius: 6px;
+}
+
+
+.msg-bot {
+    align-self: flex-start;
+    background: #eef2f7;
+    color: var(--chat-dark);
+    border: 1px solid #dfe6ed;
+}
+
+.msg-user {
+    align-self: flex-end;
+    background: var(--chat-primary);
+    color: #FFFFFF;
+}
+
+
+.chat-input-area {
+    padding: 15px;
+    background: #FFFFFF;
+    border-top: 1px solid #dee2e6;
+}
+
+.chat-input-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    border: 1px solid #dee2e6;
+    padding: 8px 12px;
+    outline: none;
+    font-size: 14px;
+}
+
+.chat-send {
+    background: var(--chat-primary);
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+}
