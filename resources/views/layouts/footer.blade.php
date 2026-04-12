@@ -1,11 +1,13 @@
 <div class="container-fluid bg-dark text-light footer wow fadeIn" data-wow-delay="0.1s">
     <div class="container pb-5">
         <div class="row g-5">
+
+            {{-- ── Contact ─────────────────────────────────────────────── --}}
             <div class="col-md-6 col-lg-5">
                 <h6 class="section-title text-start text-primary text-uppercase mb-4">Contact</h6>
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, Casablanca, Morocco</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, Casablanca, Maroc</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+212 599 887 766</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>hotelia@gmail.com</p>
                 <div class="d-flex pt-2">
                     <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                     <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
@@ -13,37 +15,67 @@
                     <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
+
+            {{-- ── Links ───────────────────────────────────────────────── --}}
             <div class="col-md-6 col-lg-7">
                 <div class="row gy-5 g-4">
+
+                    {{-- Plateforme --}}
                     <div class="col-md-6">
-                        <h6 class="section-title text-start text-primary text-uppercase mb-4">Entreprise</h6>
-                        <a class="btn btn-link" href="">À Propos de Nous</a>
-                        <a class="btn btn-link" href="">Contactez-nous</a>
-                        <a class="btn btn-link" href="">Politique de Confidentialité</a>
-                        <a class="btn btn-link" href="">Termes et Conditions</a>
-                        <a class="btn btn-link" href="">Assistance</a>
+                        <h6 class="section-title text-start text-primary text-uppercase mb-4">
+                            Plateforme
+                        </h6>
+                        <a class="btn btn-link" href="{{ route('home') }}">Accueil</a>
+                        <a class="btn btn-link" href="{{ route('home') }}#villes">Nos Villes</a>
+                        <a class="btn btn-link" href="{{ route('login') }}">Connexion</a>
+                        <a class="btn btn-link" href="{{ route('register') }}">S'inscrire</a>
+                        @auth
+                            <a class="btn btn-link" href="{{ route('reservations.index') }}">
+                                Mes Réservations
+                            </a>
+                        @endauth
                     </div>
+
+                    {{-- Villes --}}
                     <div class="col-md-6">
-                        <h6 class="section-title text-start text-primary text-uppercase mb-4">Services</h6>
-                        <a class="btn btn-link" href="">Restauration</a>
-                        <a class="btn btn-link" href="">
-Spa & Fitness
-</a>
-                        <a class="btn btn-link" href="">Sports & Jeux</a>
-                        <a class="btn btn-link" href="">Événements & Fêtes</a>
-                        <a class="btn btn-link" href="">Gym & Yoga</a>
+                        <h6 class="section-title text-start text-primary text-uppercase mb-4">
+                            Destinations
+                        </h6>
+                        <a class="btn btn-link" href="{{ route('home') }}#villes">Marrakech</a>
+                        <a class="btn btn-link" href="{{ route('home') }}#villes">Casablanca</a>
+                        <a class="btn btn-link" href="{{ route('home') }}#villes">Agadir</a>
+                        <a class="btn btn-link" href="{{ route('home') }}#villes">Tanger</a>
+                        <a class="btn btn-link" href="{{ route('home') }}#villes">Voir toutes</a>
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
+
+    {{-- ── Copyright ───────────────────────────────────────────────────── --}}
     <div class="container">
         <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; {{ date('Y') }}
+                    <a href="{{ route('home') }}" class="text-primary fw-bold text-decoration-none">
+                        Hotelia
+                    </a>. Tous droits réservés.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <small class="text-white-50">
+                        Plateforme hôtelière N°1 au Maroc
+                    </small>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <!-- Footer End -->
 
-
 <!-- Back to Top -->
-<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top">
+    <i class="bi bi-arrow-up"></i>
+</a>

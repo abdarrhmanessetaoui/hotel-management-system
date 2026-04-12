@@ -3,29 +3,33 @@
 @section('header')
     @include('layouts.header')
 
-    {{-- =========================================================
-         Page Header — identical structure to list-rooms
-         Background image kept the same
-         Only the title and breadcrumb text change dynamically
-         ========================================================= --}}
+    {{-- Page Header — dynamic city background --}}
     <div class="container-fluid page-header mb-5 p-0"
-         style="background-image: url({{ asset('img/carousel-1.jpg') }});">
+         style="background-image: url('{{ $city->image ? (Str::startsWith($city->image, 'http') ? $city->image : asset($city->image)) : asset('img/carousel-1.jpg') }}');">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center pb-5">
 
-                {{-- Dynamic city name instead of static "Rooms" --}}
+                <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
+                    Hotelia — Destinations
+                </h6>
+
                 <h1 class="display-3 text-white mb-3 animated slideInDown">
-                    Hotels in {{ $city->name }}
+                    Hôtels à {{ $city->name }}
                 </h1>
 
-                {{-- Breadcrumb: Home → Cities → {City Name} --}}
+                <p class="text-white mb-4 animated fadeInUp">
+                    {{ $hotels->count() }} {{ Str::plural('hôtel', $hotels->count()) }}
+                    disponible{{ $hotels->count() > 1 ? 's' : '' }} dans cette ville
+                </p>
+
+                {{-- Breadcrumb --}}
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
                         <li class="breadcrumb-item">
                             <a href="{{ route('home') }}">Accueil</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('home') }}">Villes</a>
+                            <a href="{{ route('home') }}#villes">Villes</a>
                         </li>
                         <li class="breadcrumb-item text-white active" aria-current="page">
                             {{ $city->name }}
@@ -36,22 +40,15 @@
             </div>
         </div>
     </div>
-    {{-- Page Header End --}}
-
-    {{-- NOTE: booking-header removed — city hotel listing
-         does not require a date search at this step.
-         Date selection happens on the individual hotel page. --}}
 @endsection
 
 @section('content')
 
-    {{-- Hotel cards grid — replaces room-container-details --}}
     @include('sections.hotel-list', [
         'hotels' => $hotels,
         'city'   => $city,
     ])
 
-    {{-- These sections are kept exactly as-is --}}
     @include('sections.testimonial')
     @include('sections.newsletter')
 
