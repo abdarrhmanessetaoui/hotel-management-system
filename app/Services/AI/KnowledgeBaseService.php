@@ -14,13 +14,15 @@ use Illuminate\Support\Facades\Log;
  */
 class KnowledgeBaseService
 {
-    public function retrieveRelevantContext(string $query, string $role): string
+    public function retrieveRelevantContext(string $query, string $role, array $context = []): string
     {
         $lowerQuery = mb_strtolower($query, 'UTF-8');
+        
+        $currentCity = $context['current_city'] ?? null;
 
         $data = [
-            'hotels'   => $this->getHotels($lowerQuery),
-            'rooms'    => $this->getRooms($lowerQuery),
+            'hotels'   => $this->getHotels($lowerQuery, $currentCity),
+            'rooms'    => $this->getRooms($lowerQuery, $currentCity),
             'bookings' => $this->getBookings($role, $lowerQuery),
             'context'  => [
                 'current_time' => now()->toDateTimeString(),
@@ -32,13 +34,14 @@ class KnowledgeBaseService
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
-    private function getHotels(string $query): array
+    private function getHotels(string $query, ?string $currentCity): array
     {
-        $citySearch = null;
-        $cities = ['marrakech', 'agadir', 'casablanca', 'tanger'];
+        $cities = City::pluck('name')->toArray();
+        $citySearch = $currentCity;
+
         foreach ($cities as $c) {
-            if (mb_strpos($query, $c) !== false) {
-                $citySearch = ucfirst($c);
+            if (mb_strpos($query, mb_strtolower($c, 'UTF-8')) !== false) {
+                $citySearch = $c;
                 break;
             }
         }
@@ -48,7 +51,6 @@ class KnowledgeBaseService
             $q->whereHas('city', fn($sq) => $sq->where('name', 'LIKE', "%$citySearch%"));
         }
 
-        // Handle "best" or "top" queries by sorting by rating
         if (mb_strpos($query, 'meilleur') !== false || mb_strpos($query, 'top') !== false || mb_strpos($query, 'mieux') !== false) {
             $q->orderBy('rating', 'desc');
         }
@@ -61,21 +63,25 @@ class KnowledgeBaseService
         ])->toArray();
     }
 
-    private function getRooms(string $query): array
+    private function getRooms(string $query, ?string $currentCity): array
     {
         if (mb_strpos($query, 'quel hotel') !== false || mb_strpos($query, 'liste des hotels') !== false) {
             return [];
         }
 
         $roomQuery = Room::with('hotel.city');
+        $cities = City::pluck('name')->toArray();
+        $citySearch = $currentCity;
 
-        $cities = ['marrakech', 'agadir', 'casablanca', 'tanger'];
         foreach ($cities as $c) {
-            if (mb_strpos($query, $c) !== false) {
-                $city = ucfirst($c);
-                $roomQuery->whereHas('hotel.city', fn($q) => $q->where('name', 'LIKE', "%$city%"));
+            if (mb_strpos($query, mb_strtolower($c, 'UTF-8')) !== false) {
+                $citySearch = $c;
                 break;
             }
+        }
+
+        if ($citySearch) {
+            $roomQuery->whereHas('hotel.city', fn($q) => $q->where('name', 'LIKE', "%$citySearch%"));
         }
 
         if (mb_strpos($query, 'dispo') !== false) {
@@ -83,8 +89,8 @@ class KnowledgeBaseService
         }
 
         return $roomQuery->orderBy('price', 'asc')->limit(8)->get()->map(fn($r) => [
-            'hotel' => $r->hotel->name,
-            'rating' => $r->hotel->rating,
+            'hotel' => $r->hotel->name ?? 'Hôtel',
+            'rating' => $r->hotel->rating ?? 0,
             'city' => $r->hotel->city->name ?? 'Maroc',
             'number' => $r->room_number,
             'price' => $r->price,
@@ -106,9 +112,9 @@ class KnowledgeBaseService
     private function detectEntities(string $query): array
     {
         $entities = [];
-        $cities = ['marrakech', 'agadir', 'casablanca', 'tanger'];
+        $cities = City::pluck('name')->toArray();
         foreach ($cities as $c) {
-            if (mb_strpos($query, $c) !== false) $entities[] = 'City:' . ucfirst($c);
+            if (mb_strpos($query, mb_strtolower($c, 'UTF-8')) !== false) $entities[] = 'City:' . $c;
         }
         return $entities;
     }

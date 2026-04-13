@@ -73,6 +73,18 @@ class MemoryManager
             $context['preferences']['budget_level'] = 'low';
         }
 
+        // Track cities
+        $cities = ['marrakech', 'agadir', 'casablanca', 'tanger', 'fès', 'rabat'];
+        foreach ($cities as $city) {
+            if (mb_strpos($lower, $city) !== false) {
+                $context['current_city'] = ucfirst($city);
+                // Clear hotel if city changes
+                unset($context['current_hotel']);
+                break;
+            }
+        }
+
+        // We can track hotel specifically if we want, but typically Orchestrator manages it.
         $session->update(['context' => $context]);
     }
 }

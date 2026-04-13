@@ -64,11 +64,11 @@
         </li>
 
         <li class="nav-item">
-            <a href="{{ route('superadmin.chatbot-suggestions.index') }}"
+            <a href="{{ route('superadmin.chatbot.index') }}"
                class="nav-link d-flex align-items-center gap-2 px-3 py-2
-                      {{ request()->routeIs('superadmin.chatbot-suggestions.*') ? 'active' : 'text-white-50' }}">
+                      {{ request()->routeIs('superadmin.chatbot.*') ? 'active' : 'text-white-50' }}">
                 <i class="bi bi-robot fs-5 flex-shrink-0"></i>
-                <span class="d-none d-sm-inline">Chatbot</span>
+                <span class="d-none d-sm-inline">Assistant IA</span>
             </a>
         </li>
 
