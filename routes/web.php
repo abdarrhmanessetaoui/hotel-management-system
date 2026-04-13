@@ -93,6 +93,7 @@ Route::prefix('superadmin')
         Route::resource('reservations', SuperAdminReservationController::class)
             ->only(['index', 'show', 'update', 'destroy']);
 
+        Route::get('chatbot', [\App\Http\Controllers\SuperAdmin\ChatbotConsoleController::class, 'index'])->name('chatbot.index');
         Route::resource('chatbot-suggestions', \App\Http\Controllers\SuperAdmin\ChatbotSuggestionController::class);
 
 

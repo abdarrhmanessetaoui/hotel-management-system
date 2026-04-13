@@ -21,10 +21,12 @@ class ChatSession extends Model
         'satisfaction',
         'converted',
         'message_count',
+        'context',
     ];
 
     protected $casts = [
         'converted' => 'boolean',
+        'context' => 'array',
     ];
 
     // ─── Relationships ────────────────────────────────────────────────────────

@@ -1,48 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mb-4">
-        <a href="{{ route('superadmin.chatbot-suggestions.index') }}" class="text-secondary text-decoration-none small">
-            &larr; Back to Suggestions
-        </a>
-        <h3 class="mt-2">Edit Suggestion</h3>
-    </div>
+    @include('components.show-success')
 
-    <div class="card border-0 shadow-sm col-md-8">
-        <div class="card-body p-4">
-            <form action="{{ route('superadmin.chatbot-suggestions.update', $chatbotSuggestion->id) }}" method="POST">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="mb-0">Modifier une Suggestion</h3>
+        </div>
+        <div class="card-body">
+            <form class="row g-3" action="{{ route('superadmin.chatbot-suggestions.update', $chatbotSuggestion->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Suggestion Text</label>
-                    <input type="text" name="text" class="form-control shadow-none @error('text') is-invalid @enderror" value="{{ $chatbotSuggestion->text }}" required>
-                    @error('text') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <div class="col-12">
+                    <label class="form-label">Texte de la Suggestion</label>
+                    <input type="text" name="text" value="{{ old('text', $chatbotSuggestion->text) }}" class="form-control @error('text') is-invalid @enderror" placeholder="ex. Comment réserver une chambre ?" required>
+                    @error('text') <div class="invalid-feedback" style="display:block">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Target Role</label>
-                        <select name="role" class="form-select shadow-none">
-                            <option value="client" {{ $chatbotSuggestion->role == 'client' ? 'selected' : '' }}>Client (Guest)</option>
-                            <option value="admin" {{ $chatbotSuggestion->role == 'admin' ? 'selected' : '' }}>Hotel Admin</option>
-                            <option value="all" {{ $chatbotSuggestion->role == 'all' ? 'selected' : '' }}>All Roles</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Status</label>
-                        <select name="is_active" class="form-select shadow-none">
-                            <option value="1" {{ $chatbotSuggestion->is_active ? 'selected' : '' }}>Enabled</option>
-                            <option value="0" {{ !$chatbotSuggestion->is_active ? 'selected' : '' }}>Disabled</option>
-                        </select>
-                    </div>
+                <div class="col-12">
+                    <label class="form-label">Rôle Cible</label>
+                    <select name="role" class="form-control @error('role') is-invalid @enderror">
+                        <option value="client" {{ old('role', $chatbotSuggestion->role) == 'client' ? 'selected' : '' }}>Client</option>
+                        <option value="admin" {{ old('role', $chatbotSuggestion->role) == 'admin' ? 'selected' : '' }}>Admin Hôtel</option>
+                        <option value="all" {{ old('role', $chatbotSuggestion->role) == 'all' ? 'selected' : '' }}>Tous les Rôles</option>
+                    </select>
+                    @error('role') <div class="invalid-feedback" style="display:block">{{ $message }}</div> @enderror
+                </div>
+                
+                <div class="col-12">
+                    <label class="form-label">Statut</label>
+                    <select name="is_active" class="form-control @error('is_active') is-invalid @enderror">
+                        <option value="1" {{ old('is_active', $chatbotSuggestion->is_active) == '1' ? 'selected' : '' }}>Actif</option>
+                        <option value="0" {{ old('is_active', $chatbotSuggestion->is_active) == '0' ? 'selected' : '' }}>Désactivé</option>
+                    </select>
+                    @error('is_active') <div class="invalid-feedback" style="display:block">{{ $message }}</div> @enderror
                 </div>
 
-                <hr class="my-4">
-
-                <div class="d-flex justify-content-end gap-2">
-                    <a href="{{ route('superadmin.chatbot-suggestions.index') }}" class="btn btn-light">Cancel</a>
-                    <button type="submit" class="btn btn-primary px-4">Update Suggestion</button>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Mettre à Jour la Suggestion</button>
+                    <a href="{{ route('superadmin.chatbot-suggestions.index') }}" class="btn btn-secondary ms-2">Annuler</a>
                 </div>
             </form>
         </div>
