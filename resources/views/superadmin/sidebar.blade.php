@@ -69,13 +69,13 @@
     </ul>
 
     {{-- User badge pinned to bottom --}}
-    <div class="dropdown px-2 py-3 border-top border-secondary mt-auto">
+    <div class="dropdown px-2 py-3 mt-auto">
         <a href="#"
            class="d-flex align-items-center gap-2 text-white text-decoration-none dropdown-toggle px-3 py-2 rounded"
            data-bs-toggle="dropdown"
            aria-expanded="false">
-            @if(Auth::user()->avatar)
-                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" 
+            @if(Auth::user()->profile_image)
+                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" 
                      alt="Avatar" 
                      class="rounded-circle shadow-sm flex-shrink-0"
                      style="width:32px;height:32px;object-fit:cover;">

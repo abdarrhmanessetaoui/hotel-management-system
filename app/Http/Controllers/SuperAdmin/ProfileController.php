@@ -25,7 +25,7 @@ class ProfileController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20',
-            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
@@ -35,12 +35,12 @@ class ProfileController extends Controller
             $data['password'] = Hash::make($request->password);
         }
 
-        if ($request->hasFile('avatar')) {
-            // Delete old avatar if exists
-            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-                Storage::disk('public')->delete($user->avatar);
+        if ($request->hasFile('profile_image')) {
+            // Delete old image if exists
+            if ($user->profile_image && Storage::disk('public')->exists($user->profile_image)) {
+                Storage::disk('public')->delete($user->profile_image);
             }
-            $data['avatar'] = $request->file('avatar')->store('profiles', 'public');
+            $data['profile_image'] = $request->file('profile_image')->store('profiles', 'public');
         }
 
         $user->update($data);

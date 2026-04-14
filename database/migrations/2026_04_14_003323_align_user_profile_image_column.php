@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('avatar', 'profile_image');
+            // Check if avatar exists and drop it to clean up
+            if (Schema::hasColumn('users', 'avatar')) {
+                $table->dropColumn('avatar');
+            }
+            // Add the standardized profile_image column
+            $table->string('profile_image')->nullable()->after('email');
         });
     }
 
@@ -22,7 +27,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('profile_image', 'avatar');
+            $table->dropColumn('profile_image');
+            $table->string('avatar')->nullable()->after('email');
         });
     }
 };
