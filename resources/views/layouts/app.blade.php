@@ -32,6 +32,9 @@
 
 </head>
 <body>
+    <!-- Spinner loading (Global) -->
+    @include('components.spinner')
+
     <!-- Admin Panel -->
     @if(isset($AdminView))
         <div class="container-fluid">
@@ -49,8 +52,6 @@
     @else
         <!-- Default App View -->
         <div class="container-xxl bg-white p-0">
-            <!-- Spinner loading  -->
-            @include('components.spinner')
             <!-- Header -->
             @yield('header')
             <!-- Content -->

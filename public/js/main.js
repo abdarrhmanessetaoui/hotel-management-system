@@ -1,13 +1,30 @@
 (function ($) {
     "use strict";
 
-    // Spinner
+    // Global Premium Spinner Control
     var spinner = function () {
-        setTimeout(function () {
-            if ($('#spinner').length > 0) {
-                $('#spinner').removeClass('show');
-            }
-        }, 1);
+        var $fill = $('#spinner-progress-fill');
+        
+        // Growth simulation (Initial 35% is already set in CSS for instant feel)
+        setTimeout(() => $fill.css('width', '65%'), 500);
+        setTimeout(() => $fill.css('width', '85%'), 1200);
+
+        // Wait for full page load
+        $(window).on('load', function() {
+            // Complete progress
+            $fill.css('width', '100%');
+
+            setTimeout(function () {
+                if ($('#spinner').length > 0) {
+                    $('#spinner').addClass('hide');
+                    
+                    setTimeout(function() {
+                        $('#spinner').removeClass('show');
+                        $('body').addClass('page-ready');
+                    }, 850); 
+                }
+            }, 2000); 
+        });
     };
     spinner();
 
