@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
             <table class="table table-striped">
-                <thead>
+                <thead class="table-dark">
                 <tr>
                     <th>#</th>
                     <th>Hôtel</th>

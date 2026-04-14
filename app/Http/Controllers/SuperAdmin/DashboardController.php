@@ -13,25 +13,24 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
+        $totalUsers = User::count();
+        $assignedUserIds = Hotel::whereNotNull('admin_id')->pluck('admin_id')->unique();
+        $assignedCount = User::whereIn('id', $assignedUserIds)->count();
+
         $stats = [
-            'total_cities'       => City::count(),
-            'total_hotels'       => Hotel::count(),
-            'total_clients'      => User::where('role', User::ROLE_CLIENT)->count(),
-            'total_reservations' => Reservation::count(),
-            'pending'            => Reservation::where('status', Reservation::STATUS_PENDING)->count(),
-            'confirmed'          => Reservation::where('status', Reservation::STATUS_CONFIRMED)->count(),
+            'total_cities'   => City::count(),
+            'total_hotels'   => Hotel::count(),
+            'total_users'    => $totalUsers,
+            'assigned'       => $assignedCount,
+            'unassigned'     => $totalUsers - $assignedCount,
         ];
 
-        $recentReservations = Reservation::with(['hotel', 'room', 'user'])
-            ->orderByDesc('created_at')
-            ->take(10)
-            ->get();
+        // Fetch recent users instead of reservations
+        $recentUsers = User::orderByDesc('created_at')->take(5)->get();
 
-        $topHotels = Hotel::withCount('reservations')
-            ->orderByDesc('reservations_count')
-            ->take(5)
-            ->get();
+        // Fetch cities with most hotels for insight
+        $topCities = City::withCount('hotels')->orderByDesc('hotels_count')->take(5)->get();
 
-        return view('superadmin.index', compact('stats', 'recentReservations', 'topHotels'));
+        return view('superadmin.index', compact('stats', 'recentUsers', 'topCities'));
     }
 }

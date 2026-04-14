@@ -85,17 +85,21 @@ Route::prefix('superadmin')
 
         Route::resource('hotels', SuperAdminHotelController::class)->except('show');
 
-        Route::get('hotel-admins', [SuperAdminHotelAdminController::class , 'index'])->name('hotel-admins.index');
-        Route::get('hotels/{hotel}/assign-admin', [SuperAdminHotelAdminController::class , 'create'])->name('hotel-admins.create');
-        Route::post('hotels/{hotel}/assign-admin', [SuperAdminHotelAdminController::class , 'store'])->name('hotel-admins.store');
-        Route::delete('hotels/{hotel}/remove-admin/{user}', [SuperAdminHotelAdminController::class , 'destroy'])->name('hotel-admins.destroy');
+        Route::resource('users', \App\Http\Controllers\SuperAdmin\UserController::class);
+        Route::patch('users/{user}/assign-hotel', [\App\Http\Controllers\SuperAdmin\UserController::class, 'assignHotel'])->name('users.assign-hotel');
+        Route::patch('users/{user}/toggle-status', [\App\Http\Controllers\SuperAdmin\UserController::class, 'toggleStatus'])->name('users.toggle-status');
+        Route::patch('users/{user}/role', [\App\Http\Controllers\SuperAdmin\UserController::class, 'updateRole'])->name('users.update-role');
 
+        /*
         Route::resource('reservations', SuperAdminReservationController::class)
             ->only(['index', 'show', 'update', 'destroy']);
+        */
 
-        Route::get('chatbot', [\App\Http\Controllers\SuperAdmin\ChatbotConsoleController::class, 'index'])->name('chatbot.index');
         Route::resource('chatbot-suggestions', \App\Http\Controllers\SuperAdmin\ChatbotSuggestionController::class);
 
+
+        Route::get('/profile', [App\Http\Controllers\SuperAdmin\ProfileController::class, 'show'])->name('profile');
+        Route::put('/profile', [App\Http\Controllers\SuperAdmin\ProfileController::class, 'update'])->name('profile.update');
 
         Route::get('/testing', function () {
             return view('pages.testing-checklist');

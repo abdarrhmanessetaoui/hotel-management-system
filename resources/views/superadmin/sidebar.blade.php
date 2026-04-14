@@ -46,27 +46,20 @@
         </li>
 
         <li class="nav-item">
-            <a href="{{ route('superadmin.hotel-admins.index') }}"
+            <a href="{{ route('superadmin.users.index') }}"
                class="nav-link d-flex align-items-center gap-2 px-3 py-2
-                      {{ request()->routeIs('superadmin.hotel-admins.*') ? 'active' : 'text-white-50' }}">
-                <i class="bi bi-person-badge fs-5 flex-shrink-0"></i>
-                <span class="d-none d-sm-inline">Admins Hôtels</span>
+                      {{ request()->routeIs('superadmin.users.*') ? 'active' : 'text-white-50' }}">
+                <i class="bi bi-people fs-5 flex-shrink-0"></i>
+                <span class="d-none d-sm-inline">Utilisateurs</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a href="{{ route('superadmin.reservations.index') }}"
-               class="nav-link d-flex align-items-center gap-2 px-3 py-2
-                      {{ request()->routeIs('superadmin.reservations.*') ? 'active' : 'text-white-50' }}">
-                <i class="bi bi-calendar-check fs-5 flex-shrink-0"></i>
-                <span class="d-none d-sm-inline">Réservations</span>
-            </a>
-        </li>
+
 
         <li class="nav-item">
-            <a href="{{ route('superadmin.chatbot.index') }}"
+            <a href="{{ route('superadmin.chatbot-suggestions.index') }}"
                class="nav-link d-flex align-items-center gap-2 px-3 py-2
-                      {{ request()->routeIs('superadmin.chatbot.*') ? 'active' : 'text-white-50' }}">
+                      {{ request()->routeIs('superadmin.chatbot-suggestions.*') ? 'active' : 'text-white-50' }}">
                 <i class="bi bi-robot fs-5 flex-shrink-0"></i>
                 <span class="d-none d-sm-inline">Assistant IA</span>
             </a>
@@ -80,13 +73,19 @@
         <a href="#"
            class="d-flex align-items-center gap-2 text-white text-decoration-none dropdown-toggle px-3 py-2 rounded"
            data-bs-toggle="dropdown"
-           aria-expanded="false"
-           style="background:rgba(255,255,255,.05);">
-            <span class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center
-                         fw-bold text-dark flex-shrink-0"
-                  style="width:32px;height:32px;font-size:.8rem;">
-                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-            </span>
+           aria-expanded="false">
+            @if(Auth::user()->avatar)
+                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" 
+                     alt="Avatar" 
+                     class="rounded-circle shadow-sm flex-shrink-0"
+                     style="width:32px;height:32px;object-fit:cover;">
+            @else
+                <span class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center
+                             fw-bold text-dark flex-shrink-0"
+                      style="width:32px;height:32px;font-size:.8rem;">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </span>
+            @endif
             <div class="d-none d-sm-block overflow-hidden">
                 <div class="small fw-semibold text-white text-truncate lh-sm" style="max-width:110px;">
                     {{ Auth::user()->name }}
@@ -105,7 +104,7 @@
                 </small>
             </li>
             <li>
-                <a class="dropdown-item py-2" href="{{ route('profile') }}">
+                <a class="dropdown-item py-2" href="{{ route('superadmin.profile') }}">
                     <i class="fa fa-user me-2 text-primary"></i>Mon Profil
                 </a>
             </li>

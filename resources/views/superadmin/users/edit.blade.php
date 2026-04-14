@@ -1,99 +1,115 @@
 @extends('layouts.app')
 
 @section('content')
-@php $AdminView = true; @endphp
+    @include('components.show-success')
 
-<div class="container-fluid py-4">
-    <div class="mb-4">
-        <a href="{{ route('superadmin.users.index') }}" class="text-decoration-none small d-flex align-items-center gap-1 text-muted">
-            <i class="bi bi-arrow-left"></i>
-            <span>Retour à la liste</span>
-        </a>
-        <h4 class="mt-3 fw-bold">Modifier l'Utilisateur</h4>
-        <p class="text-muted small">Mettez à jour les informations du compte de {{ $user->name }}.</p>
-    </div>
-
-    <div class="row">
-        <div class="col-xl-6">
-            <div class="card border-0 shadow-sm p-4">
-                <form action="{{ route('superadmin.users.update', $user) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-muted">Nom Complet</label>
-                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $user->name) }}" required>
-                        @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-muted">Adresse Email</label>
-                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" required>
-                        @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-muted">Rôle du compte</label>
-                        <select name="role" class="form-select @error('role') is-invalid @enderror" required>
-                            <option value="client" {{ old('role', $user->role) == 'client' ? 'selected' : '' }}>Client</option>
-                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Administrateur</option>
-                            <option value="superadmin" {{ old('role', $user->role) == 'superadmin' ? 'selected' : '' }}>Super Admin</option>
-                        </select>
-                        @error('role') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
-
-                    <hr class="my-4">
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-muted">Nouveau Mot de passe (Laisser vide pour ne pas changer)</label>
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror">
-                        @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="form-label small fw-bold text-muted">Confirmer le nouveau mot de passe</label>
-                        <input type="password" name="password_confirmation" class="form-control">
-                    </div>
-
-                    <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ route('superadmin.users.index') }}" class="btn btn-light px-4 border">Annuler</a>
-                        <button type="submit" class="btn btn-primary px-4">Enregistrer les modifications</button>
-                    </div>
-                </form>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="mb-0">Modifier l'Utilisateur</h3>
         </div>
+        <div class="card-body">
+            <form class="row g-3" method="post" action="{{ route('superadmin.users.update', $user) }}">
+                @csrf
+                @method('PUT')
 
-        <div class="col-xl-4 offset-xl-1">
-            @if($user->isAdmin() && $user->hotel)
-                <div class="card border-0 bg-light p-4 mb-4">
-                    <h6 class="fw-bold mb-3">Établissement Géré</h6>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="rounded bg-white border d-flex align-items-center justify-content-center text-primary" style="width:48px; height:48px;">
-                            <i class="bi bi-building fs-5"></i>
-                        </div>
-                        <div>
-                            <div class="fw-bold text-dark">{{ $user->hotel->name }}</div>
-                            <div class="text-muted small">{{ $user->hotel->city->name }}</div>
-                        </div>
+                <div class="col-md-6">
+                    <label class="form-label">Nom Complet</label>
+                    <input type="text" name="name" value="{{ old('name', $user->name) }}"
+                           class="form-control @error('name') is-invalid @enderror" required>
+                    @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Adresse Email</label>
+                    <input type="email" name="email" value="{{ old('email', $user->email) }}"
+                           class="form-control @error('email') is-invalid @enderror" required>
+                    @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">Rôle du compte</label>
+                    <select name="role" id="roleSelect" class="form-select @error('role') is-invalid @enderror" required {{ $user->isSuperAdmin() ? 'disabled' : '' }}>
+                        @if($user->isSuperAdmin())
+                            <option value="superadmin" selected>Super Admin</option>
+                        @else
+                            <option value="client" {{ old('role', $user->role) == 'client' ? 'selected' : '' }}>Client</option>
+                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Administrateur Hôtel</option>
+                        @endif
+                    </select>
+                    @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+
+                <div class="col-12" id="hotelAssignmentSection" style="display: {{ old('role', $user->role) == 'admin' ? 'block' : 'none' }};">
+                    <label class="form-label fw-bold text-primary">Assignation de l'Hôtel (Admins uniquement)</label>
+                    <select name="hotel_id" class="form-select">
+                        <option value="">-- Aucun hôtel assigné --</option>
+                        @foreach($hotels as $hotel)
+                            <option value="{{ $hotel->id }}" {{ ($user->hotel && $user->hotel->id == $hotel->id) ? 'selected' : '' }}>
+                                {{ $hotel->name }} ({{ $hotel->city->name ?? 'Sans ville' }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <small class="text-muted">L'établissement sélectionné sera géré par cet utilisateur.</small>
+                </div>
+
+                <script>
+                    document.getElementById('roleSelect').addEventListener('change', function() {
+                        const section = document.getElementById('hotelAssignmentSection');
+                        if (this.value === 'admin') {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                </script>
+
+                <div class="col-12">
+                    <hr class="my-3">
+                    <h5 class="text-muted">Changer le mot de passe (optionnel)</h5>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Nouveau mot de passe</label>
+                    <input type="password" name="password"
+                           class="form-control @error('password') is-invalid @enderror">
+                    @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Confirmer le mot de passe</label>
+                    <input type="password" name="password_confirmation" class="form-control">
+                </div>
+
+                <div class="col-12 mt-4">
+                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    <a href="{{ route('superadmin.users.index') }}" class="btn btn-secondary ms-2">Annuler</a>
+                </div>
+            </form>
+
+            {{-- Status Toggle Form (Moved outside to avoid nested forms) --}}
+            @if($user->id !== auth()->id() && !$user->isSuperAdmin())
+                <hr class="mt-5 mb-4">
+                <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded">
+                    <div>
+                        <h6 class="mb-1">Statut du compte</h6>
+                        <small class="text-muted">
+                            @if($user->is_active)
+                                Ce compte est actuellement <strong>actif</strong>.
+                            @else
+                                Ce compte est actuellement <strong>désactivé</strong>.
+                            @endif
+                        </small>
                     </div>
-                    <a href="{{ route('superadmin.hotels.edit', $user->hotel) }}" class="btn btn-sm btn-outline-primary mt-3 w-100">Gérer l'hôtel</a>
+                    <form method="post" action="{{ route('superadmin.users.toggle-status', $user) }}">
+                        @csrf
+                        @method('patch')
+                        <button type="submit" class="btn {{ $user->is_active ? 'btn-danger' : 'btn-success' }}"
+                                onclick="return confirm('{{ $user->is_active ? 'Désactiver ce compte ?' : 'Activer ce compte ?' }}')">
+                            {{ $user->is_active ? 'Désactiver le compte' : 'Activer le compte' }}
+                        </button>
+                    </form>
                 </div>
             @endif
-
-            <div class="card border-0 bg-dark text-white p-4">
-                <small class="text-white-50 text-uppercase fw-bold" style="letter-spacing: 1px;">Détails du compte</small>
-                <div class="mt-3">
-                    <div class="small mb-1">Inscrit le : <strong>{{ $user->created_at->format('d/m/Y') }}</strong></div>
-                    <div class="small mb-1">Dernière mise à jour : <strong>{{ $user->updated_at->format('d/m/Y') }}</strong></div>
-                    <div class="small">Statut: <span class="badge bg-success">Compte Actif</span></div>
-                </div>
-            </div>
         </div>
     </div>
-</div>
-
-<style>
-.form-control, .form-select { padding: 0.6rem 0.75rem; border-color: #e2e8f0; border-radius: 8px; }
-.form-control:focus, .form-select:focus { box-shadow: 0 0 0 3px rgba(254, 161, 22, 0.1); border-color: #FEA116; }
-</style>
 @endsection
