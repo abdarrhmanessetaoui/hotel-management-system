@@ -18,12 +18,7 @@
     {{-- 4. SOCIAL PROOF — validate the decision --}}
     @include('sections.testimonial')
     
-    {{-- 6. HUMAN — creator / team, personalize the brand --}}
-    <div id="team">
-        @include('sections.team')
-    </div>
-    
-    {{-- 5. CAPTURE — newsletter before they leave --}}
+    {{-- 5. CAPTURE — newsletter section --}}
     @include('sections.newsletter')
 
 

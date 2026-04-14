@@ -24,6 +24,7 @@ class AuthController extends Controller
      */
     public function showLoginForm(): View
     {
+        $this->captureIntendedUrl();
         return view('auth.login');
     }
 
@@ -32,7 +33,22 @@ class AuthController extends Controller
      */
     public function showRegistrationForm(): View
     {
+        $this->captureIntendedUrl();
         return view('auth.register');
+    }
+
+    /**
+     * Capture the previous URL as intended if not coming from auth routes.
+     */
+    private function captureIntendedUrl(): void
+    {
+        if (!session()->has('url.intended')) {
+            $previous = url()->previous();
+            // Don't capture if the user is bouncing between login and register
+            if ($previous !== url()->current() && $previous !== route('login') && $previous !== route('register')) {
+                session()->put('url.intended', $previous);
+            }
+        }
     }
 
     /**
@@ -58,7 +74,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')
+        return redirect()->intended(route('home'))
             ->with('message', 'Welcome! Your account has been created.');
     }
 
@@ -80,8 +96,16 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        // Reserve button for guests passes a `redirect` query param.
-        // We treat it as the "return here after login" target.
+        $role = Auth::user()->role;
+
+        // Super Admin and Hotel Admin must always land on their own dashboard.
+        // The ?redirect= query param is only honoured for regular clients so that
+        // the "Reserve" button can bring them back after login.
+        if (in_array($role, [User::ROLE_SUPERADMIN, User::ROLE_ADMIN])) {
+            return redirect()->intended($this->redirectByRole($role));
+        }
+
+        // For clients: honour the ?redirect= query param (e.g. Reserve button flow).
         $redirect = $request->query('redirect');
         if (is_string($redirect) && $redirect !== '') {
             $resolved = $this->resolvePostLoginRedirect($redirect, $request);
@@ -90,7 +114,7 @@ class AuthController extends Controller
             }
         }
 
-        return redirect()->intended($this->redirectByRole(Auth::user()->role));
+        return redirect()->intended($this->redirectByRole($role));
     }
 
     /**
