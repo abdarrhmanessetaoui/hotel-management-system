@@ -1,87 +1,77 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid p-0">
-    {{-- Original Header Style --}}
-    <div class="bg-white p-4 mb-4 border-bottom d-flex justify-content-between align-items-center">
-        <div>
-            <h2 class="fw-bold mb-0">Gestion des Utilisateurs</h2>
-            <p class="text-muted small">Contrôlez les comptes clients et administrateurs.</p>
+    @include('components.show-success')
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Gestion des Utilisateurs</h3>
+            <a href="{{ route('superadmin.users.create') }}" class="btn btn-success btn-sm fw-bold">
+                + AJOUTER
+            </a>
         </div>
-        <a href="{{ route('superadmin.users.create') }}" class="btn btn-primary">
-            + NOUVEL UTILISATEUR
-        </a>
-    </div>
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
+                <thead class="table-dark">
+                <tr>
+                    <th class="ps-4">#</th>
+                    <th class="text-nowrap">Nom</th>
+                    <th>Email</th>
+                    <th class="text-nowrap">Rôle</th>
+                    <th class="text-nowrap">Date</th>
+                    <th class="text-nowrap">Statut</th>
+                    <th class="text-end pe-4">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse($users as $user)
+                    <tr>
+                        <th class="ps-4 text-muted">{{ $loop->iteration }}</th>
+                        <td class="fw-bold text-nowrap py-2">{{ $user->name }}</td>
+                        <td class="text-muted">{{ $user->email }}</td>
+                        <td class="text-nowrap">
+                            @if($user->isSuperAdmin())
+                                <span class="badge bg-danger" style="font-size: 0.7rem;">Super Admin</span>
+                            @elseif($user->isAdmin())
+                                <span class="badge bg-primary" style="font-size: 0.7rem;">Admin Hôtel</span>
+                            @else
+                                <span class="badge bg-dark" style="font-size: 0.7rem;">Client</span>
+                            @endif
+                        </td>
+                        <td class="text-nowrap text-muted">{{ $user->created_at->format('d/m/Y') }}</td>
+                        <td class="text-nowrap">
+                            @if($user->is_active)
+                                <span class="badge bg-success" style="font-size: 0.7rem;">Actif</span>
+                            @else
+                                <span class="badge bg-secondary" style="font-size: 0.7rem;">Inactif</span>
+                            @endif
+                        </td>
+                        <td class="text-end pe-4">
+                            <div class="d-flex justify-content-end gap-1">
+                                <a class="btn btn-warning btn-sm py-1 px-2 fw-bold" href="{{ route('superadmin.users.edit', $user) }}" style="font-size: 0.75rem;">
+                                    Modifier
+                                </a>
 
-    <div class="px-4">
-        @if(session('success'))
-            <div class="alert alert-success border-0 shadow-sm mb-4">{{ session('success') }}</div>
-        @endif
+                                <a class="btn btn-secondary btn-sm py-1 px-2 fw-bold" href="{{ route('superadmin.users.show', $user) }}" style="font-size: 0.75rem;">
+                                    Détails
+                                </a>
+                            </div>
 
-        <div class="card border-0">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table mb-0">
-                        <thead>
-                            <tr>
-                                <th class="ps-4 py-3">Réf.</th>
-                                <th class="py-3">Utilisateur</th>
-                                <th class="py-3">Rôle / Accès</th>
-                                <th class="py-3">Établissement</th>
-                                <th class="py-3 text-center pe-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="border-top-0">
-                            @foreach($users as $user)
-                            <tr>
-                                <td class="ps-4 fw-bold">#{{ $user->id }}</td>
-                                <td>
-                                    <div class="fw-bold text-dark">{{ $user->name }}</div>
-                                    <div class="text-muted small">{{ $user->email }}</div>
-                                </td>
-                                <td>
-                                    @if($user->isSuperAdmin())
-                                        <span class="badge bg-danger px-3 py-2 rounded-0">SUPER ADMIN</span>
-                                    @elseif($user->isAdmin())
-                                        <span class="badge bg-primary px-3 py-2 rounded-0">HOTEL ADMIN</span>
-                                    @else
-                                        <span class="badge bg-dark px-3 py-2 rounded-0">CLIENT</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($user->hotel)
-                                        <span class="small fw-semibold text-dark">{{ $user->hotel->name }}</span>
-                                    @elseif($user->isAdmin())
-                                        <span class="text-muted small">Aucun hôtel</span>
-                                    @else
-                                        <span class="text-muted small">-</span>
-                                    @endif
-                                </td>
-                                <td class="text-center pe-4">
-                                    <div class="d-flex justify-content-center gap-1">
-                                        <a href="{{ route('superadmin.users.edit', $user) }}" class="btn btn-sm btn-outline-dark">EDITER</a>
-                                        
-                                        @if($user->id !== auth()->id())
-                                            <form action="{{ route('superadmin.users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Confirmer la suppression ?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">SUPPRIMER</button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            @if($users->hasPages())
-            <div class="card-footer bg-white py-3 border-top">
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-primary fw-bold mb-0">Aucun utilisateur trouvé.</p>
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+            
+            <div class="p-3">
                 {{ $users->links() }}
             </div>
-            @endif
         </div>
     </div>
-</div>
 @endsection

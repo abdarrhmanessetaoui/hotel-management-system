@@ -6,13 +6,13 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="mb-0">Toutes les Villes</h3>
-            <a href="{{ route('superadmin.cities.create') }}" class="btn btn-success btn-sm">
-                <i class="fa-solid fa-plus me-1"></i>Ajouter
+            <a href="{{ route('superadmin.cities.create') }}" class="btn btn-success btn-sm fw-bold">
+                + AJOUTER
             </a>
         </div>
         <div class="card-body">
             <table class="table table-striped">
-                <thead>
+                <thead class="table-dark">
                 <tr>
                     <th>#</th>
                     <th>Nom</th>
@@ -37,17 +37,17 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a class="btn btn-warning btn-sm"
+                                <a class="btn btn-primary btn-sm"
                                    href="{{ route('superadmin.cities.edit', $city->id) }}">
-                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Modifier
                                 </a>
                                 <form method="post"
                                       action="{{ route('superadmin.cities.destroy', $city->id) }}"
                                       onsubmit="return confirm('Supprimer cette ville ?')">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                    <button type="submit" class="btn btn-danger btn-sm ms-1">
+                                        Supprimer
                                     </button>
                                 </form>
                             </div>

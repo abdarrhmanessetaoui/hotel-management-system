@@ -11,13 +11,11 @@
     @include('components.show-success')
 
     <div class="card border-0 shadow-sm">
-        <div class="card-header bg-dark text-white">
-            <h6 class="mb-0 py-1">Gérer les suggestions rapides</h6>
-        </div>
+
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light">
+                    <thead class="table-dark">
                         <tr>
                             <th class="ps-4">Texte de la suggestion</th>
                             <th>Rôle</th>

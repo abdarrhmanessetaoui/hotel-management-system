@@ -27,6 +27,8 @@ class User extends Authenticatable
         'password',
         'phone',
         'role',   // client | admin | superadmin
+        'is_active',
+        'avatar',
     ];
 
     protected $hidden = [
