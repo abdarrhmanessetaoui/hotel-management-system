@@ -23,7 +23,7 @@
                class="nav-link d-flex align-items-center gap-2 px-3 py-2
                       {{ request()->routeIs('superadmin.index') ? 'active' : 'text-white-50' }}">
                 <i class="bi bi-speedometer2 fs-5 flex-shrink-0"></i>
-                <span class="d-none d-sm-inline">Tableau de Bord</span>
+                <span class="d-none d-md-inline">Tableau de Bord</span>
             </a>
         </li>
 
@@ -32,7 +32,7 @@
                class="nav-link d-flex align-items-center gap-2 px-3 py-2
                       {{ request()->routeIs('superadmin.cities.*') ? 'active' : 'text-white-50' }}">
                 <i class="bi bi-geo-alt fs-5 flex-shrink-0"></i>
-                <span class="d-none d-sm-inline">Villes</span>
+                <span class="d-none d-md-inline">Villes</span>
             </a>
         </li>
 
@@ -41,7 +41,7 @@
                class="nav-link d-flex align-items-center gap-2 px-3 py-2
                       {{ request()->routeIs('superadmin.hotels.*') ? 'active' : 'text-white-50' }}">
                 <i class="bi bi-building fs-5 flex-shrink-0"></i>
-                <span class="d-none d-sm-inline">Hôtels</span>
+                <span class="d-none d-md-inline">Hôtels</span>
             </a>
         </li>
 
@@ -50,21 +50,18 @@
                class="nav-link d-flex align-items-center gap-2 px-3 py-2
                       {{ request()->routeIs('superadmin.users.*') ? 'active' : 'text-white-50' }}">
                 <i class="bi bi-people fs-5 flex-shrink-0"></i>
-                <span class="d-none d-sm-inline">Utilisateurs</span>
+                <span class="d-none d-md-inline">Utilisateurs</span>
             </a>
         </li>
-
-
 
         <li class="nav-item">
             <a href="{{ route('superadmin.chatbot-suggestions.index') }}"
                class="nav-link d-flex align-items-center gap-2 px-3 py-2
                       {{ request()->routeIs('superadmin.chatbot-suggestions.*') ? 'active' : 'text-white-50' }}">
                 <i class="bi bi-robot fs-5 flex-shrink-0"></i>
-                <span class="d-none d-sm-inline">Assistant IA</span>
+                <span class="d-none d-md-inline">Assistant IA</span>
             </a>
         </li>
-
 
     </ul>
 
@@ -106,6 +103,11 @@
             <li>
                 <a class="dropdown-item py-2" href="{{ route('superadmin.profile') }}">
                     <i class="fa fa-user me-2 text-primary"></i>Mon Profil
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item py-2" href="{{ route('home') }}">
+                    <i class="fa fa-home me-2 text-primary"></i>Accueil
                 </a>
             </li>
             <li><hr class="dropdown-divider my-1"></li>

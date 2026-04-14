@@ -23,52 +23,84 @@ class ChatbotController extends Controller
 
     public function startSession(Request $request): JsonResponse
     {
-        $user = Auth::user();
-        $role = $user ? ($user->isSuperAdmin() ? 'superadmin' : ($user->isAdmin() ? 'admin' : 'client')) : 'client';
+        try {
+            $user = Auth::user();
+            $role = $user ? ($user->isSuperAdmin() ? 'superadmin' : ($user->isAdmin() ? 'admin' : 'client')) : 'client';
 
-        $session = ChatSession::create([
-            'user_id'   => $user?->id,
-            'user_role' => $role,
-            'language'  => 'fr',
-            'context'   => ['preferences' => []],
-            'last_active_at' => now()
-        ]);
+            $session = ChatSession::create([
+                'user_id'   => $user?->id,
+                'user_role' => $role,
+                'language'  => 'fr',
+                'context'   => ['preferences' => []],
+                'last_active_at' => now()
+            ]);
 
-        return response()->json([
-            'session_id'  => $session->id,
-            'welcome'     => null,
-
-
-            'role'        => $role,
-            'suggestions' => $this->getDBQuickSuggestions($role)
-        ]);
+            return response()->json([
+                'success'     => true,
+                'session_id'  => $session->id,
+                'welcome'     => null,
+                'role'        => $role,
+                'suggestions' => $this->getDBQuickSuggestions($role)
+            ]);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Chatbot Init Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'error'   => 'Une erreur est survenue lors de l\'initialisation de la session.'
+            ], 500);
+        }
     }
 
     public function sendMessage(Request $request): JsonResponse
     {
-        $request->validate([
-            'session_id' => 'required|exists:chat_sessions,id',
-            'message'    => 'required|string|max:2000',
-        ]);
+        try {
+            $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+                'session_id' => 'required',
+                'message'    => 'required|string|max:2000',
+            ]);
 
-        $session = ChatSession::findOrFail($request->session_id);
-        
-        if ($session->user_id && $session->user_id !== Auth::id()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'error'   => $validator->errors()->first()
+                ], 422);
+            }
+
+            $session = ChatSession::find($request->session_id);
+            if (!$session) {
+                return response()->json(['success' => false, 'error' => 'Session introuvable'], 404);
+            }
+
+            if ($session->user_id && $session->user_id !== Auth::id()) {
+                return response()->json(['success' => false, 'error' => 'Non autorisé'], 403);
+            }
+
+            $userMessage = trim($request->message);
+            
+            // Execute through the Autonomous Manager Orchestrator
+            $botReply = $this->orchestrator->process($session, $userMessage);
+
+            // Track and analyze autonomic intent
+            try {
+                $this->analytics->logInteraction($session, 'autonomous_process', 1.0);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Analytics Error: ' . $e->getMessage());
+                // Non-fatal, continue returning bot reply
+            }
+
+            return response()->json([
+                'success'     => true,
+                'reply'       => $botReply,
+                'suggestions' => $this->getDBQuickSuggestions($session->user_role)
+            ]);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Chatbot Send Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'error'   => 'Désolé, j\'ai rencontré une erreur technique. Veuillez réessayer plus tard.',
+                'details' => config('app.debug') ? $e->getMessage() : null
+            ], 500);
         }
-
-        $userMessage = trim($request->message);
-        
-        // Execute through the Autonomous Manager Orchestrator
-        $botReply = $this->orchestrator->process($session, $userMessage);
-
-        // Track and analyze autonomic intent
-        $this->analytics->logInteraction($session, 'autonomous_process', 1.0);
-
-        return response()->json([
-            'reply'       => $botReply,
-            'suggestions' => $this->getDBQuickSuggestions($session->user_role)
-        ]);
     }
 
     private function getDBQuickSuggestions(string $role): array

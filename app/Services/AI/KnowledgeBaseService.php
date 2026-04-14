@@ -19,10 +19,11 @@ class KnowledgeBaseService
         $lowerQuery = mb_strtolower($query, 'UTF-8');
         
         $currentCity = $context['current_city'] ?? null;
+        $currentHotel = $context['current_hotel'] ?? null;
 
         $data = [
             'hotels'   => $this->getHotels($lowerQuery, $currentCity),
-            'rooms'    => $this->getRooms($lowerQuery, $currentCity),
+            'rooms'    => $this->getRooms($lowerQuery, $currentCity, $currentHotel),
             'bookings' => $this->getBookings($role, $lowerQuery),
             'context'  => [
                 'current_time' => now()->toDateTimeString(),
@@ -63,7 +64,7 @@ class KnowledgeBaseService
         ])->toArray();
     }
 
-    private function getRooms(string $query, ?string $currentCity): array
+    private function getRooms(string $query, ?string $currentCity, ?string $currentHotel): array
     {
         if (mb_strpos($query, 'quel hotel') !== false || mb_strpos($query, 'liste des hotels') !== false) {
             return [];
@@ -80,7 +81,9 @@ class KnowledgeBaseService
             }
         }
 
-        if ($citySearch) {
+        if ($currentHotel) {
+            $roomQuery->whereHas('hotel', fn($q) => $q->where('name', 'LIKE', "%$currentHotel%"));
+        } elseif ($citySearch) {
             $roomQuery->whereHas('hotel.city', fn($q) => $q->where('name', 'LIKE', "%$citySearch%"));
         }
 

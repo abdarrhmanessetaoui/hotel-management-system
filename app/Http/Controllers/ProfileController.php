@@ -1,35 +1,50 @@
 <?php
 
-namespace App\Http\Controllers\SuperAdmin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class ProfileController extends Controller
 {
+    /**
+     * Show the profile edit page for any authenticated user.
+     */
     public function show()
     {
-        $user = auth()->user();
+        $user = Auth::user();
+
+        // Clients keep their original simple design
+        if ($user->role === User::ROLE_CLIENT) {
+            return view('profile.client', compact('user'));
+        }
+
+        // Admin and Super Admin share the same advanced dashboard design
         $AdminView = true;
-        return view('superadmin.profile', compact('user', 'AdminView'));
+        return view('profile.admin', compact('user', 'AdminView'));
     }
 
+    /**
+     * Update the authenticated user's profile.
+     */
     public function update(Request $request)
     {
-        $user = auth()->user();
+        /** @var User $user */
+        $user = Auth::user();
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string|max:20',
+            'name'          => 'required|string|max:255',
+            'last_name'     => 'nullable|string|max:255',
+            'email'         => 'required|email|unique:users,email,' . $user->id,
+            'phone'         => 'nullable|string|max:20',
             'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'password' => 'nullable|string|min:8|confirmed',
+            'password'      => 'nullable|string|min:8|confirmed',
         ]);
 
-        $data = $request->only(['name', 'email', 'phone']);
+        $data = $request->only(['name', 'last_name', 'email', 'phone']);
 
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);

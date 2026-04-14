@@ -20,7 +20,7 @@
 }
 </style>
 
-<div class="container-fluid p-0 mb-5">
+<div class="container-fluid p-0">
     <div id="header-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>

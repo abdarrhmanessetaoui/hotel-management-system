@@ -32,31 +32,34 @@ class ManagerOrchestrator
     {
         $cleanMessage = trim($userMessage);
         if (empty($cleanMessage)) {
-            return "Bonjour ! Comment puis-je vous aider aujourd'hui ? Je peux vous renseigner sur nos hôtels ou vos réservations.";
+            return "Bonjour ! Je suis l'assistant Hotelia. Comment puis-je vous aider ? Vous pouvez me demander les hôtels disponibles dans une ville ou consulter nos prix.";
         }
 
         try {
-            // First, process memory to capture any new inputs (like cities) before querying KB
+            // Memory tracking for city context
             $this->updateSessionMemory($session, $cleanMessage);
             
-            $intent = $this->detectIntent($userMessage);
-            
-            // Context from memory
+            $intent = $this->detectIntent($cleanMessage);
             $context = $session->context ?? [];
-            $jsonData = $this->kb->retrieveRelevantContext($userMessage, $session->user_role, $context);
+            
+            // HYBRID ROUTING
+            if ($intent === 'HOTEL_MODE') {
+                // Determine relevant data from Knowledge Base
+                $jsonData = $this->kb->retrieveRelevantContext($cleanMessage, $session->user_role, $context);
+                return $this->renderDeterministicResponse($jsonData, $cleanMessage, $context);
+            }
 
-            return $this->generateHighFidelityResponse($intent, $jsonData, $userMessage, $context);
+            // GENERAL AI MODE (GROQ)
+            return $this->generateGroqAiResponse($cleanMessage, $context);
 
         } catch (\Exception $e) {
-            Log::error("Enterprise AI Failure: " . $e->getMessage());
-            return "Une assistance est disponible au +212 599-887766 pour vos questions urgentes.";
+            Log::error("Chatbot Orchestrator Error: " . $e->getMessage());
+            return "Désolé, j'ai rencontré une erreur technique. Veuillez réessayer plus tard.";
         }
     }
 
     private function updateSessionMemory(ChatSession $session, string $msg): void
     {
-        // This mirrors part of MemoryManager, but orchestrator ensures it runs *before* KB retrieval 
-        // to immediately catch city contexts. MemoryManager typically saves *after* process().
         $context = $session->context ?? [];
         $lower = mb_strtolower($msg, 'UTF-8');
         
@@ -67,6 +70,16 @@ class ManagerOrchestrator
                 break;
             }
         }
+
+        // Detect hotel selection from name
+        $hotels = \App\Models\Hotel::pluck('name')->toArray();
+        foreach ($hotels as $hotel) {
+            if (mb_strpos($lower, mb_strtolower($hotel, 'UTF-8')) !== false) {
+                $context['current_hotel'] = $hotel;
+                break;
+            }
+        }
+
         $session->update(['context' => $context]);
     }
 
@@ -74,154 +87,210 @@ class ManagerOrchestrator
     {
         $lower = mb_strtolower($msg, 'UTF-8');
         
-        // Extended keyword map for robust routing
-        $hotelTerms = [
+        $hotelKeywords = [
             'chambre', 'room', 'hotel', 'hôtel', 'prix', 'tarifs', 'dispo', 'disponibilité',
-            'annul', 'politique', 'réservation', 
-            'reservation', 'booking', 'support', 'aide', 'contact', 'client', 'statut', 'ville'
+            'réservation', 'reservation', 'booking', 'ville', 'liste', 'disponible'
         ];
 
-        // Add dynamic cities
+        // Any city name makes it a hotel intent
         $cities = \App\Models\City::pluck('name')->toArray();
         foreach ($cities as $city) {
-            $hotelTerms[] = mb_strtolower($city, 'UTF-8');
+            if (mb_strpos($lower, mb_strtolower($city, 'UTF-8')) !== false) return 'HOTEL_MODE';
         }
 
-        foreach ($hotelTerms as $term) {
+        foreach ($hotelKeywords as $term) {
             if (mb_strpos($lower, $term) !== false) return 'HOTEL_MODE';
         }
 
         return 'AI_MODE';
     }
 
-    protected function generateHighFidelityResponse(string $intent, string $jsonData, string $msg, array $context): string
+    protected function generateGroqAiResponse(string $msg, array $context): string
     {
         $apiKey = config('chatbot.groq.api_key');
-        $model  = config('chatbot.groq.model', 'llama-3.3-70b-versatile');
-        $endpoint = config('chatbot.groq.endpoint', 'https://api.groq.com/openai/v1/chat/completions');
+        $model  = config('chatbot.groq.model', 'llama3-8b-8192');
+        $endpoint = config('chatbot.groq.endpoint');
 
-        if (!empty($apiKey) && $intent === 'AI_MODE') {
-            $system = $this->getAiModePrompt();
+        if (empty($apiKey)) {
+            Log::error("GROQ_API_KEY is missing in .env");
+            return "Je suis disponible pour répondre à vos questions générales, mais mon service IA est actuellement déconnecté.";
+        }
 
-            try {
-                $response = Http::withHeaders([
-                        'Authorization' => "Bearer {$apiKey}",
-                        'Content-Type' => 'application/json',
-                    ])
-                    ->timeout(20)
-                    ->post($endpoint, [
-                        'model' => $model,
-                        'messages' => [
-                            ['role' => 'system', 'content' => $system], 
-                            ['role' => 'user', 'content' => $msg]
-                        ],
-                        'temperature' => 0.7,
-                        'max_tokens' => 800
-                    ]);
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => "Bearer {$apiKey}",
+                'Content-Type' => 'application/json',
+            ])
+            ->timeout(20)
+            ->post($endpoint, [
+                'model' => $model,
+                'messages' => [
+                    ['role' => 'system', 'content' => "Tu es un assistant ChatGPT premium spécialisé dans l'hôtellerie. Réponds TOUJOURS en FRANÇAIS. Sois poli, concis et utile. N'invente jamais de données sur les hôtels si tu n'en as pas."],
+                    ['role' => 'user', 'content' => $msg]
+                ],
+                'temperature' => 0.6,
+                'max_tokens' => 1000
+            ]);
 
-                if ($response->successful()) {
-                    $content = $response->json('choices.0.message.content');
-                    if (!empty($content)) {
-                        return trim($content);
-                    }
+            if ($response->successful()) {
+                $content = $response->json('choices.0.message.content');
+                if (!empty($content)) {
+                    return trim($content);
                 }
-                
-                Log::warning("GROQ API Error.", ['status' => $response->status(), 'body' => $response->body()]);
-            } catch (\Exception $e) {
-                Log::error("GROQ API Exception: " . $e->getMessage());
             }
-        }
 
-        return $this->renderLocalSaasFallback($jsonData, $msg, $context);
+            Log::error("Groq API Error Status: " . $response->status(), ['body' => $response->body()]);
+            return "Je ne peux pas répondre pour le moment (IA indisponible). Posez-moi une question sur nos hôtels !";
+
+        } catch (\Exception $e) {
+            Log::error("Groq Exception: " . $e->getMessage());
+            return "Oups, une erreur de communication avec Groq. Comment puis-je vous aider autrement ?";
+        }
     }
 
-    private function getAiModePrompt(): string
+    protected function renderDeterministicResponse(string $jsonData, string $msg, array $context): string
     {
-        return "Assistant Concierge (MODE GÉNÉRAL).\nTu dois TOUJOURS répondre en FRANÇAIS. Utilise un français professionnel et formel. Répondez comme un assistant virtuel avancé, de style ChatGPT. N'utilise jamais l'anglais.";
-    }
-
-    protected function renderLocalSaasFallback(string $jsonData, string $msg, array $context): string
-    {
-        $data = json_decode($jsonData, true);
-        $low = mb_strtolower($msg, 'UTF-8');
-
-        // 1. Policy & Support
-        if (mb_strpos($low, 'annul') !== false || mb_strpos($low, 'politique') !== false) {
-            return "📜 **Politique d'annulation** : Annulation gratuite jusqu'à 24h avant l'enregistrement. Après ce délai, la première nuit sera facturée.";
-        }
-        if (mb_strpos($low, 'support') !== false || mb_strpos($low, 'aide') !== false || mb_strpos($low, 'contact') !== false) {
-            return "📞 **Support Client** : Nous sommes joignables au +212 599-887766 ou via support@hotelia.com. Souhaitez-vous être rappelé ?";
-        }
-
-        // 2. Reservation Status
-        if (mb_strpos($low, 'statut') !== false || mb_strpos($low, 'reservation') !== false || mb_strpos($low, 'réservation') !== false) {
-            $bookings = $data['bookings'] ?? [];
-            if (empty($bookings)) return "Je ne trouve aucune réservation active pour votre compte actuellement.";
-            $b = $bookings[0];
-            return "🕒 **Dernière Réservation** : Hotel {$b['hotel']} | Statut: **{$b['status']}**.";
-        }
-        
-        // 3. City Listing Logic
-        if (mb_strpos($low, 'ville') !== false && (mb_strpos($low, 'quelle') !== false || mb_strpos($low, 'dispo') !== false || mb_strpos($low, 'liste') !== false)) {
-            $cities = \App\Models\City::pluck('name')->toArray();
-            if (empty($cities)) return "Aucune donnée disponible actuellement.";
-            
-            $res = "🌍 **Villes disponibles** :\n";
-            foreach ($cities as $city) {
-                $res .= "- {$city}\n";
-            }
-            return $res . "\nDans quelle ville recherchez-vous un hôtel ?";
-        }
-
-        // 4. City First Rule for Hotels
-        $hasHotelIntent = mb_strpos($low, 'hotel') !== false || mb_strpos($low, 'hôtel') !== false || mb_strpos($low, 'établissement') !== false;
-        $hasRoomIntent = mb_strpos($low, 'chambre') !== false || mb_strpos($low, 'room') !== false || mb_strpos($low, 'dispo') !== false;
-        
+        $data        = json_decode($jsonData, true);
+        $low         = mb_strtolower($msg, 'UTF-8');
         $currentCity = $context['current_city'] ?? null;
-        
-        // Treat mentioning a city explicitly as a request for hotels
-        if ($currentCity && mb_strpos($low, mb_strtolower($currentCity, 'UTF-8')) !== false && !$hasRoomIntent) {
-            $hasHotelIntent = true;
-        }
-        
-        // DEBUG: uncomment for logging
-        // Log::info("DEBUG Orchestrator", ['low' => $low, 'currCity' => $currentCity, 'hasHotel' => $hasHotelIntent]);
+        $currentHotel= $context['current_hotel'] ?? null;
 
-        if ($hasHotelIntent || $hasRoomIntent) {
-            if (empty($currentCity)) {
-                return "Dans quelle ville recherchez-vous un hôtel ?";
+        // ── 1. CITY LISTING ──────────────────────────────────────────────────
+        $wantsCities = mb_strpos($low, 'ville') !== false
+                    || mb_strpos($low, 'destination') !== false
+                    || mb_strpos($low, 'où') !== false;
+
+        if ($wantsCities && (mb_strpos($low, 'liste') !== false || mb_strpos($low, 'quel') !== false || mb_strpos($low, 'dispo') !== false || mb_strpos($low, 'toutes') !== false)) {
+            $cities = \App\Models\City::withCount('hotels')->get();
+            if ($cities->isEmpty()) return "Aucune ville disponible dans notre système actuellement.";
+
+            $res = "Destinations disponibles :\n";
+            foreach ($cities as $city) {
+                $res .= "- {$city->name} ({$city->hotels_count} hotel" . ($city->hotels_count > 1 ? 's' : '') . ")\n";
             }
+            return rtrim($res);
         }
 
-        // 5. Hotels & Establishments (Strictly by current city context)
-        if ($hasHotelIntent) {
-            $hotels = $data['hotels'] ?? [];
-            if (empty($hotels)) return "Aucune donnée disponible actuellement.";
-            $res = "🏨 **Hôtels à {$currentCity}** :\n";
-            foreach ($hotels as $h) { 
-                $res .= "- **{$h['name']}** | ⭐ {$h['rating']}\n"; 
-            }
-            return $res . "\nPour quel hôtel souhaitez-vous voir les chambres ?";
-        }
+        // ── 2. ROOM / PRICE QUERIES ──────────────────────────────────────────
+        $isRoomQuery = mb_strpos($low, 'chambre') !== false
+                    || mb_strpos($low, 'room')    !== false
+                    || mb_strpos($low, 'prix')    !== false
+                    || mb_strpos($low, 'tarif')   !== false
+                    || mb_strpos($low, 'cout')    !== false
+                    || mb_strpos($low, 'coût')    !== false
+                    || mb_strpos($low, 'dispo')   !== false;
 
-        // 6. Room Availability
-        if ($hasRoomIntent || mb_strpos($low, 'prix') !== false || mb_strpos($low, 'tarif') !== false) {
+        if ($isRoomQuery) {
             $rooms = $data['rooms'] ?? [];
 
-            if (empty($rooms)) return "Aucune donnée disponible actuellement.";
-            $res = "🛏️ **Chambres disponibles** :\n";
-            foreach (array_slice($rooms, 0, 4) as $r) {
-                $res .= "- {$r['hotel']} (⭐ {$r['rating']}) | Ch. {$r['number']} : **{$r['price']} DH**\n";
+            // If still empty, try fetching without filters so we always return data
+            if (empty($rooms)) {
+                $rooms = \App\Models\Room::with('hotel.city')
+                    ->orderBy('price', 'asc')
+                    ->limit(8)
+                    ->get()
+                    ->map(function ($r) {
+                        $hotelName = $r->hotel ? $r->hotel->name : 'Hotel';
+                        $cityName  = ($r->hotel && $r->hotel->city) ? $r->hotel->city->name : 'Maroc';
+                        return [
+                            'hotel'  => $hotelName,
+                            'city'   => $cityName,
+                            'number' => $r->room_number,
+                            'price'  => $r->price,
+                            'status' => $r->status,
+                            'type'   => $r->type,
+                        ];
+                    })->toArray();
             }
-            return $res . "\nComment puis-je vous aider pour votre réservation ?";
+
+            if (empty($rooms)) {
+                return "Aucune chambre enregistrée dans notre système pour le moment.";
+            }
+
+            $title = $currentHotel
+                ? "Chambres disponibles - {$currentHotel}"
+                : ($currentCity ? "Chambres a {$currentCity}" : "Chambres disponibles dans nos etablissements");
+
+            $res = "{$title} :\n";
+            foreach (array_slice($rooms, 0, 6) as $r) {
+                $status = $r['status'] === 'available' ? 'Disponible' : ucfirst($r['status']);
+                $res .= "- {$r['hotel']} (Ch. {$r['number']}, {$r['type']}) : {$r['price']} DH — {$status}\n";
+            }
+
+            if (!$currentHotel && !$currentCity) {
+                $res .= "\nPrecisez un hotel ou une ville pour affiner les resultats.";
+            }
+
+            return rtrim($res);
         }
 
-        // 7. Intelligent Greetings
-        if (mb_strpos($low, 'bonjour') !== false || mb_strpos($low, 'hello') !== false || mb_strpos($low, 'salut') !== false) {
-            return "Bonjour ! Je suis l'Assistant Hotelia.\nDans quelle ville recherchez-vous un hôtel ?";
+        // ── 3. HOTEL LISTING ─────────────────────────────────────────────────
+        $isHotelQuery = mb_strpos($low, 'hotel')   !== false
+                     || mb_strpos($low, 'hôtel')   !== false
+                     || mb_strpos($low, 'etablissement') !== false
+                     || mb_strpos($low, 'hébergement')  !== false
+                     || mb_strpos($low, 'liste')    !== false
+                     || mb_strpos($low, 'cherch')   !== false
+                     || mb_strpos($low, 'trouver')  !== false
+                     || mb_strpos($low, 'booking')  !== false
+                     || mb_strpos($low, 'reservation') !== false;
+
+        if ($isHotelQuery) {
+            $hotels = $data['hotels'] ?? [];
+
+            // Fallback: load all hotels if KB returned nothing
+            if (empty($hotels)) {
+                $hotels = \App\Models\Hotel::with('city')
+                    ->orderBy('rating', 'desc')
+                    ->limit(10)
+                    ->get()
+                    ->map(function ($h) {
+                        $cityName = $h->city ? $h->city->name : 'Maroc';
+                        return [
+                            'name'    => $h->name,
+                            'city'    => $cityName,
+                            'rating'  => $h->rating,
+                            'address' => $h->address,
+                        ];
+                    })->toArray();
+            }
+
+            if (empty($hotels)) {
+                return "Aucun hotel enregistre dans notre systeme actuellement.";
+            }
+
+            $title = $currentCity
+                ? "Hotels a {$currentCity}"
+                : "Nos etablissements";
+
+            $res = "{$title} :\n";
+            foreach ($hotels as $h) {
+                $stars  = str_repeat('*', (int)($h['rating'] ?? 0));
+                $cityTag = !$currentCity && !empty($h['city']) ? " ({$h['city']})" : '';
+                $res .= "- {$h['name']}{$cityTag} {$stars}\n";
+            }
+            return rtrim($res);
         }
 
-        // 8. Fallback AI General Mode if no match found in local routing
-        return "Je suis en mode d'assistance. Je peux vous renseigner sur les hôtels, les prix, les annulations ou le support.";
+        // ── 4. RESERVATION INTENT ────────────────────────────────────────────
+        if (mb_strpos($low, 'reserver') !== false || mb_strpos($low, 'réserver') !== false || mb_strpos($low, 'book') !== false) {
+            $hotelHint = $currentHotel ? " a {$currentHotel}" : '';
+            return "Pour effectuer une reservation{$hotelHint}, connectez-vous sur le site et cliquez sur « Reserver » sur la page de l'hotel souhaite.";
+        }
+
+        // ── 5. GENERIC HOTEL-MODE FALLBACK ───────────────────────────────────
+        // Return a concise list of all hotels rather than asking a question
+        $hotels = \App\Models\Hotel::with('city')->orderBy('rating', 'desc')->limit(8)->get();
+        if ($hotels->isEmpty()) {
+            return "Je peux vous aider a trouver un hotel ou consulter nos tarifs. Precisez votre destination ou le type de chambre qui vous interesse.";
+        }
+
+        $res = "Voici nos principaux etablissements :\n";
+        foreach ($hotels as $h) {
+            $cityName = $h->city ? $h->city->name : 'Maroc';
+            $res .= "- {$h->name} ({$cityName})\n";
+        }
+        return rtrim($res);
     }
 }
+

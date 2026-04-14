@@ -47,9 +47,9 @@ Route::controller(AuthController::class)->group(function () {
 /* |-------------------------------------------------------------------------- | AUTHENTICATED CLIENT ROUTES |-------------------------------------------------------------------------- */
 Route::middleware('auth')->group(function () {
 
-    // Profile
-    Route::get('/profile', [PageController::class , 'showProfile'])->name('profile');
-    Route::put('/profile', [PageController::class , 'updateProfile'])->name('profile.update');
+    // Profile (Unified)
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
+    Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
     // Reservations
     Route::get('/hotels/{hotel}/reserve', [ReservationController::class , 'create'])->name('reservations.create');
@@ -71,6 +71,10 @@ Route::prefix('admin')
 
         Route::resource('reservations', AdminReservationController::class)
             ->only(['index', 'show', 'update']);
+
+        // Pointing to unified profile
+        Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
+        Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     });
 
 /* |-------------------------------------------------------------------------- | SUPER ADMIN ROUTES  [ middleware: auth + role:superadmin ] |-------------------------------------------------------------------------- */
@@ -98,8 +102,8 @@ Route::prefix('superadmin')
         Route::resource('chatbot-suggestions', \App\Http\Controllers\SuperAdmin\ChatbotSuggestionController::class);
 
 
-        Route::get('/profile', [App\Http\Controllers\SuperAdmin\ProfileController::class, 'show'])->name('profile');
-        Route::put('/profile', [App\Http\Controllers\SuperAdmin\ProfileController::class, 'update'])->name('profile.update');
+        Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
+        Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
         Route::get('/testing', function () {
             return view('pages.testing-checklist');

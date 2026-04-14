@@ -4,45 +4,76 @@
             opacity: 1;
             visibility: visible;
             pointer-events: all;
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;">
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;">
     
-    {{-- Instant-Motion Brand Container --}}
+    {{-- Modern Minimalist Spinner Container --}}
     <div class="loader-viewport d-flex flex-column align-items-center">
-        {{-- Breathing Logo - Starting instantly --}}
+        
+        {{-- Smooth Pulsing Logo --}}
         <img src="{{ asset('img/logo.png') }}" 
              alt="Hotelia" 
-             class="cinematic-breathing-logo mb-4">
+             class="modern-pulse-logo mb-4">
         
-        {{-- Progress Track - Initial 35% for immediate feel --}}
-        <div class="progress-track" style="width: 160px; height: 3px; background: #f0f0f0; border-radius: 20px; overflow: hidden; position: relative;">
-            <div id="spinner-progress-fill" 
-                 style="width: 35%; height: 100%; background: #FEA116; border-radius: 20px; transition: width 0.6s ease-out; animation-play-state: running;"></div>
+        {{-- Smooth Indeterminate Progress Bar --}}
+        <div class="progress-track">
+            <div class="progress-fill"></div>
         </div>
+
     </div>
 </div>
 
 <style>
-    /* 1. Primary Breathing Animation - No Delay, Instant State */
-    .cinematic-breathing-logo {
-        height: 100px;
+    /* 1. Subtle, Professional Logo Animation */
+    .modern-pulse-logo {
+        height: 125px; /* Increased for better visibility */
         width: auto;
         object-fit: contain;
-        animation: cinematic-breathe 2.5s cubic-bezier(0.45, 0, 0.55, 1) infinite both;
-        will-change: transform, filter;
+        animation: saas-pulse 2.5s ease-in-out infinite both;
+        will-change: transform, opacity;
     }
 
-    @keyframes cinematic-breathe {
+    @keyframes saas-pulse {
         0%, 100% {
-            transform: scale(0.95);
-            filter: drop-shadow(0 0 15px rgba(254, 161, 22, 0.1));
+            transform: translateY(0) scale(0.98);
+            opacity: 0.85;
+            filter: drop-shadow(0 4px 8px rgba(254, 161, 22, 0.1));
         }
         50% {
-            transform: scale(1.08);
-            filter: drop-shadow(0 0 35px rgba(254, 161, 22, 0.3));
+            transform: translateY(-4px) scale(1.04);
+            opacity: 1;
+            filter: drop-shadow(0 12px 24px rgba(254, 161, 22, 0.25));
         }
     }
 
-    /* 2. Professional Exit Sequence */
+    /* 2. Increased Height & Indeterminate Progress Animation */
+    .progress-track {
+        width: 220px;
+        height: 6px; /* Increased height so it's clearly visible */
+        background: rgba(254, 161, 22, 0.15); /* Minimalist track matching primary color */
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .progress-fill {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: #FEA116; /* Same primary color */
+        border-radius: 10px;
+        animation: progress-indeterminate 1.8s ease-in-out infinite;
+        box-shadow: 0 0 10px rgba(254, 161, 22, 0.4); /* Subtle ambient glow */
+    }
+
+    @keyframes progress-indeterminate {
+        0% { left: -60%; width: 30%; }
+        50% { left: 20%; width: 80%; }
+        100% { left: 120%; width: 30%; }
+    }
+
+    /* 3. Smooth Fade-Out the moment the page loads */
     #spinner.hide {
         opacity: 0 !important;
         visibility: hidden !important;

@@ -59,13 +59,10 @@
             <!-- Footer -->
             @yield('footer')
         </div>
-
-        {{-- ── Step 1 & 5: Native Chatbot Visibility ──── --}}
-        @if(!Auth::check() || Auth::user()->isClient())
-            @include('components.chatbot')
-        @endif
     @endif
 
+    <!-- Global Chatbot FAB: visible on every page (public + admin + superadmin) -->
+    @include('components.chatbot')
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
