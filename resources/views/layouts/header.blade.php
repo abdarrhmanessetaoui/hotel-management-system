@@ -7,8 +7,8 @@
     <nav class="navbar navbar-expand-lg py-2 px-4 px-lg-5 transition-all" id="main-navbar">
         
         {{-- Logo --}}
-        <a href="{{ route('home') }}" class="navbar-brand d-flex align-items-center bg-white rounded-3 shadow-sm px-3 py-1 m-0">
-            <img src="{{ asset('img/logo.png') }}" id="brand-logo" alt="Hotelia" style="height: 45px; width: auto; object-fit: contain; transition: all 0.3s ease;">
+        <a href="{{ route('home') }}" class="navbar-brand d-flex align-items-center m-0 p-0">
+            <img src="{{ asset('img/logo.png') }}" id="brand-logo" alt="Hotelia" class="transition-all" style="height: 80px; width: auto; object-fit: contain;">
         </a>
 
         {{-- Mobile Toggler --}}
@@ -31,15 +31,15 @@
             {{-- Right Actions --}}
             <div class="navbar-nav auth-nav align-items-lg-center gap-2 pb-3 pb-lg-0">
                 @guest
-                    <a href="{{ route('login') }}" class="btn btn-outline-primary d-inline-flex align-items-center justify-content-center rounded-2 px-3 py-2 fw-semibold transition-all">
+                    <a href="{{ route('login') }}" class="btn-minimal transition-all">
                         Connexion
                     </a>
-                    <a href="{{ route('register') }}" class="btn btn-primary d-inline-flex align-items-center justify-content-center rounded-2 px-3 py-2 fw-semibold text-white transition-all">
+                    <a href="{{ route('register') }}" class="btn-minimal transition-all">
                         S'inscrire
                     </a>
                 @else
                     <div class="nav-item dropdown">
-                        <button class="btn btn-primary dropdown-toggle d-inline-flex align-items-center justify-content-center border-0 px-3 py-2 rounded-2 fw-semibold text-white w-100" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn-minimal dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-user-circle me-2"></i>{{ explode(' ', Auth::user()->name)[0] }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end rounded-3 mt-2 border-0 shadow modern-dropdown">
@@ -58,11 +58,11 @@
                     </div>
 
                     @if(Auth::user()->isAdmin())
-                        <a href="{{ route('admin.index') }}" class="btn btn-outline-primary ms-lg-2 rounded-2 px-3 py-2 fw-semibold">
+                        <a href="{{ route('admin.index') }}" class="btn-minimal ms-lg-2">
                             <i class="fa fa-cog me-1"></i> Admin
                         </a>
                     @elseif(Auth::user()->isSuperAdmin())
-                        <a href="{{ route('superadmin.index') }}" class="btn btn-warning text-dark ms-lg-2 rounded-2 px-3 py-2 fw-semibold text-nowrap">
+                        <a href="{{ route('superadmin.index') }}" class="btn-minimal ms-lg-2">
                             <i class="fa fa-crown me-1"></i> Super Admin
                         </a>
                     @endif
@@ -94,7 +94,7 @@
     ════════════════════════════════════════════════ */
     .header-transparent {
         background: transparent;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border: none;
     }
 
     .header-transparent #main-nav .nav-link {
@@ -161,7 +161,48 @@
     }
 
     .header-scrolled #brand-logo {
-        height: 48px !important; /* Shrink logo slightly on scroll */
+        height: 60px !important; /* Shrink logo slightly on scroll */
+    }
+
+    /* ════════════════════════════════════════════════
+    MINIMAL BUTTONS (SaaS Style)
+    ════════════════════════════════════════════════ */
+    .btn-minimal {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        font-size: 0.9rem;
+        padding: 8px 18px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.95);
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .btn-minimal:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+    }
+
+    /* Solid state adaptations */
+    .header-scrolled .btn-minimal {
+        border-color: rgba(0, 0, 0, 0.1);
+        color: #333333;
+    }
+    .header-scrolled .btn-minimal:hover {
+        background: rgba(0, 0, 0, 0.03);
+        border-color: rgba(0, 0, 0, 0.15);
+        color: #111111;
+    }
+
+    /* Toggle specific */
+    button.btn-minimal.dropdown-toggle::after {
+        margin-left: 6px;
+        vertical-align: middle;
     }
 
     /* ════════════════════════════════════════════════
