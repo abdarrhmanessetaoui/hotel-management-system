@@ -63,6 +63,20 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a href="{{ route('superadmin.reviews.index') }}"
+               class="nav-link d-flex align-items-center gap-2 px-3 py-2
+                      {{ request()->routeIs('superadmin.reviews.*') ? 'active' : 'text-white-50' }}">
+                <i class="bi bi-chat-quote fs-5 flex-shrink-0"></i>
+                <span class="d-none d-md-inline">Avis Clients</span>
+                @php $pendingReviews = \App\Models\Review::where('status','pending')->count(); @endphp
+                @if($pendingReviews > 0)
+                    <span class="badge rounded-pill bg-warning text-dark ms-auto d-none d-md-inline"
+                          style="font-size:0.65rem;">{{ $pendingReviews }}</span>
+                @endif
+            </a>
+        </li>
+
     </ul>
 
     {{-- User badge pinned to bottom --}}

@@ -10,6 +10,7 @@ use Database\Seeders\CitiesSeeder;
 use Database\Seeders\HotelsSeeder;
 use Database\Seeders\RoomsSeeder;
 use Database\Seeders\ReservationsSeeder;
+use Database\Seeders\ReviewSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,7 +25,8 @@ class DatabaseSeeder extends Seeder
             CitiesSeeder::class,      // cities table
             HotelsSeeder::class,      // hotels table (linked to cities)
             RoomsSeeder::class,       // rooms table (linked to hotels)
-            ReservationsSeeder::class // reservations table (linked to users and rooms)
+            ReservationsSeeder::class,// reservations table (linked to users and rooms)
+            ReviewSeeder::class       // reviews table (linked to users)
         ]);
     }
 }

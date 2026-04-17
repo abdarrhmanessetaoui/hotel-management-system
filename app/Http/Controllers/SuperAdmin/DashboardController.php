@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\Hotel;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Models\Review;
 use Illuminate\Contracts\View\View;
 
 class DashboardController extends Controller
@@ -23,6 +24,8 @@ class DashboardController extends Controller
             'total_users'    => $totalUsers,
             'assigned'       => $assignedCount,
             'unassigned'     => $totalUsers - $assignedCount,
+            'total_reviews'  => Review::count(),
+            'pending_reviews'=> Review::where('status', 'pending')->count(),
         ];
 
         // Fetch recent users instead of reservations

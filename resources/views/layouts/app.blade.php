@@ -78,5 +78,8 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
+
+    {{-- Section-level pushed scripts (e.g. owl carousel init, date pickers) --}}
+    @stack('scripts')
 </body>
 </html>
