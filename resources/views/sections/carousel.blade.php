@@ -1,7 +1,7 @@
 <style>
 /* ── Carousel height ── */
 #header-carousel .carousel-item {
-    height: 600px;         /* desktop */
+    height: 100vh;         /* full screen on desktop */
 }
 #header-carousel .carousel-item img {
     width: 100%;
