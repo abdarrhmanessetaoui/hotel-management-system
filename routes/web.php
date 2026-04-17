@@ -8,6 +8,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\AuthController;
 
 // ─── Hotel Admin Controllers ─────────────────────────────────────────────────
@@ -33,6 +34,8 @@ Route::get('/hotels/{hotel}', [HotelController::class , 'show'])->name('hotels.s
 // Newsletter subscription (public — no login required)
 Route::post('/newsletter', [NewsletterController::class , 'store'])->name('newsletter.store');
 
+// Reviews submission moved to auth group
+
 /* |-------------------------------------------------------------------------- | AUTH ROUTES |-------------------------------------------------------------------------- */
 Route::controller(AuthController::class)->group(function () {
     Route::get('register', 'showRegistrationForm')->name('register');
@@ -57,6 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservations', [ReservationController::class , 'index'])->name('reservations.index');
     Route::get('/reservations/{reservation}', [ReservationController::class , 'show'])->name('reservations.show');
     Route::patch('/reservations/{reservation}/cancel', [ReservationController::class , 'cancel'])->name('reservations.cancel');
+
+    // Reviews (Client submission — login required)
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
 /* |-------------------------------------------------------------------------- | HOTEL ADMIN ROUTES  [ middleware: auth + role:admin ] |-------------------------------------------------------------------------- */
@@ -100,6 +106,12 @@ Route::prefix('superadmin')
         */
 
         Route::resource('chatbot-suggestions', \App\Http\Controllers\SuperAdmin\ChatbotSuggestionController::class);
+
+        // Reviews management
+        Route::get('reviews', [\App\Http\Controllers\SuperAdmin\ReviewController::class, 'index'])->name('reviews.index');
+        Route::put('reviews/{review}/approve', [\App\Http\Controllers\SuperAdmin\ReviewController::class, 'approve'])->name('reviews.approve');
+        Route::put('reviews/{review}/reject', [\App\Http\Controllers\SuperAdmin\ReviewController::class, 'reject'])->name('reviews.reject');
+        Route::delete('reviews/{review}', [\App\Http\Controllers\SuperAdmin\ReviewController::class, 'destroy'])->name('reviews.destroy');
 
 
         Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
