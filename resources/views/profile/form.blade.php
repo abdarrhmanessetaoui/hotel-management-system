@@ -1,80 +1,73 @@
-<div class="card shadow-sm border-0">
-    <div class="card-header bg-white py-2 border-0">
-        <h5 class="fw-bold mb-0">Édition du Profil</h5>
+<div class="card shadow border-0 rounded-0">
+    <div class="card-header bg-white py-3 border-0">
+        <h4 class="fw-bold mb-0" style="color: #0f172b;">Édition du Profil</h4>
     </div>
-    <div class="card-body py-3">
+    <div class="card-body py-4">
         <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
-            {{-- Avatar Section - Compact --}}
-            <div class="text-center mb-3">
+            {{-- Avatar Section --}}
+            <div class="text-center mb-4">
                 <div class="position-relative d-inline-block">
-                    <div class="rounded-circle overflow-hidden border mx-auto d-flex align-items-center justify-content-center bg-light" 
-                         style="width: 100px; height: 100px;">
-                        
-                        @if($user->profile_image)
-                            <img id="profile_image_preview" 
-                                 src="{{ asset('storage/' . $user->profile_image) }}" 
-                                 alt="Image" 
-                                 class="w-100 h-100"
-                                 style="object-fit: cover; object-position: center;">
-                        @else
-                            <div id="profile_image_placeholder" class="text-primary fw-bold" style="font-size: 2.5rem;">
-                                {{ strtoupper(substr($user->name, 0, 1)) }}
-                            </div>
-                            <img id="profile_image_preview" src="#" alt="Preview" class="w-100 h-100 d-none" style="object-fit: cover; object-position: center;">
-                        @endif
+                    <div class="rounded-circle overflow-hidden mx-auto d-flex align-items-center justify-content-center bg-white shadow-sm" 
+                         style="width: 120px; height: 120px; border: 4px solid #fff;">
+                        <img id="profile_image_preview" 
+                             src="{{ $user->avatar_url }}" 
+                             alt="Avatar" 
+                             class="w-100 h-100"
+                             style="object-fit: cover; object-position: center;">
                     </div>
                     
-                    <label for="profile_image_upload" class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle p-1 shadow-sm border border-white cursor-pointer" 
-                           style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                        <i class="bi bi-camera-fill" style="font-size: 0.8rem;"></i>
-                        <input type="file" id="profile_image_upload" name="profile_image" class="d-none" accept="image/png, image/jpeg, image/jpg">
+                    <label for="profile_image_upload" 
+                           class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle shadow-sm border border-white cursor-pointer" 
+                           style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; transform: translate(-5px, -5px);">
+                        <i class="bi bi-camera-fill" style="font-size: 1rem;"></i>
+                        <input type="file" id="profile_image_upload" name="profile_image" class="d-none" accept="image/*">
                     </label>
                 </div>
-                <div class="mt-1">
-                    <h6 class="mb-0 small fw-bold">{{ $user->name }}</h6>
+                <div class="mt-2">
+                    <h5 class="mb-0 fw-bold" style="color: #0f172b;">{{ $user->name }} {{ $user->last_name }}</h5>
                 </div>
-                @error('profile_image') <div class="text-danger" style="font-size: 0.7rem;">{{ $message }}</div> @enderror
+                @error('profile_image') <div class="text-danger mt-1 small">{{ $message }}</div> @enderror
             </div>
 
-            <div class="row g-2">
+            <div class="row g-3">
                 <div class="col-md-6">
-                    <label class="form-label mb-1" style="font-size: 0.75rem; font-weight: 700;">NOM</label>
-                    <input type="text" name="name" class="form-control form-control-sm @error('name') is-invalid @enderror" value="{{ old('name', $user->name) }}" required>
+                    <label class="form-label mb-1 text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">NOM</label>
+                    <input type="text" name="name" class="form-control rounded-1 @error('name') is-invalid @enderror" value="{{ old('name', $user->name) }}" required style="padding: 0.6rem;">
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label mb-1" style="font-size: 0.75rem; font-weight: 700;">EMAIL</label>
-                    <input type="email" name="email" class="form-control form-control-sm @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" required>
+                    <label class="form-label mb-1 text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">EMAIL</label>
+                    <input type="email" name="email" class="form-control rounded-1 @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" required style="padding: 0.6rem;">
                 </div>
 
                 <div class="col-12">
-                    <label class="form-label mb-1" style="font-size: 0.75rem; font-weight: 700;">TÉLÉPHONE</label>
-                    <input type="text" name="phone" class="form-control form-control-sm @error('phone') is-invalid @enderror" value="{{ old('phone', $user->phone) }}">
+                    <label class="form-label mb-1 text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">TÉLÉPHONE</label>
+                    <input type="text" name="phone" class="form-control rounded-1 @error('phone') is-invalid @enderror" value="{{ old('phone', $user->phone) }}" style="padding: 0.6rem;">
                 </div>
 
-                <div class="col-12 py-1">
-                    <div class="d-flex align-items-center opacity-50">
+                <div class="col-12 py-3">
+                    <div class="d-flex align-items-center opacity-75">
                         <hr class="flex-grow-1 my-0">
-                        <span class="px-2" style="font-size: 0.65rem; font-weight: 800; letter-spacing: 0.5px;">SÉCURITÉ</span>
+                        <span class="px-3 text-muted fw-bold" style="font-size: 0.65rem; letter-spacing: 1px;">SÉCURITÉ</span>
                         <hr class="flex-grow-1 my-0">
                     </div>
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label mb-1" style="font-size: 0.75rem; font-weight: 700;">MOT DE PASSE</label>
-                    <input type="password" name="password" class="form-control form-control-sm @error('password') is-invalid @enderror">
+                    <label class="form-label mb-1 text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">MOT DE PASSE</label>
+                    <input type="password" name="password" class="form-control rounded-1 @error('password') is-invalid @enderror" style="padding: 0.6rem;">
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label mb-1" style="font-size: 0.75rem; font-weight: 700;">CONFIRMATION</label>
-                    <input type="password" name="password_confirmation" class="form-control form-control-sm">
+                    <label class="form-label mb-1 text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">CONFIRMATION</label>
+                    <input type="password" name="password_confirmation" class="form-control rounded-1" style="padding: 0.6rem;">
                 </div>
 
-                <div class="col-12 mt-3">
-                    <button type="submit" class="btn btn-primary btn-sm w-100 fw-bold py-2">
+                <div class="col-12 mt-4 pt-2">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-3 rounded-0 text-white border-0 shadow-sm" style="background-color: #ff7e21 !important; letter-spacing: 0.5px;">
                         SAUVEGARDER LES MODIFICATIONS
                     </button>
                 </div>
@@ -83,6 +76,20 @@
     </div>
 </div>
 
+<style>
+    .form-control:focus {
+        border-color: #ff7e21;
+        box-shadow: 0 0 0 0.25rem rgba(255, 126, 33, 0.1);
+    }
+    .btn-primary:hover {
+        background-color: #e66a10 !important;
+        transform: translateY(-1px);
+    }
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+</style>
+
 <script>
     document.getElementById('profile_image_upload').addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -90,14 +97,8 @@
             const reader = new FileReader();
             reader.onload = function(event) {
                 const preview = document.getElementById('profile_image_preview');
-                const placeholder = document.getElementById('profile_image_placeholder');
-                
                 if (preview) {
                     preview.src = event.target.result;
-                    preview.classList.remove('d-none');
-                }
-                if (placeholder) {
-                    placeholder.classList.add('d-none');
                 }
             }
             reader.readAsDataURL(file);

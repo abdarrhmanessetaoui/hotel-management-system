@@ -31,7 +31,7 @@ class ChatbotSuggestionController extends Controller
 
 
         return redirect()->route('superadmin.chatbot-suggestions.index')
-            ->with('success', 'Suggestion created successfully.');
+            ->with('success', 'La suggestion a été créée avec succès.');
     }
 
     public function edit(ChatbotSuggestion $chatbotSuggestion)
@@ -51,7 +51,7 @@ class ChatbotSuggestionController extends Controller
 
 
         return redirect()->route('superadmin.chatbot-suggestions.index')
-            ->with('success', 'Suggestion updated successfully.');
+            ->with('success', 'La suggestion a été mise à jour avec succès.');
     }
 
     public function destroy(ChatbotSuggestion $chatbotSuggestion)
@@ -59,6 +59,6 @@ class ChatbotSuggestionController extends Controller
         $chatbotSuggestion->delete();
 
         return redirect()->route('superadmin.chatbot-suggestions.index')
-            ->with('success', 'Suggestion deleted successfully.');
+            ->with('success', 'La suggestion a été supprimée avec succès.');
     }
 }

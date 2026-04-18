@@ -1,8 +1,47 @@
-/********** Template CSS **********/
 :root {
-    --primary: #FEA116;
+    --primary: #FF7E21;        /* Direct match from logo */
+    --primary-dark: #E66A10;   /* Slightly darker for hover */
+    --primary-light: #FFB347;  /* Slightly lighter for highlights */
     --light: #F1F8FF;
     --dark: #0F172B;
+}
+
+/* Global utility overrides to match brand exactly */
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+.text-primary {
+    color: var(--primary) !important;
+}
+.btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #0f172b !important;
+    font-weight: 600;
+}
+.btn-primary:hover {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+    color: #ffffff !important;
+}
+
+/* Form Focus & Selection states */
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-light) !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 126, 33, 0.25) !important;
+}
+
+::selection {
+    background-color: var(--primary);
+    color: #0f172b;
+}
+
+/* Custom Highlights */
+.bg-primary-light {
+    background-color: var(--primary-light) !important;
+}
+.border-primary {
+    border-color: var(--primary) !important;
 }
 
 .fw-medium {
@@ -21,6 +60,21 @@
     z-index: 99;
     border-radius: 50%;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Administrative Table Styles */
+.thead-brand {
+    background-color: var(--primary) !important;
+    color: #0F172B !important;
+}
+.thead-brand th {
+    border-bottom: none !important;
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
 }
 
 .newsletter {
@@ -111,8 +165,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(15, 23, 43, .7);
+    background: linear-gradient(to bottom, rgba(15, 23, 43, .3) 0%, rgba(15, 23, 43, .8) 70%, rgba(15, 23, 43, .9) 100%);
     z-index: 1;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
 }
 
 .carousel-control-prev,
@@ -126,17 +183,27 @@
     height: 3rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
     #header-carousel .carousel-item {
+        height: 100vh !important;
         position: relative;
-        min-height: 450px;
     }
 
     #header-carousel .carousel-item img {
         position: absolute;
-        width: 100%;
-        height: 100%;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
         object-fit: cover;
+    }
+    
+    .carousel-caption {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 }
 
@@ -381,6 +448,36 @@
 .testimonial-carousel .owl-nav .owl-prev,
 .testimonial-carousel .owl-nav .owl-next {
     position: relative;
+}
+
+@media (max-width: 767.98px) {
+    .testimonial-carousel {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    .testimonial-carousel .owl-nav {
+        position: relative !important;
+        width: 100% !important;
+        top: 20px !important;
+        justify-content: center !important;
+        gap: 20px !important;
+    }
+    
+    .testimonial-carousel .owl-nav .owl-prev,
+    .testimonial-carousel .owl-nav .owl-next {
+        margin: 0 !important;
+    }
+
+    .testimonial-item .fa-quote-right {
+        font-size: 2rem !important; /* Smaller icon on mobile */
+        opacity: 0.3 !important; /* Lighter so text is readable if it overlaps */
+        margin-right: 15px !important;
+        margin-bottom: 5px !important;
+    }
+}
+
+
     width: 40px;
     height: 40px;
     display: flex;
@@ -428,8 +525,8 @@
 
 .footer {
     position: relative;
-    margin-top: -110px;
-    padding-top: 180px;
+    padding-top: 90px;
+    background: #ffffff;
 }
 
 .footer .btn.btn-social {
@@ -439,14 +536,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--light);
-    border: 1px solid #FFFFFF;
+    color: var(--primary);
+    border: 1px solid var(--primary);
     border-radius: 35px;
     transition: .3s;
 }
 
 .footer .btn.btn-social:hover {
-    color: var(--primary);
+    color: #ffffff;
+    background: var(--primary);
+    border-color: var(--primary);
 }
 
 .footer .btn.btn-link {
@@ -454,7 +553,7 @@
     margin-bottom: 5px;
     padding: 0;
     text-align: left;
-    color: #FFFFFF;
+    color: #444444; /* Dark gray for links */
     font-size: 15px;
     font-weight: normal;
     text-transform: capitalize;
@@ -470,6 +569,7 @@
 }
 
 .footer .btn.btn-link:hover {
+    color: var(--primary) !important;
     letter-spacing: 1px;
     box-shadow: none;
 }
@@ -477,11 +577,13 @@
 .footer .copyright {
     padding: 25px 0;
     font-size: 15px;
-    border-top: 1px solid rgba(256, 256, 256, .1);
+    border-top: 1px solid rgba(0, 0, 0, .05);
+    background: #f8f9fa; /* Light gray for copyright bar */
+    color: #666666;
 }
 
 .footer .copyright a {
-    color: var(--light);
+    color: var(--primary);
 }
 
 .footer .footer-menu a {
@@ -517,3 +619,341 @@
     bottom: 0;
     margin: auto;
 }
+
+/*** Carousel & Global Overrides — Brand Sync ***/
+.carousel-indicators [data-bs-target] {
+    background-color: var(--primary) !important;
+    opacity: 0.3;
+}
+.carousel-indicators .active {
+    opacity: 1 !important;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: var(--primary) !important;
+    color: #0f172b !important;
+}
+
+.text-warning {
+    color: var(--primary) !important;
+}
+
+.bg-warning {
+    background-color: var(--primary) !important;
+    color: #0f172b !important;
+}
+
+.btn-warning {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #0f172b !important;
+}
+
+.btn-warning:hover {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+    color: #ffffff !important;
+}
+
+/* Sidebar Specific Sync */
+#menu .nav-link.active, #superadmin-menu .nav-link.active {
+    background-color: var(--primary) !important;
+    color: #0f172b !important;
+}
+
+#menu .nav-link.active i, #superadmin-menu .nav-link.active i {
+    color: #0f172b !important;
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE ENHANCEMENTS (Mobile First)
+   ════════════════════════════════════════════════ */
+
+/* Prevent horizontal scroll globally */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Fluid Typography */
+h1, .display-1, .display-3 {
+    font-size: clamp(2rem, 8vw, 4rem) !important;
+    line-height: 1.2;
+}
+
+h2, .display-4 {
+    font-size: clamp(1.75rem, 6vw, 3rem) !important;
+}
+
+h3 {
+    font-size: clamp(1.5rem, 5vw, 2.25rem) !important;
+}
+
+/* Vertical Spacing & Padding for Mobile */
+@media (max-width: 767.98px) {
+    .container:not(.p-0), .container-fluid:not(.p-0) {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .section-padding {
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+    }
+
+    .py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    /* Stack grid elements that might be too tight */
+    .row.g-5, .row.gx-5 {
+        --bs-gutter-x: 1rem;
+        --bs-gutter-y: 2rem;
+    }
+    
+    /* Global image fix to prevent overflow */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* Modern Card Stacking */
+@media (max-width: 575.98px) {
+    .card, .room-item, .service-item {
+        margin-bottom: 1.25rem;
+    }
+
+    /* Full-width buttons on mobile for better accessibility */
+    .btn:not(.btn-square):not(.btn-sm-square):not(.btn-lg-square) {
+        width: 100% !important;
+        margin-bottom: 0.5rem;
+        display: block !important;
+    }
+    
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+    }
+    
+    .btn-group > .btn {
+        margin-left: 0 !important;
+        border-radius: 4px !important; /* Resetting bootstrap group radius */
+    }
+}
+
+/* Global Table Responsiveness Fix */
+.table-responsive {
+    border: 0;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+/* Form Responsiveness */
+@media (max-width: 767.98px) {
+    .form-control-lg, .btn-lg {
+        padding: 0.6rem 0.8rem !important;
+        font-size: 0.95rem !important;
+    }
+    
+    .form-label {
+        margin-bottom: 0.25rem;
+        font-size: 0.85rem;
+    }
+    
+    .input-group {
+        width: 100% !important;
+    }
+}
+
+/* Footer Mobile Optimization */
+@media (max-width: 767.98px) {
+    .footer .row > div {
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    
+    .footer .btn.btn-link {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .footer .btn.btn-link::before {
+        display: none;
+    }
+    
+    .footer .copyright {
+        text-align: center !important;
+    }
+}
+
+/* Image Fluidity */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Navigation Dropdown Fix for Mobile */
+@media (max-width: 991.98px) {
+    .modern-dropdown {
+        box-shadow: none !important;
+        border: none !important;
+        background: rgba(0,0,0,0.02) !important;
+        padding-left: 1rem !important;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: static !important;
+        display: none; /* Let bootstrap handle display:block */
+    }
+    
+    .dropdown-menu.show {
+        display: block !important;
+    }
+    
+    .navbar-toggler {
+        border: none !important;
+        padding: 0.5rem;
+    }
+    
+    .navbar-toggler:focus {
+        box-shadow: none !important;
+    }
+
+    /* Polishing the fixed header on mobile */
+    #main-navbar {
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+    }
+}
+
+/* ════════════════════════════════════════════════
+   CAROUSEL MOBILE POLISH
+   ════════════════════════════════════════════════ */
+@media (max-width: 991.98px) {
+    /* Adjust caption to not overlap with top/bottom too much */
+    .carousel-caption {
+        padding-bottom: 5rem !important;
+        justify-content: flex-end !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    /* Hide carousel controls on small mobile to keep it clean */
+    #header-carousel .carousel-control-prev, 
+    #header-carousel .carousel-control-next {
+        display: none !important;
+    }
+    
+    #header-carousel .carousel-indicators {
+        bottom: 20px;
+    }
+}
+
+/* Chat icon position for mobile */
+@media (max-width: 575.98px) {
+    .chatbot-fab {
+        bottom: 20px !important;
+        right: 20px !important;
+        width: 50px !important;
+        height: 50px !important;
+    }
+}
+
+/* Section Title lines on mobile - Hiding them to give more space for text */
+@media (max-width: 575.98px) {
+    .section-title::before, .section-title::after {
+        display: none !important;
+    }
+}
+
+/* Ensure buttons are touch-friendly but not too bulky */
+@media (max-width: 575.98px) {
+    .btn {
+        padding: 0.65rem 1rem !important;
+        font-size: 0.9rem !important;
+        white-space: normal !important; /* Allow wrapping for long button text on very narrow screens */
+    }
+    
+    #header-carousel .btn {
+        width: 100% !important;
+    }
+}
+
+/* Adjust carousel caption positioning for mobile */
+@media (max-width: 991.98px) {
+    .carousel-caption {
+        padding-bottom: 3rem !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+}
+
+/* Ensure Truly Full Width for Carousel Container */
+#header-carousel-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+}
+
+/* Footer Length Optimization for Mobile */
+@media (max-width: 767.98px) {
+    .footer {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    .footer .row.gy-5 {
+        --bs-gutter-y: 1.5rem !important;
+    }
+    
+    .footer h6 {
+        margin-bottom: 0.75rem !important;
+    }
+    
+    .footer .btn-link {
+        padding: 2px 0 !important;
+        font-size: 0.85rem;
+    }
+}
+
+/* ════════════════════════════════════════════════
+   UNIVERSAL CARD OPTIMIZATION (Cities, Hotels, Rooms)
+   ════════════════════════════════════════════════ */
+.room-item img {
+    height: 250px !important;
+    object-fit: cover !important;
+    transition: transform 0.5s ease;
+}
+
+@media (max-width: 575.98px) {
+    .room-item img {
+        height: 190px !important; /* Shorter, more proportional cards for mobile */
+    }
+    
+    .room-item .p-4 {
+        padding: 1.25rem !important; /* Less internal padding to reduce vertical length */
+    }
+    
+    .room-item h5 {
+        font-size: 1.1rem !important;
+    }
+}
+
+.room-item {
+    border: 1px solid rgba(0,0,0,0.06);
+    background: #fff;
+    height: 100%;
+    margin-bottom: 5px; /* Tiny gap when stacked */
+}
+
+.room-item:hover img {
+    transform: scale(1.05);
+}
+
+

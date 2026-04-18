@@ -1,6 +1,6 @@
 /* ── Chatbot Native Integration ──── */
 :root {
-    --chat-primary: #FEA116; /* Same as --primary */
+    --chat-primary: #FF7E21; /* Same as brand primary */
     --chat-dark: #0F172B;    /* Same as --dark */
     --chat-light: #F1F8FF;   /* Same as --light */
 }
@@ -47,6 +47,7 @@
     animation: none;
     z-index: 10000;
     overflow: hidden; /* Fixes sharp corners in header */
+    border: 1.5px solid var(--chat-primary) !important;
 }
 
 
@@ -62,9 +63,9 @@
 
 /* ── Original Spacing & Typography ──── */
 .chat-header {
-    background-color: var(--chat-dark);
-    color: #FFFFFF;
-    padding: 18px 20px; /* Better padding */
+    background-color: var(--chat-primary);
+    color: #ffffff;
+    padding: 18px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -10,7 +10,7 @@
 
         <div class="card-body p-0">
             <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
-                <thead class="table-dark">
+                <thead class="thead-brand">
                     <tr>
                         <th class="ps-4">#</th>
                         <th class="text-nowrap">Auteur</th>
@@ -73,22 +73,27 @@
 
                         {{-- Actions --}}
                         <td class="text-end pe-4">
-                            <div class="d-flex justify-content-end gap-1 flex-nowrap" id="actions-col-{{ $review->id }}">
-                                @if($review->status === 'pending')
-                                    <button type="button" class="btn btn-success btn-sm py-1 px-2 fw-bold action-btn"
-                                            data-id="{{ $review->id }}" data-action="approve" style="font-size: 0.75rem;">
-                                        Accepter
+                            <div class="d-flex justify-content-end align-items-center gap-2" id="actions-col-{{ $review->id }}">
+                                <form method="post" action="{{ route('superadmin.reviews.update', $review->id) }}" class="d-flex align-items-center gap-1 m-0 p-0">
+                                    @csrf
+                                    @method('patch')
+                                    <select name="status" class="form-select form-select-sm" style="font-size: 0.75rem; width: 110px;">
+                                        <option value="pending" @selected($review->status === 'pending')>En attente</option>
+                                        <option value="accepted" @selected($review->status === 'accepted')>Accepté</option>
+                                        <option value="rejected" @selected($review->status === 'rejected')>Refusé</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm py-1 px-2 fw-bold text-nowrap" style="font-size: 0.75rem;">
+                                        VALIDER
                                     </button>
-                                    <button type="button" class="btn btn-warning btn-sm py-1 px-2 fw-bold text-dark action-btn ms-1"
-                                            data-id="{{ $review->id }}" data-action="reject" style="font-size: 0.75rem;">
-                                        Refuser
-                                    </button>
-                                @endif
+                                </form>
 
-                                <button type="button" class="btn btn-danger btn-sm py-1 px-2 fw-bold action-btn ms-1"
-                                        data-id="{{ $review->id }}" data-action="destroy" style="font-size:0.75rem;">
-                                    Supprimer
-                                </button>
+                                <form method="post" action="{{ route('superadmin.reviews.destroy', $review->id) }}" onsubmit="return confirm('Supprimer définitivement cet avis ?')">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger btn-sm py-1 px-2 fw-bold" style="font-size:0.75rem;">
+                                        SU-P
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>

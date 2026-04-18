@@ -79,4 +79,21 @@ class User extends Authenticatable
     {
         return $this->role === $role;
     }
+
+    /**
+     * Get the user's avatar URL.
+     * Returns stored path, external URL, or a fallback UI-Avatars URL.
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        if (!$this->profile_image) {
+            return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&color=7F9CF5&background=EBF4FF';
+        }
+
+        if (filter_var($this->profile_image, FILTER_VALIDATE_URL)) {
+            return $this->profile_image;
+        }
+
+        return asset('storage/' . $this->profile_image);
+    }
 }

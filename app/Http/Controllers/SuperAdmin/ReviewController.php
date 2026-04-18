@@ -39,6 +39,18 @@ class ReviewController extends Controller
         return back()->with('message', 'Avis refusé.');
     }
 
+    // ─── PATCH /superadmin/reviews/{review} ───────────────────────────────────
+    public function update(Review $review, Request $request)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,accepted,rejected'
+        ]);
+
+        $review->update(['status' => $request->status]);
+
+        return back()->with('message', 'Le statut de l\'avis a été mis à jour.');
+    }
+
     // ─── DELETE /superadmin/reviews/{review} ───────────────────────────────────
     public function destroy(Review $review, Request $request)
     {

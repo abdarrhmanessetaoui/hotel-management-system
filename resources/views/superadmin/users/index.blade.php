@@ -11,8 +11,9 @@
             </a>
         </div>
         <div class="card-body p-0">
-            <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
-                <thead class="table-dark">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
+                <thead class="thead-brand">
                 <tr>
                     <th class="ps-4">#</th>
                     <th class="text-nowrap">Nom</th>
@@ -68,6 +69,7 @@
                 @endforelse
                 </tbody>
             </table>
+            </div>
             
             <div class="p-3">
                 {{ $users->links() }}

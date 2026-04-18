@@ -28,7 +28,9 @@
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/chatbot.css') }}" rel="stylesheet">
-    <title>Hotilat</title>
+    <!-- Branding -->
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon-brand.png') }}">
+    <title>Hotelia</title>
 
 </head>
 <body>
@@ -49,11 +51,14 @@
                 </div>
             </div>
         </div>
-    @else
-        <!-- Default App View -->
+    @endif
+
+    <!-- Header & Hero (Full Width) -->
+    @yield('header')
+
+    @if(!isset($AdminView))
+        <!-- Restricted Width Content Area -->
         <div class="container-xxl bg-white p-0">
-            <!-- Header -->
-            @yield('header')
             <!-- Content -->
             @yield('content')
             <!-- Footer -->

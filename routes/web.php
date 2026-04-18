@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\AuthController;
 // ─── Hotel Admin Controllers ─────────────────────────────────────────────────
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\RoomController as AdminRoomController;
+use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 
 // ─── Super Admin Controllers ─────────────────────────────────────────────────
@@ -75,6 +76,8 @@ Route::prefix('admin')
 
         Route::resource('rooms', AdminRoomController::class)->except('show');
 
+        Route::resource('roomtypes', RoomTypeController::class)->except('show');
+
         Route::resource('reservations', AdminReservationController::class)
             ->only(['index', 'show', 'update']);
 
@@ -109,6 +112,7 @@ Route::prefix('superadmin')
 
         // Reviews management
         Route::get('reviews', [\App\Http\Controllers\SuperAdmin\ReviewController::class, 'index'])->name('reviews.index');
+        Route::patch('reviews/{review}', [\App\Http\Controllers\SuperAdmin\ReviewController::class, 'update'])->name('reviews.update');
         Route::put('reviews/{review}/approve', [\App\Http\Controllers\SuperAdmin\ReviewController::class, 'approve'])->name('reviews.approve');
         Route::put('reviews/{review}/reject', [\App\Http\Controllers\SuperAdmin\ReviewController::class, 'reject'])->name('reviews.reject');
         Route::delete('reviews/{review}', [\App\Http\Controllers\SuperAdmin\ReviewController::class, 'destroy'])->name('reviews.destroy');

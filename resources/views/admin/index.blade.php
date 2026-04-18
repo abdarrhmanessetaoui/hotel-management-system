@@ -27,15 +27,15 @@
 
                 <div class="row mt-4 text-center">
                     <div class="col-md-3">
-                        <h4 class="fw-bold" style="color: #FEA116;">{{ $roomsCount }}</h4>
+                        <h4 class="fw-bold" style="color: #FF7E21;">{{ $roomsCount }}</h4>
                         <span class="text-muted small text-uppercase">Total Chambres</span>
                     </div>
                     <div class="col-md-3">
-                        <h4 class="fw-bold" style="color: #FEA116;">{{ $reservationsCount }}</h4>
+                        <h4 class="fw-bold" style="color: #FF7E21;">{{ $reservationsCount }}</h4>
                         <span class="text-muted small text-uppercase">Réservations</span>
                     </div>
                     <div class="col-md-3">
-                        <h4 class="fw-bold" style="color: #FEA116;">{{ $availableRooms }}</h4>
+                        <h4 class="fw-bold" style="color: #FF7E21;">{{ $availableRooms }}</h4>
                         <span class="text-muted small text-uppercase">Chambres Disponibles</span>
                     </div>
                     <div class="col-md-3">
@@ -66,12 +66,12 @@
                         {{ $bookedRooms }},
                         {{ $reservationsCount }}
                     ],
-                    borderColor: '#FEA116',
+                    borderColor: '#FF7E21',
                     backgroundColor: 'rgba(254, 161, 22, 0.1)',
                     fill: true,
                     tension: 0.1,
                     borderWidth: 2,
-                    pointBackgroundColor: '#FEA116',
+                    pointBackgroundColor: '#FF7E21',
                     pointRadius: 5
                 }]
             },

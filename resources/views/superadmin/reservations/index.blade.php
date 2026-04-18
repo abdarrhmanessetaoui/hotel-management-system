@@ -3,13 +3,14 @@
 @section('content')
     @include('components.show-success')
 
-    <div class="card">
-        <div class="card-header">
-            <h3 class="mb-0">Toutes les Réservations</h3>
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom py-3">
+            <h3 class="mb-0 fw-bold">Toutes les Réservations</h3>
         </div>
         <div class="card-body p-0">
-            <table class="table table-striped align-middle mb-0">
-                <thead class="table-dark">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                <thead class="thead-brand">
                 <tr>
                     <th class="ps-3">#</th>
                     <th>Hôtel</th>
@@ -27,11 +28,8 @@
                     <tr>
                         <th class="ps-3">{{ $loop->iteration }}</th>
                         <td>{{ $reservation->hotel->name ?? '-' }}</td>
-                        <td>
+                        <td class="fw-bold">
                             {{ $reservation->room->room_number ?? '-' }}
-                            @if(isset($reservation->room->type))
-                                <small class="text-muted">({{ ['single'=>'Simple','double'=>'Double','suite'=>'Suite','deluxe'=>'Luxe'][$reservation->room->type] ?? $reservation->room->type }})</small>
-                            @endif
                         </td>
                         <td>{{ $reservation->user->name ?? '-' }}</td>
                         <td>{{ optional($reservation->check_in)->format('d/m/Y') }}</td>
@@ -67,6 +65,7 @@
                 @endforelse
                 </tbody>
             </table>
+            </div>
 
             <div class="p-3">
                 {{ $reservations->links() }}

@@ -14,7 +14,7 @@ class ReservationController extends Controller
     private function getAdminHotel()
     {
         $hotel = Auth::user()->hotel;
-        abort_if(!$hotel, 403, 'No hotel assigned to your account.');
+        abort_if(!$hotel, 403, 'Aucun hôtel n\'est assigné à votre compte.');
         return $hotel;
     }
 
@@ -55,6 +55,6 @@ class ReservationController extends Controller
         $reservation->update(['status' => $validated['status']]);
 
         return redirect()->route('admin.reservations.index')
-            ->with('message', 'Reservation status updated.');
+            ->with('message', 'Le statut de la réservation a été mis à jour.');
     }
 }

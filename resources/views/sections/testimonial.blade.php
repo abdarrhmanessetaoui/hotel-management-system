@@ -21,10 +21,19 @@
                             "{{ $review->content }}"
                         </p>
                         <div class="d-flex align-items-center">
-                            {{-- Avatar initiales --}}
-                            <div class="d-flex align-items-center justify-content-center rounded flex-shrink-0"
-                                 style="width:60px;height:60px;background-color:#FEA116;font-size:1.4rem;font-weight:700;color:#fff;">
-                                {{ strtoupper(substr($review->author_name, 0, 1)) }}
+                            {{-- Unified Avatar System --}}
+                            <div class="flex-shrink-0">
+                                @if($review->user)
+                                    <img class="rounded shadow-sm" 
+                                         src="{{ $review->user->avatar_url }}" 
+                                         alt="{{ $review->author_name }}"
+                                         style="width: 60px; height: 60px; object-fit: cover; border: 2px solid rgba(255,126,33,0.1);">
+                                @else
+                                    <div class="d-flex align-items-center justify-content-center rounded shadow-sm"
+                                         style="width:60px;height:60px;background-color:#FF7E21;font-size:1.4rem;font-weight:700;color:#fff;">
+                                        {{ strtoupper(substr($review->author_name, 0, 1)) }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="ps-3">
                                 <h6 class="fw-bold mb-1">{{ $review->author_name }}</h6>

@@ -36,15 +36,18 @@ class RoomsSeeder extends Seeder
 
         foreach ($hotels as $hotel) {
 
-            $types = ['single', 'double', 'suite', 'deluxe'];
+            $roomTypes = DB::table('room_types')->where('hotel_id', $hotel->id)->get();
 
-            foreach ($types as $i => $type) {
+            foreach ($roomTypes as $i => $type) {
 
                 $roomNumber = ($i + 1) . '0' . $hotel->id;
 
-                // ✅ Realistic DH price — rounded to nearest 50
-                [$min, $max] = $priceRanges[$type];
-                $price = round(mt_rand($min, $max) / 50) * 50;
+                // Pick a range or default
+                $range = [500, 1500];
+                if (str_contains(strtolower($type->name), 'royal')) $range = [2000, 5000];
+                if (str_contains(strtolower($type->name), 'standard')) $range = [300, 700];
+
+                $price = round(mt_rand($range[0], $range[1]) / 50) * 50;
 
                 DB::table('rooms')->updateOrInsert(
                     [
@@ -52,13 +55,14 @@ class RoomsSeeder extends Seeder
                         'room_number' => $roomNumber,
                     ],
                     [
-                        'type'        => $type,
-                        'price'       => $price,
-                        'image'       => $roomImages[$type],
-                        'description' => sprintf($descriptions[$type], $hotel->name),
-                        'status'      => 'available',
-                        'created_at'  => now(),
-                        'updated_at'  => now(),
+                        'room_type_id' => $type->id,
+                        'type'         => $type->name, 
+                        'price'        => $price,
+                        'image'        => "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80",
+                        'description'  => "Une superbe chambre de type {$type->name} située au {$hotel->name}.",
+                        'status'       => 'available',
+                        'created_at'   => now(),
+                        'updated_at'   => now(),
                     ]
                 );
             }

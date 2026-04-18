@@ -5,9 +5,9 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid mt-5 auth-container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+    <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="padding-top: 110px; padding-bottom: 50px;">
+        <div class="row w-100 justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 animate__animated animate__fadeIn">
                 <div class="card shadow-lg">
                     <div class="card-body">
                         <h4 class="card-title my-4 text-center">Créer un compte</h4>

@@ -4,11 +4,11 @@
 
 
     {{-- Main Navigation --}}
-    <nav class="navbar navbar-expand-lg py-2 px-4 px-lg-5 transition-all" id="main-navbar">
+    <nav class="navbar navbar-expand-lg py-0 px-3 px-lg-5 transition-all" id="main-navbar">
         
         {{-- Logo --}}
-        <a href="{{ route('home') }}" class="navbar-brand d-flex align-items-center m-0 p-0">
-            <img src="{{ asset('img/logo.png') }}" id="brand-logo" alt="Hotelia" class="transition-all" style="height: 80px; width: auto; object-fit: contain;">
+        <a href="{{ route('home') }}" class="navbar-brand d-none d-md-flex align-items-center p-0" style="line-height: 0; z-index: 10; margin: 5px 0; margin-right: 15px;">
+            <img src="{{ asset('img/logo.png') }}" id="brand-logo" alt="Hotelia" class="transition-all" style="height: 55px; width: auto; object-fit: contain; transform: scale(1.1); transform-origin: left center;">
         </a>
 
         {{-- Mobile Toggler --}}
@@ -20,29 +20,29 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             
             {{-- Centered Menu --}}
-            <div class="navbar-nav mx-auto py-3 py-lg-0" id="main-nav">
-                <a class="nav-item nav-link fw-medium px-3 scroll-target" data-section="top" href="{{ route('home') }}">Accueil</a>
-                <a class="nav-item nav-link fw-medium px-3 scroll-target" data-section="villes" href="{{ route('home') }}#villes">Destinations</a>
-                <a class="nav-item nav-link fw-medium px-3 scroll-target" data-section="services" href="{{ route('home') }}#services">Services</a>
-                <a class="nav-item nav-link fw-medium px-3 scroll-target" data-section="testimonial" href="{{ route('home') }}#testimonial">Avis</a>
-                <a class="nav-item nav-link fw-medium px-3 scroll-target" data-section="newsletter" href="{{ route('home') }}#newsletter">Contact</a>
+            <div class="navbar-nav ms-0 py-3 py-lg-0 align-items-lg-center text-start" id="main-nav">
+                <a class="nav-item nav-link fw-medium scroll-target" data-section="top" href="{{ route('home') }}">Accueil</a>
+                <a class="nav-item nav-link fw-medium scroll-target" data-section="villes" href="{{ route('home') }}#villes">Destinations</a>
+                <a class="nav-item nav-link fw-medium scroll-target" data-section="services" href="{{ route('home') }}#services">Services</a>
+                <a class="nav-item nav-link fw-medium scroll-target" data-section="testimonial" href="{{ route('home') }}#testimonial">Avis</a>
+                <a class="nav-item nav-link fw-medium scroll-target" data-section="newsletter" href="{{ route('home') }}#newsletter">Contact</a>
             </div>
 
             {{-- Right Actions --}}
             <div class="navbar-nav auth-nav align-items-lg-center gap-2 pb-3 pb-lg-0">
                 @guest
-                    <a href="{{ route('login') }}" class="btn-minimal transition-all">
+                    <a href="{{ route('login') }}" class="btn-custom-outline transition-all">
                         Connexion
                     </a>
-                    <a href="{{ route('register') }}" class="btn-minimal transition-all">
+                    <a href="{{ route('register') }}" class="btn-custom-solid transition-all">
                         S'inscrire
                     </a>
                 @else
                     <div class="nav-item dropdown">
-                        <button class="btn-minimal dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn-custom-solid dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-user-circle me-2"></i>{{ explode(' ', Auth::user()->name)[0] }}
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end rounded-3 mt-2 border-0 shadow modern-dropdown">
+                        <ul class="dropdown-menu dropdown-menu-end mt-2 border-0 shadow modern-dropdown">
                             <li><a href="{{ route('reservations.index') }}" class="dropdown-item py-2"><i class="fa fa-calendar-check me-2 text-primary"></i>Mes Réservations</a></li>
                             <li><a href="{{ route('profile') }}" class="dropdown-item py-2"><i class="fa fa-user me-2 text-primary"></i>Mon Profil</a></li>
                             <li><hr class="dropdown-divider my-1"></li>
@@ -58,11 +58,11 @@
                     </div>
 
                     @if(Auth::user()->isAdmin())
-                        <a href="{{ route('admin.index') }}" class="btn-minimal ms-lg-2">
+                        <a href="{{ route('admin.index') }}" class="btn-custom-outline ms-lg-2">
                             <i class="fa fa-cog me-1"></i> Admin
                         </a>
                     @elseif(Auth::user()->isSuperAdmin())
-                        <a href="{{ route('superadmin.index') }}" class="btn-minimal ms-lg-2">
+                        <a href="{{ route('superadmin.index') }}" class="btn-custom-outline ms-lg-2">
                             <i class="fa fa-crown me-1"></i> Super Admin
                         </a>
                     @endif
@@ -76,7 +76,17 @@
     /* ════════════════════════════════════════════════
     GLOBAL HEADER STYLES & TRANSITIONS
     ════════════════════════════════════════════════ */
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
     #main-header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin-top: 0 !important;
         z-index: 1050;
         width: 100%;
         /* Hardware acceleration for smooth transitions */
@@ -102,11 +112,18 @@
     }
     .header-transparent #main-nav .nav-link:hover,
     .header-transparent #main-nav .nav-link.scroll-active {
-        color: var(--bs-primary);
+        color: var(--primary);
     }
 
     .border-light-subtle {
         border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    #main-nav .nav-link {
+        padding: 0 15px !important;
+        display: flex;
+        align-items: center;
+        height: 55px; /* Match logo height for absolute centering */
     }
 
     /* Modern indicator line for active state */
@@ -114,12 +131,12 @@
         #main-nav .nav-link::after {
             content: '';
             position: absolute;
-            bottom: -2px;
+            bottom: 10px; /* Position inside the 60px height */
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 2px;
-            background-color: var(--bs-primary);
+            background-color: var(--primary);
             transition: width 0.3s ease;
             border-radius: 2px;
         }
@@ -138,11 +155,9 @@
     STATE 2: SOLID WHITE (On Scroll)
     ════════════════════════════════════════════════ */
     .header-scrolled {
-        background: rgba(255, 255, 255, 0.98) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-        border-bottom: none !important;
+        background: #ffffff !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+        border: 1px solid rgba(0,0,0,0.05) !important;
     }
 
 
@@ -153,54 +168,67 @@
     
     .header-scrolled #main-nav .nav-link:hover,
     .header-scrolled #main-nav .nav-link.scroll-active {
-        color: var(--bs-primary) !important;
+        color: var(--primary) !important;
     }
 
     .header-scrolled #nav-toggler {
         color: #333333 !important;
     }
 
-    .header-scrolled #brand-logo {
-        height: 60px !important; /* Shrink logo slightly on scroll */
-    }
-
     /* ════════════════════════════════════════════════
-    MINIMAL BUTTONS (SaaS Style)
+    SaaS SQUARE BUTTONS
     ════════════════════════════════════════════════ */
-    .btn-minimal {
+    .btn-custom-solid,
+    .btn-custom-outline {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-weight: 500;
-        font-size: 0.9rem;
-        padding: 8px 18px;
-        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 0 20px;
+        height: 42px;
+        line-height: normal;
+        border-radius: 0; /* Sharp corners like screenshot */
         transition: all 0.2s ease;
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: rgba(255, 255, 255, 0.95);
         text-decoration: none;
         cursor: pointer;
+        box-sizing: border-box;
     }
-    .btn-minimal:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.3);
-        color: #ffffff;
+
+    /* Solid Orange Button */
+    .btn-custom-solid {
+        background: var(--primary);
+        color: #0f172b !important;
+        border: 1px solid var(--primary);
+    }
+    .btn-custom-solid:hover {
+        background: var(--primary-dark); /* darker hover */
+        border-color: var(--primary-dark);
+        color: #ffffff !important;
+    }
+
+    /* Outline Orange Button */
+    .btn-custom-outline {
+        background: transparent;
+        border: 1px solid var(--primary);
+        color: var(--primary) !important;
+    }
+    .btn-custom-outline:hover {
+        background: rgba(255, 126, 33, 0.1);
     }
 
     /* Solid state adaptations */
-    .header-scrolled .btn-minimal {
-        border-color: rgba(0, 0, 0, 0.1);
-        color: #333333;
+    .header-scrolled .btn-custom-solid {
+        box-shadow: 0 4px 10px rgba(255, 126, 33, 0.2);
     }
-    .header-scrolled .btn-minimal:hover {
-        background: rgba(0, 0, 0, 0.03);
-        border-color: rgba(0, 0, 0, 0.15);
-        color: #111111;
+    
+    .header-scrolled .btn-custom-outline {
+        /* On white background, keep orange but maybe slightly darker */
     }
 
     /* Toggle specific */
-    button.btn-minimal.dropdown-toggle::after {
+    button.btn-custom-solid.dropdown-toggle::after,
+    button.btn-custom-outline.dropdown-toggle::after {
         margin-left: 6px;
         vertical-align: middle;
     }
@@ -210,70 +238,185 @@
     ════════════════════════════════════════════════ */
     .modern-dropdown {
         background-color: #ffffff;
-        border-radius: 8px !important;
+        border-radius: 0 !important;
         padding: 8px 0;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.12) !important;
         border: 1px solid rgba(0,0,0,0.05) !important;
-    }
-    .modern-dropdown .dropdown-item {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: #444;
-        transition: all 0.2s;
-    }
-    .modern-dropdown .dropdown-item:hover {
-        background-color: rgba(var(--bs-primary-rgb), 0.08);
-        color: var(--bs-primary);
+        display: block !important;
+        visibility: hidden;
     }
 
     @media (max-width: 991.98px) {
         #navbarCollapse {
-            background: #ffffff;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 1px solid rgba(0,0,0,0.05);
+            position: fixed !important;
+            top: 0 !important;
+            left: -100% !important; 
+            width: 85% !important;
+            height: 100vh !important;
+            background: #ffffff !important; /* PURE SOLID WHITE */
+            opacity: 1 !important;
+            visibility: visible !important;
+            z-index: 3000 !important;
+            margin: 0 !important;
+            padding: 80px 0 30px 20px !important; 
+            transition: left 0.4s cubic-bezier(0.77,0,0.175,1) !important;
+            display: flex !important;
+            flex-direction: column;
+            box-shadow: 10px 0 40px rgba(0,0,0,0.1) !important;
+            border: none !important;
+            border-radius: 0 !important;
+        }
+
+        #navbarCollapse.show {
+            left: 0 !important;
+        }
+
+        body.sidebar-open #main-header {
+            z-index: 3001 !important;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 43, 0.4);
+            backdrop-filter: blur(2px);
+            z-index: 2500;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
-        #main-nav .nav-link {
-            color: #333333 !important;
-            padding: 12px 15px !important;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+        body.sidebar-open .sidebar-overlay {
+            display: block;
+            opacity: 1;
+        }
+        
+        body.sidebar-open {
+            overflow: hidden !important;
+        }
+
+        .sidebar-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #333;
+            cursor: pointer;
+        }
+
+        #main-nav, .auth-nav, .navbar-nav, .nav-item {
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .nav-link, .dropdown-item {
+            font-size: 1.15rem !important;
+            font-weight: 700 !important;
+            color: #1a1a1a !important;
+            padding: 15px 0 !important; 
+            margin: 0 !important;
+            border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+            width: 100% !important;
+            text-align: left !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+        
+        .nav-link i, .dropdown-item i {
+            display: none !important; 
         }
 
         .auth-nav {
-            flex-direction: column;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            margin-top: 10px;
+            margin-top: auto !important; 
+            padding-top: 10px !important;
+            border-top: 20px solid #f8f9fa !important;
         }
 
-        .auth-nav .btn {
-            width: 100%;
-            margin-left: 0 !important;
-            margin-top: 8px;
-        }
-
-        .dropdown-menu {
+        .auth-nav .dropdown-menu {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: none !important;
             position: static !important;
-            box-shadow: none !important;
+            background: transparent !important; 
+            box-shadow: none !important; 
+            margin: 0 !important;
+            padding: 0 !important;
             border: none !important;
-            background: rgba(0,0,0,0.03) !important;
-            margin-top: 10px;
+            width: 100%;
+        }
+
+        .dropdown-item.text-danger {
+            color: #dc3545 !important;
+        }
+        
+        .btn-custom-solid, .btn-custom-outline {
+            height: 50px !important;
+            width: 100% !important;
+            margin-bottom: 10px;
         }
     }
+
 </style>
+
+{{-- Backdrop for Sidebar --}}
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 {{-- Vanilla JS for Header Interactions --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const header = document.getElementById('main-header');
-        const links = document.querySelectorAll('#main-nav .scroll-target');
+        const navCollapse = document.getElementById('navbarCollapse');
+        const overlay = document.getElementById('sidebar-overlay');
+        const navToggler = document.getElementById('nav-toggler');
         
-        // 1. Scroll Transparency Toggle
+        // 1. Sidebar Logic
+        function toggleSidebar() {
+            document.body.classList.toggle('sidebar-open');
+            if (document.body.classList.contains('sidebar-open')) {
+                navCollapse.classList.add('show');
+            } else {
+                navCollapse.classList.remove('show');
+                // Small delay to ensure smooth transition before backdrop hides
+            }
+        }
+
+        navToggler.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleSidebar();
+        });
+
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Close on link click
+        document.querySelectorAll('.scroll-target').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) toggleSidebar();
+            });
+        });
+
+        // Add Close Button to Navbar Collapse if missing
+        if (window.innerWidth < 992 && !document.querySelector('.sidebar-close')) {
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'sidebar-close';
+            closeBtn.innerHTML = '<i class="fa fa-times"></i>';
+            closeBtn.onclick = toggleSidebar;
+            navCollapse.prepend(closeBtn);
+        }
+
+        // 2. Scroll Transparency Toggle
         function toggleHeaderBackground() {
-            if (window.scrollY > 50) {
+            const hasHero = !!document.getElementById('header-carousel');
+            if (window.scrollY > 50 || !hasHero) {
                 header.classList.add('header-scrolled');
                 header.classList.remove('header-transparent');
             } else {
@@ -282,34 +425,7 @@
             }
         }
 
-        // Initialize state
         toggleHeaderBackground();
         window.addEventListener('scroll', toggleHeaderBackground, { passive: true });
-
-        // 2. Active State Scrollspy
-        const sections = [];
-        links.forEach(link => {
-            const sid = link.getAttribute('data-section');
-            if (sid && sid !== 'top') {
-                const el = document.getElementById(sid);
-                if (el) sections.push({ link, el });
-            }
-        });
-
-        function setActiveScrollspy() {
-            if (sections.length === 0) return;
-            const scrollY = window.scrollY + 120;
-            let current = links[0]; // default 'Accueil'
-            
-            sections.forEach(({ link, el }) => {
-                if (el.offsetTop <= scrollY) current = link;
-            });
-            links.forEach(l => l.classList.remove('scroll-active'));
-            if (current) current.classList.add('scroll-active');
-        }
-        if (sections.length > 0) {
-            window.addEventListener('scroll', setActiveScrollspy, { passive: true });
-            setActiveScrollspy();
-        }
     });
 </script>

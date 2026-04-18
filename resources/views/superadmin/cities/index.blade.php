@@ -11,8 +11,9 @@
             </a>
         </div>
         <div class="card-body">
-            <table class="table table-striped">
-                <thead class="table-dark">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                <thead class="thead-brand">
                 <tr>
                     <th>#</th>
                     <th>Nom</th>
@@ -62,6 +63,7 @@
                 @endforelse
                 </tbody>
             </table>
+        </div>
         </div>
     </div>
 @endsection

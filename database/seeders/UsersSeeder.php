@@ -19,6 +19,7 @@ class UsersSeeder extends Seeder
                     'phone' => '0600000000',
                     'password' => bcrypt('Password@1'),
                     'role' => 'superadmin',
+                    'profile_image' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=256&q=80',
                 ],
             ],
 
@@ -31,6 +32,7 @@ class UsersSeeder extends Seeder
                     'phone' => '0601010101',
                     'password' => bcrypt('Password@1'),
                     'role' => 'admin',
+                    'profile_image' => 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=256&q=80',
                 ],
             ],
 
@@ -43,6 +45,7 @@ class UsersSeeder extends Seeder
                     'phone' => '0612345678',
                     'password' => bcrypt('Password@1'),
                     'role' => 'client',
+                    'profile_image' => 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=256&q=80',
                 ],
             ],
             [
@@ -53,6 +56,7 @@ class UsersSeeder extends Seeder
                     'phone' => '0622345678',
                     'password' => bcrypt('Password@1'),
                     'role' => 'client',
+                    'profile_image' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=256&q=80',
                 ],
             ],
             [
@@ -63,6 +67,7 @@ class UsersSeeder extends Seeder
                     'phone' => '0632345678',
                     'password' => bcrypt('Password@1'),
                     'role' => 'client',
+                    'profile_image' => 'https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?auto=format&fit=crop&w=256&q=80',
                 ],
             ],
             [
@@ -73,6 +78,7 @@ class UsersSeeder extends Seeder
                     'phone' => '0642345678',
                     'password' => bcrypt('Password@1'),
                     'role' => 'client',
+                    'profile_image' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80',
                 ],
             ],
             [
@@ -83,6 +89,7 @@ class UsersSeeder extends Seeder
                     'phone' => '0652345678',
                     'password' => bcrypt('Password@1'),
                     'role' => 'client',
+                    'profile_image' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80',
                 ],
             ],
             [
@@ -93,6 +100,7 @@ class UsersSeeder extends Seeder
                     'phone' => '0662345678',
                     'password' => bcrypt('Password@1'),
                     'role' => 'client',
+                    'profile_image' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=256&q=80',
                 ],
             ],
             [
@@ -103,6 +111,7 @@ class UsersSeeder extends Seeder
                     'phone' => '0672345678',
                     'password' => bcrypt('Password@1'),
                     'role' => 'client',
+                    'profile_image' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=256&q=80',
                 ],
             ]
         ];
