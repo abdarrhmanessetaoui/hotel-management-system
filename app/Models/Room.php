@@ -13,8 +13,9 @@ class Room extends Model
 
     protected $fillable = [
         'hotel_id',
+        'room_type_id',
         'room_number',
-        'type',        // e.g. single, double, suite, deluxe
+        'type',        // e.g. single, double, suite, deluxe (legacy)
         'price',
         'image',
         'description',
@@ -27,6 +28,14 @@ class Room extends Model
     ];
 
     // ─── Relationships ────────────────────────────────────────────────────────
+
+    /**
+     * Room belongs to a room type.
+     */
+    public function roomType(): BelongsTo
+    {
+        return $this->belongsTo(RoomType::class, 'room_type_id');
+    }
 
     /**
      * Room belongs to a hotel.

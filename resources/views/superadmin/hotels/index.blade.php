@@ -11,8 +11,9 @@
             </a>
         </div>
         <div class="card-body">
+        <div class="table-responsive">
             <table class="table table-striped">
-                <thead class="table-dark">
+                <thead class="thead-brand">
                 <tr>
                     <th>#</th>
                     <th>Hôtel</th>
@@ -68,6 +69,7 @@
                 @endforelse
                 </tbody>
             </table>
+        </div>
         </div>
     </div>
 @endsection

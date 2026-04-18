@@ -14,24 +14,20 @@
 
                     <div class="row mt-4 text-center">
                         <div class="col-md-3">
-                            <h4 class="fw-bold" style="color: #FEA116;">{{ $stats['total_cities'] }}</h4>
+                            <h4 class="fw-bold" style="color: #FF7E21;">{{ $stats['total_cities'] }}</h4>
                             <span class="text-muted small text-uppercase">Total Villes</span>
                         </div>
                         <div class="col-md-3">
-                            <h4 class="fw-bold" style="color: #FEA116;">{{ $stats['total_hotels'] }}</h4>
+                            <h4 class="fw-bold" style="color: #FF7E21;">{{ $stats['total_hotels'] }}</h4>
                             <span class="text-muted small text-uppercase">Total Hôtels</span>
                         </div>
                         <div class="col-md-3">
-                            <h4 class="fw-bold" style="color: #FEA116;">{{ $stats['total_users'] }}</h4>
+                            <h4 class="fw-bold" style="color: #FF7E21;">{{ $stats['total_users'] }}</h4>
                             <span class="text-muted small text-uppercase">Total Utilisateurs</span>
                         </div>
                         <div class="col-md-3">
-                            <h4 class="fw-bold" style="color: #FEA116;">{{ $stats['total_reviews'] }}</h4>
-                            <span class="text-muted small text-uppercase">Total Avis 
-                                @if($stats['pending_reviews'] > 0)
-                                    <span class="badge bg-warning text-dark" style="font-size: 0.6rem;">{{ $stats['pending_reviews'] }} en attente</span>
-                                @endif
-                            </span>
+                            <h4 class="fw-bold" style="color: #FF7E21;">{{ $stats['total_reviews'] }}</h4>
+                            <span class="text-muted small text-uppercase">Total Avis </span>
                         </div>
                     </div>
                 </div>
@@ -56,12 +52,12 @@
                             {{ $stats['total_hotels'] }}, 
                             {{ $stats['total_users'] }}
                         ],
-                        borderColor: '#FEA116',
+                        borderColor: '#FF7E21',
                         backgroundColor: 'rgba(254, 161, 22, 0.1)',
                         fill: true,
                         tension: 0.1,
                         borderWidth: 2,
-                        pointBackgroundColor: '#FEA116',
+                        pointBackgroundColor: '#FF7E21',
                         pointRadius: 5
                     }]
                 },

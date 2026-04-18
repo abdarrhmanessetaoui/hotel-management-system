@@ -47,7 +47,7 @@ class HotelController extends Controller
         Hotel::create($validated);
 
         return redirect()->route('superadmin.hotels.index')
-            ->with('message', 'Hotel created successfully.');
+            ->with('message', 'L\'hôtel a été créé avec succès.');
     }
 
     public function edit(Hotel $hotel): View
@@ -76,7 +76,7 @@ class HotelController extends Controller
         $hotel->update($validated);
 
         return redirect()->route('superadmin.hotels.index')
-            ->with('message', 'Hotel updated successfully.');
+            ->with('message', 'L\'hôtel a été mis à jour avec succès.');
     }
 
     public function destroy(Hotel $hotel): RedirectResponse
@@ -84,6 +84,6 @@ class HotelController extends Controller
         $hotel->delete();
 
         return redirect()->route('superadmin.hotels.index')
-            ->with('message', 'Hotel deleted successfully.');
+            ->with('message', 'L\'hôtel a été supprimé avec succès.');
     }
 }

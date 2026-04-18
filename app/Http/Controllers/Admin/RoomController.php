@@ -18,7 +18,7 @@ class RoomController extends Controller
     private function getAdminHotel()
     {
         $hotel = Auth::user()->hotel;
-        abort_if(!$hotel, 403, 'No hotel assigned to your account.');
+        abort_if(!$hotel, 403, 'Aucun hôtel n\'est assigné à votre compte.');
         return $hotel;
     }
 
@@ -33,7 +33,8 @@ class RoomController extends Controller
     public function create(): View
     {
         $hotel = $this->getAdminHotel();
-        return view('admin.rooms.create', compact('hotel'));
+        $roomTypes = $hotel->roomTypes;
+        return view('admin.rooms.create', compact('hotel', 'roomTypes'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -41,19 +42,23 @@ class RoomController extends Controller
         $hotel = $this->getAdminHotel();
 
         $validated = $request->validate([
-            'room_number' => ['required', 'string', 'max:10'],
-            'type'        => ['required', 'in:single,double,suite,deluxe'],
-            'price'       => ['required', 'numeric', 'min:0'],
-            'description' => ['nullable', 'string'],
-            'image'       => ['nullable', 'image', 'max:2048'],
-            'status'      => ['required', 'in:available,unavailable'],
+            'room_number'  => ['required', 'string', 'max:10'],
+            'room_type_id' => ['required', 'exists:room_types,id'],
+            'price'        => ['required', 'numeric', 'min:0'],
+            'description'  => ['nullable', 'string'],
+            'image'        => ['nullable', 'image', 'max:2048'],
+            'status'       => ['required', 'in:available,unavailable'],
         ]);
+
+        // Security: Ensure the room_type_id belongs to the admin's hotel
+        $type = $hotel->roomTypes()->find($validated['room_type_id']);
+        abort_if(!$type, 403, 'Type de chambre invalide pour cet hôtel.');
 
         // Ensure room number is unique within this hotel
         $exists = $hotel->rooms()->where('room_number', $validated['room_number'])->exists();
         if ($exists) {
             return back()->withInput()
-                ->withErrors(['room_number' => 'Room number already exists in this hotel.']);
+                ->withErrors(['room_number' => 'Ce numéro de chambre existe déjà dans cet hôtel.']);
         }
 
         $imagePath = null;
@@ -64,26 +69,25 @@ class RoomController extends Controller
         }
 
         $hotel->rooms()->create([
-            'room_number' => $validated['room_number'],
-            'type'        => $validated['type'],
-            'price'       => $validated['price'],
-            'description' => $validated['description'],
-            'image'       => $imagePath,
-            'status'      => $validated['status'],
+            'room_number'  => $validated['room_number'],
+            'room_type_id' => $validated['room_type_id'],
+            'price'        => $validated['price'],
+            'description'  => $validated['description'],
+            'image'        => $imagePath,
+            'status'       => $validated['status'],
         ]);
 
         return redirect()->route('admin.rooms.index')
-            ->with('message', 'Room created successfully.');
+            ->with('message', 'Chambre créée avec succès.');
     }
 
     public function edit(Room $room): View
     {
         $hotel = $this->getAdminHotel();
-
-        // Prevent admin from editing rooms of other hotels
         abort_if($room->hotel_id !== $hotel->id, 403);
 
-        return view('admin.rooms.edit', compact('hotel', 'room'));
+        $roomTypes = $hotel->roomTypes;
+        return view('admin.rooms.edit', compact('hotel', 'room', 'roomTypes'));
     }
 
     public function update(Request $request, Room $room): RedirectResponse
@@ -92,13 +96,17 @@ class RoomController extends Controller
         abort_if($room->hotel_id !== $hotel->id, 403);
 
         $validated = $request->validate([
-            'room_number' => ['required', 'string', 'max:10'],
-            'type'        => ['required', 'in:single,double,suite,deluxe'],
-            'price'       => ['required', 'numeric', 'min:0'],
-            'description' => ['nullable', 'string'],
-            'image'       => ['nullable', 'image', 'max:2048'],
-            'status'      => ['required', 'in:available,unavailable'],
+            'room_number'  => ['required', 'string', 'max:10'],
+            'room_type_id' => ['required', 'exists:room_types,id'],
+            'price'        => ['required', 'numeric', 'min:0'],
+            'description'  => ['nullable', 'string'],
+            'image'        => ['nullable', 'image', 'max:2048'],
+            'status'       => ['required', 'in:available,unavailable'],
         ]);
+
+        // Security check
+        $type = $hotel->roomTypes()->find($validated['room_type_id']);
+        abort_if(!$type, 403);
 
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->file('image')->extension();
@@ -109,7 +117,7 @@ class RoomController extends Controller
         $room->update($validated);
 
         return redirect()->route('admin.rooms.index')
-            ->with('message', 'Room updated successfully.');
+            ->with('message', 'Chambre mise à jour avec succès.');
     }
 
     public function destroy(Room $room): RedirectResponse
@@ -120,6 +128,6 @@ class RoomController extends Controller
         $room->delete();
 
         return redirect()->route('admin.rooms.index')
-            ->with('message', 'Room deleted successfully.');
+            ->with('message', 'Chambre supprimée avec succès.');
     }
 }

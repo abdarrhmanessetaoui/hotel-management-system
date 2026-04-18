@@ -37,7 +37,7 @@ class CityController extends Controller
         City::create($validated);
 
         return redirect()->route('superadmin.cities.index')
-            ->with('message', 'City created successfully.');
+            ->with('message', 'La ville a été créée avec succès.');
     }
 
     public function edit(City $city): View
@@ -61,7 +61,7 @@ class CityController extends Controller
         $city->update($validated);
 
         return redirect()->route('superadmin.cities.index')
-            ->with('message', 'City updated successfully.');
+            ->with('message', 'La ville a été mise à jour avec succès.');
     }
 
     public function destroy(City $city): RedirectResponse
@@ -69,6 +69,6 @@ class CityController extends Controller
         $city->delete();
 
         return redirect()->route('superadmin.cities.index')
-            ->with('message', 'City deleted successfully.');
+            ->with('message', 'La ville a été supprimée avec succès.');
     }
 }

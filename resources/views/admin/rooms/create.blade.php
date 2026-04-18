@@ -18,14 +18,17 @@
                 </div>
 
                 <div class="col-6">
-                    <label class="form-label">Type</label>
-                    <select name="type" class="form-select @error('type') is-invalid @enderror">
-                        <option value="">Choisir...</option>
-                        @foreach(['single'=>'Simple','double'=>'Double','suite'=>'Suite','deluxe'=>'Luxe'] as $val => $label)
-                            <option value="{{ $val }}" @selected(old('type') === $val)>{{ $label }}</option>
+                    <label class="form-label">Type de Chambre</label>
+                    <select name="room_type_id" class="form-select @error('room_type_id') is-invalid @enderror">
+                        <option value="">Choisir un type...</option>
+                        @foreach($roomTypes as $type)
+                            <option value="{{ $type->id }}" @selected(old('room_type_id') == $type->id)>{{ $type->name }}</option>
                         @endforeach
                     </select>
-                    @error('type')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    @if($roomTypes->isEmpty())
+                        <small class="text-danger">Veuillez d'abord <a href="{{ route('admin.roomtypes.create') }}">créer un type de chambre</a>.</small>
+                    @endif
+                    @error('room_type_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="col-6">

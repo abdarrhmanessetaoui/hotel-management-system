@@ -2,49 +2,62 @@
 
 @section('content')
     @include('components.show-success')
-    <div class="card">
-        <div class="card-header">
-            <h3>Tous les Types de Chambres
-                <a href="{{ route('Admin.roomtypes.create') }}" class="btn btn-success rounded-circle">
-                    <i class="fa-solid fa-plus"></i>
-                </a>
-            </h3>
+
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header d-flex align-items-center justify-content-between bg-white border-bottom py-3">
+            <h3 class="mb-0 fw-bold">Types de Chambres — {{ $hotel->name ?? 'Hôtel' }}</h3>
+            <a href="{{ route('admin.roomtypes.create') }}" class="btn btn-success btn-sm fw-bold px-3">
+                + NOUVEAU TYPE
+            </a>
         </div>
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
+                <thead class="thead-brand">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nom</th>
-                    <th>Actions</th>
+                    <th class="ps-4">#</th>
+                    <th class="text-nowrap">Nom du Type</th>
+                    <th class="text-nowrap">Description</th>
+                    <th class="text-nowrap text-center">Chambres</th>
+                    <th class="text-end pe-4">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($types as $type)
+                @forelse($roomTypes as $type)
                     <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $type->name }}</td>
-                        <td>
-                            <div class="btn-group" role="group">
+                        <th class="ps-4 text-muted">{{ $loop->iteration }}</th>
+                        <td class="fw-bold text-nowrap py-3">{{ $type->name }}</td>
+                        <td class="text-muted small" style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            {{ $type->description ?? 'Aucune description' }}
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-light text-dark border shadow-sm px-3" style="font-size: 0.75rem;">
+                                {{ $type->rooms_count ?? $type->rooms()->count() }}
+                            </span>
+                        </td>
+                        <td class="text-end pe-4">
+                            <div class="d-flex justify-content-end gap-1">
+                                <a class="btn btn-warning btn-sm py-1 px-2 fw-bold text-dark"
+                                   href="{{ route('admin.roomtypes.edit', $type->id) }}" style="font-size: 0.75rem;">
+                                    Modifier
+                                </a>
                                 <form method="post"
-                                      action="{{ route('Admin.roomtypes.destroy', ['roomtype' => $type->id]) }}">
+                                      action="{{ route('admin.roomtypes.destroy', $type->id) }}"
+                                      class="m-0 p-0 d-inline-block">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                    <button type="submit" class="btn btn-danger btn-sm py-1 px-2 fw-bold"
+                                            onclick="return confirm('Souhaitez-vous vraiment supprimer ce type de chambre ? Attention, cela affectera les chambres liées.')"
+                                            style="font-size: 0.75rem;">
+                                        Supprimer
                                     </button>
                                 </form>
-                                <a class="btn btn-warning"
-                                   href="{{ route('Admin.roomtypes.edit', ['roomtype' => $type->id]) }}">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3">
-                            <p class="text-primary fw-bold mb-0">Vous n'avez pas encore créé de types de chambres.</p>
+                        <td colspan="5">
+                            <p class="text-primary fw-bold mb-0 ps-4 py-4">Aucun type de chambre défini pour cet hôtel.</p>
                         </td>
                     </tr>
                 @endforelse

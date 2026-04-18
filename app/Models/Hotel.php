@@ -45,6 +45,14 @@ class Hotel extends Model
     }
 
     /**
+     * Hotel has many dynamic room types.
+     */
+    public function roomTypes(): HasMany
+    {
+        return $this->hasMany(RoomType::class, 'hotel_id', 'id');
+    }
+
+    /**
      * Hotel has many reservations (via rooms or directly).
      */
     public function reservations(): HasMany

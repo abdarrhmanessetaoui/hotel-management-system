@@ -1,4 +1,4 @@
-<div class="container-fluid bg-dark text-light footer wow fadeIn" data-wow-delay="0.1s">
+<div class="container-fluid footer wow fadeIn" data-wow-delay="0.1s" style="background: #ffffff; color: #444444; border-top: 1px solid rgba(0,0,0,0.05);">
     <div class="container pb-5">
         <div class="row g-5">
 
@@ -9,10 +9,10 @@
                 <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+212 599 887 766</p>
                 <p class="mb-2"><i class="fa fa-envelope me-3"></i>hotelia@gmail.com</p>
                 <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
                 <div class="row gy-5 g-4">
 
                     {{-- Plateforme --}}
-                    <div class="col-md-6">
+                    <div class="col-6 col-md-6">
                         <h6 class="section-title text-start text-primary text-uppercase mb-4">
                             Plateforme
                         </h6>
@@ -37,7 +37,7 @@
                     </div>
 
                     {{-- Villes --}}
-                    <div class="col-md-6">
+                    <div class="col-6 col-md-6">
                         <h6 class="section-title text-start text-primary text-uppercase mb-4">
                             Destinations
                         </h6>

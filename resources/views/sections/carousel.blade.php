@@ -9,18 +9,21 @@
     object-fit: cover;
     display: block;
 }
-@media (max-width: 991.98px) {
-    #header-carousel .carousel-item {
-        height: 100svh;    /* mobile: full visible screen */
-        height: 100vh;     /* fallback */
+}
+
+.carousel-content-box {
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 992px) {
+    .carousel-content-box {
+        max-width: 750px;
     }
-    #header-carousel .display-3  { font-size: 1.8rem !important; }
-    #header-carousel p            { font-size: .9rem  !important; }
-    #header-carousel .btn         { font-size: .82rem; padding: 8px 20px !important; }
 }
 </style>
 
-<div class="container-fluid p-0">
+<div class="container-fluid p-0" id="header-carousel-container">
     <div id="header-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -34,7 +37,7 @@
                 <img src="https://images.unsplash.com/photo-1597212618440-806262de4f6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
                      alt="Marrakech" loading="eager">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width:750px;">
+                    <div class="p-3 carousel-content-box">
                         <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
                             Bienvenue sur Hotelia
                         </h6>
@@ -58,7 +61,7 @@
                 <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
                      alt="Hotel de luxe" loading="lazy">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width:750px;">
+                    <div class="p-3 carousel-content-box">
                         <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
                             Réservation Instantanée
                         </h6>
@@ -82,7 +85,7 @@
                 <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
                      alt="Hôtel en bord de mer" loading="lazy">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width:750px;">
+                    <div class="p-3 carousel-content-box">
                         <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
                             Plusieurs Villes
                         </h6>

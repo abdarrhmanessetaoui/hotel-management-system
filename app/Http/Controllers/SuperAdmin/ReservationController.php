@@ -34,7 +34,7 @@ class ReservationController extends Controller
         $reservation->update(['status' => $validated['status']]);
 
         return redirect()->route('superadmin.reservations.index')
-            ->with('message', 'Reservation status updated.');
+            ->with('message', 'Le statut de la réservation a été mis à jour.');
     }
 
     public function destroy(Reservation $reservation): RedirectResponse
@@ -42,6 +42,6 @@ class ReservationController extends Controller
         $reservation->delete();
 
         return redirect()->route('superadmin.reservations.index')
-            ->with('message', 'Reservation deleted.');
+            ->with('message', 'La réservation a été supprimée.');
     }
 }
