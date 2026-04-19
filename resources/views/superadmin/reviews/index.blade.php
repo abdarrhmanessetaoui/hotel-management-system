@@ -79,35 +79,32 @@
                                     {{-- Accept --}}
                                     @if($review->status !== 'accepted')
                                     <button type="button"
-                                        class="review-action-btn btn-accept action-btn"
+                                        class="btn btn-success btn-sm py-1 px-2 fw-bold action-btn"
                                         data-id="{{ $review->id }}"
                                         data-action="approve"
-                                        title="Accepter">
-                                        <i class="bi bi-check-lg"></i>
-                                        <span>Accepter</span>
+                                        style="font-size:0.75rem;">
+                                        <i class="bi bi-check-lg"></i> Accepter
                                     </button>
                                     @endif
 
                                     {{-- Reject --}}
                                     @if($review->status !== 'rejected')
                                     <button type="button"
-                                        class="review-action-btn btn-reject action-btn"
+                                        class="btn btn-warning btn-sm py-1 px-2 fw-bold action-btn"
                                         data-id="{{ $review->id }}"
                                         data-action="reject"
-                                        title="Refuser">
-                                        <i class="bi bi-slash-circle"></i>
-                                        <span>Refuser</span>
+                                        style="font-size:0.75rem;">
+                                        <i class="bi bi-slash-circle"></i> Refuser
                                     </button>
                                     @endif
 
                                     {{-- Delete --}}
                                     <button type="button"
-                                        class="review-action-btn btn-delete action-btn"
+                                        class="btn btn-danger btn-sm py-1 px-2 fw-bold action-btn"
                                         data-id="{{ $review->id }}"
                                         data-action="destroy"
-                                        title="Supprimer">
-                                        <i class="bi bi-trash3"></i>
-                                        <span>Supprimer</span>
+                                        style="font-size:0.75rem;">
+                                        <i class="bi bi-trash3"></i> Supprimer
                                     </button>
 
                                 </div>
@@ -132,100 +129,6 @@
 @endsection
 
 @push('scripts')
-<style>
-    /* ─── Status Badges ─────────────────────────────── */
-    .review-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.3px;
-    }
-    .badge-accepted  { background: rgba(25,135,84,.12);  color: #157347; }
-    .badge-rejected  { background: rgba(220,53,69,.1);   color: #b02a37; }
-    .badge-pending   { background: rgba(255,126,33,.12); color: #c46000; }
-
-    /* ─── Action Button Group ───────────────────────── */
-    .review-actions {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        flex-wrap: wrap;
-    }
-
-    .review-action-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        border: none;
-        border-radius: 7px;
-        padding: 5px 11px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.18s ease;
-        text-transform: uppercase;
-        letter-spacing: 0.3px;
-        white-space: nowrap;
-    }
-
-    .review-action-btn i { font-size: 0.9rem; }
-
-    .btn-accept {
-        background: rgba(25,135,84,.1);
-        color: #157347;
-        border: 1px solid rgba(25,135,84,.25);
-    }
-    .btn-accept:hover {
-        background: #157347;
-        color: #fff;
-        box-shadow: 0 3px 10px rgba(25,135,84,.35);
-        transform: translateY(-1px);
-    }
-
-    .btn-reject {
-        background: rgba(255,126,33,.1);
-        color: #c46000;
-        border: 1px solid rgba(255,126,33,.3);
-    }
-    .btn-reject:hover {
-        background: var(--primary);
-        color: #0f172b;
-        box-shadow: 0 3px 10px rgba(255,126,33,.35);
-        transform: translateY(-1px);
-    }
-
-    .btn-delete {
-        background: rgba(220,53,69,.08);
-        color: #b02a37;
-        border: 1px solid rgba(220,53,69,.2);
-    }
-    .btn-delete:hover {
-        background: #dc3545;
-        color: #fff;
-        box-shadow: 0 3px 10px rgba(220,53,69,.35);
-        transform: translateY(-1px);
-    }
-
-    .review-action-btn:disabled {
-        opacity: 0.55;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-
-    /* Compact on very small screens */
-    @media (max-width: 575px) {
-        .review-action-btn span { display: none; }
-        .review-action-btn { padding: 6px 8px; border-radius: 6px; }
-        .review-action-btn i { font-size: 1rem; }
-    }
-</style>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.addEventListener('click', async function (e) {
@@ -263,8 +166,7 @@
                 });
 
                 const data = await response.json();
-
-                if (!data.success) throw new Error('Échec de l\'opération');
+                if (!data.success) throw new Error('Échec');
 
                 if (action === 'destroy') {
                     const row = document.getElementById(`review-row-${id}`);
@@ -285,22 +187,18 @@
                     statusCol.innerHTML = '<span class="review-badge badge-rejected"><i class="bi bi-x-circle-fill"></i> Refusé</span>';
                 }
 
-                // Update action buttons
+                // Update action buttons — solid style matching system
                 const actionsCol = document.getElementById(`actions-col-${id}`);
-                const oppAction  = data.status === 'accepted' ? 'reject' : 'approve';
-                const oppLabel   = data.status === 'accepted' ? '<i class="bi bi-slash-circle"></i><span>Refuser</span>' : '<i class="bi bi-check-lg"></i><span>Accepter</span>';
-                const oppClass   = data.status === 'accepted' ? 'btn-reject' : 'btn-accept';
-
-                actionsCol.innerHTML = `
-                    <button type="button" class="review-action-btn ${oppClass} action-btn"
-                            data-id="${id}" data-action="${oppAction}" title="${data.status === 'accepted' ? 'Refuser' : 'Accepter'}">
-                        ${oppLabel}
-                    </button>
-                    <button type="button" class="review-action-btn btn-delete action-btn"
-                            data-id="${id}" data-action="destroy" title="Supprimer">
-                        <i class="bi bi-trash3"></i><span>Supprimer</span>
-                    </button>
-                `;
+                const baseStyle  = 'font-size:0.75rem;';
+                let html = '';
+                if (data.status === 'rejected') {
+                    html += `<button type="button" class="btn btn-success btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="approve" style="${baseStyle}"><i class="bi bi-check-lg"></i> Accepter</button>`;
+                }
+                if (data.status === 'accepted') {
+                    html += `<button type="button" class="btn btn-warning btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="reject" style="${baseStyle}"><i class="bi bi-slash-circle"></i> Refuser</button>`;
+                }
+                html += `<button type="button" class="btn btn-danger btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="destroy" style="${baseStyle}"><i class="bi bi-trash3"></i> Supprimer</button>`;
+                actionsCol.innerHTML = html;
 
             } catch (err) {
                 console.error(err);
