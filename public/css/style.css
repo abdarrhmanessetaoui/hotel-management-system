@@ -1203,41 +1203,43 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
 
     .table-responsive td,
     .table-responsive th {
-        display: block !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
         text-align: right !important;
         padding: 12px 16px !important;
         border: none !important;
         border-bottom: 1px solid rgba(0,0,0,0.04) !important;
         min-height: 48px;
-        position: relative;
     }
 
     /* Target generic cell values so they don't look completely orphaned */
     .table-responsive td::before,
     .table-responsive th::before {
         content: attr(data-label);
-        float: left;
         font-weight: bold;
         text-transform: uppercase;
         color: var(--primary);
         font-size: 0.75rem;
-        margin-top: 2px;
+        flex-shrink: 0;
+        margin-right: 15px; /* ensure spacing between label and value */
     }
     
-    /* Ensure inline blocks inside td align correctly */
+    /* Ensure content inside td behaves like flex items */
     .table-responsive td > * {
-        display: inline-block;
-        vertical-align: middle;
-        text-align: right;
+        max-width: 100%;
     }
 
     .table-responsive td:last-child {
-        text-align: center !important;
-        display: flex !important;
-        justify-content: center;
+        justify-content: center !important;
         background: rgba(255, 126, 33, 0.04);
         border-bottom: none !important;
         padding: 16px !important;
+    }
+    
+    /* Center only the actions, if there's no data-label, just center */
+    .table-responsive td:last-child::before {
+        display: none !important; 
     }
 
     /* 3. Dashboard grid: 2x2 on mobile */
