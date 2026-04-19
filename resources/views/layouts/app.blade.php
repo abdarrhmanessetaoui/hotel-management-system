@@ -28,8 +28,8 @@
 
 
     <!-- Template Stylesheet -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/chatbot.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}?v=1.3" rel="stylesheet">
+    <link href="{{ asset('css/chatbot.css') }}?v=1.3" rel="stylesheet">
     <!-- Branding -->
     <link rel="icon" type="image/png" href="{{ asset('img/favicon-brand.png') }}">
     <title>Hotelia</title>
@@ -93,7 +93,7 @@
     <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}?v=1.3"></script>
 
     {{-- Section-level pushed scripts (e.g. owl carousel init, date pickers) --}}
     @stack('scripts')
