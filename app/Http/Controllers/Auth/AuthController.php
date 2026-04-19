@@ -75,7 +75,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         return redirect()->intended(route('home'))
-            ->with('message', 'Welcome! Your account has been created.');
+            ->with('message', 'Bienvenue ! Votre compte a été créé avec succès.');
     }
 
     /**
@@ -90,7 +90,7 @@ class AuthController extends Controller
 
         if (!Auth::attempt($credentials)) {
             return back()->withErrors([
-                'login_err' => 'Invalid email or password.',
+                'login_err' => 'Email ou mot de passe incorrect.',
             ])->onlyInput('email');
         }
 
