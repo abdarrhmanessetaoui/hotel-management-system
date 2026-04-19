@@ -1261,3 +1261,58 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
     display: none;
 }
 
+/* ════════════════════════════════════════════════
+   ADMIN PANEL — BRANDED PAGINATION
+   ════════════════════════════════════════════════ */
+.admin-content-col .pagination {
+    gap: 4px;
+    margin: 0;
+}
+
+.admin-content-col .pagination .page-item .page-link {
+    border: 1px solid rgba(255, 126, 33, 0.25);
+    color: var(--primary);
+    background: #fff;
+    border-radius: 6px !important;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-content-col .pagination .page-item .page-link:hover {
+    background: var(--primary);
+    color: #0f172b;
+    border-color: var(--primary);
+    box-shadow: 0 3px 10px rgba(255, 126, 33, 0.35);
+}
+
+.admin-content-col .pagination .page-item.active .page-link {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #0f172b !important;
+    font-weight: 700;
+    box-shadow: 0 3px 12px rgba(255, 126, 33, 0.4);
+}
+
+.admin-content-col .pagination .page-item.disabled .page-link {
+    color: #adb5bd;
+    border-color: rgba(0,0,0,0.08);
+    background: #f8f9fa;
+}
+
+/* Sidebar overlay */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 3999;
+    backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
