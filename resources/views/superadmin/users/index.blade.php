@@ -27,10 +27,10 @@
                 <tbody>
                 @forelse($users as $user)
                     <tr>
-                        <th class="ps-4 text-muted">{{ $loop->iteration }}</th>
-                        <td class="fw-bold text-nowrap py-2">{{ $user->name }}</td>
-                        <td class="text-muted">{{ $user->email }}</td>
-                        <td class="text-nowrap">
+                        <th class="ps-4 text-muted" data-label="#">{{ $loop->iteration }}</th>
+                        <td class="fw-bold text-nowrap py-2" data-label="Nom">{{ $user->name }}</td>
+                        <td class="text-muted" data-label="Email">{{ $user->email }}</td>
+                        <td class="text-nowrap" data-label="Rôle">
                             @if($user->isSuperAdmin())
                                 <span class="badge bg-danger" style="font-size: 0.7rem;">Super Admin</span>
                             @elseif($user->isAdmin())
@@ -39,8 +39,8 @@
                                 <span class="badge bg-dark" style="font-size: 0.7rem;">Client</span>
                             @endif
                         </td>
-                        <td class="text-nowrap text-muted">{{ $user->created_at->format('d/m/Y') }}</td>
-                        <td class="text-nowrap">
+                        <td class="text-nowrap text-muted" data-label="Date">{{ $user->created_at->format('d/m/Y') }}</td>
+                        <td class="text-nowrap" data-label="Statut">
                             @if($user->is_active)
                                 <span class="badge bg-success" style="font-size: 0.7rem;">Actif</span>
                             @else
