@@ -120,7 +120,7 @@
             
             if ($headers.length > 0) {
                 $table.find('tbody tr').each(function() {
-                    $(this).find('td').each(function(index) {
+                    $(this).children('td, th').each(function(index) {
                         var label = $headers.eq(index).text().trim();
                         if (label && label !== '#' && label !== 'Action' && label !== 'Actions') {
                             $(this).attr('data-label', label);
