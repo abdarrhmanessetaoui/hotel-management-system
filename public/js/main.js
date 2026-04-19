@@ -134,12 +134,8 @@
         if ($('.admin-sidebar-col').length > 0) {
             
             // 1. Setup Elements
-            if ($('.mobile-toggle-btn').length === 0) {
-                $('body').append('<button class="mobile-toggle-btn shadow"><i class="fa fa-bars"></i></button>');
-            }
-            if ($('.sidebar-overlay').length === 0) {
-                $('body').append('<div class="sidebar-overlay"></div>');
-            }
+            // Elements are now rendered via blade directly
+            // No need to inject them.
 
             const $toggleBtn = $('.mobile-toggle-btn');
             const $sidebar = $('.admin-sidebar-col');
