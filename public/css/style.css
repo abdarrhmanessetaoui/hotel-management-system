@@ -1162,18 +1162,18 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
         background: var(--primary);
         color: #0f172b;
         border: none;
-        width: 48px;
-        height: 48px;
-        border-radius: 10px;
-        box-shadow: 0 8px 25px rgba(255, 126, 33, 0.4);
-        font-size: 1.4rem;
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(255, 126, 33, 0.3);
+        font-size: 1.2rem;
     }
 
     /* 2. Content Visibility Fix */
     .admin-content-col {
         padding-left: 15px !important;
         padding-right: 15px !important;
-        padding-top: 85px !important;
+        padding-top: 65px !important; /* Reduced from 85px */
         width: 100% !important;
         max-width: 100% !important;
         min-width: 100% !important;
