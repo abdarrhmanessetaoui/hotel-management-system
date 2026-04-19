@@ -1083,6 +1083,11 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
     flex-grow: 1;
 }
 
+/* Hide hamburger by default on desktop */
+.mobile-toggle-btn {
+    display: none !important;
+}
+
 /* ════════════════════════════════════════════════
    ADMIN PANEL — MOBILE RESPONSIVE (≤768px)
    ════════════════════════════════════════════════ */
@@ -1215,11 +1220,6 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
     .mobile-toggle-btn:active { transform: scale(0.92); }
 }
 
-/* Hide hamburger by default on desktop */
-.mobile-toggle-btn {
-    display: none;
-}
-
 /* ════════════════════════════════════════════════
    ADMIN PANEL — BRANDED PAGINATION
    ════════════════════════════════════════════════ */
@@ -1275,3 +1275,4 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
 .sidebar-overlay.active {
     display: block;
 }
+

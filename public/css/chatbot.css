@@ -132,3 +132,21 @@
     padding: 8px 15px;
     cursor: pointer;
 }
+
+/* ── Mobile responsiveness for Chatbot ──── */
+@media (max-width: 576px) {
+    .chatbot-wrapper {
+        bottom: 15px;
+        right: 15px;
+        left: 15px;
+    }
+    
+    .chat-window {
+        width: 100%;
+        max-width: 400px;
+        height: 60vh;
+        min-height: 400px;
+        margin-left: auto;
+        right: 0;
+    }
+}

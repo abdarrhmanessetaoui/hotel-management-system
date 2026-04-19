@@ -15,7 +15,7 @@
             <div class="card-body p-0 flex-grow-1 d-flex flex-column">
                 <div class="table-responsive flex-grow-1">
                     <table class="table table-hover align-middle mb-0">
-                        <thead class="table-dark">
+                        <thead class="thead-brand">
                             <tr>
                                 <th class="ps-4 py-3">Texte de la suggestion</th>
                                 <th class="py-3">Rôle</th>
