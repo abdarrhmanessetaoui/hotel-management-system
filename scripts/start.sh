@@ -31,7 +31,7 @@ php artisan view:cache
 # 4. Start PHP-FPM with custom config
 echo "🐘 Starting PHP-FPM..."
 FPM_BIN=$(command -v php-fpm83 || command -v php-fpm)
-$FPM_BIN -y /app/php-fpm.conf -D
+$FPM_BIN -y /app/php-fpm.conf -D -R
 
 # 5. Start Caddy
 echo "🌐 Starting Caddy on port $PORT..."
