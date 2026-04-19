@@ -78,34 +78,38 @@
     });
 
 
-    // Testimonials carousel
-    $(".testimonial-carousel").owlCarousel({
-        autoplay: true,
-        smartSpeed: 1000,
-        margin: 25,
-        dots: false,
-        loop: true,
-        nav : true,
-        navText : [
-            '<i class="bi bi-arrow-left"></i>',
-            '<i class="bi bi-arrow-right"></i>'
-        ],
-        responsive: {
-            0:{
-                items:1
-            },
-            768:{
-                items:2
+    // Testimonials carousel (only if plugin is loaded)
+    if (typeof $.fn.owlCarousel === 'function') {
+        $(".testimonial-carousel").owlCarousel({
+            autoplay: true,
+            smartSpeed: 1000,
+            margin: 25,
+            dots: false,
+            loop: true,
+            nav : true,
+            navText : [
+                '<i class="bi bi-arrow-left"></i>',
+                '<i class="bi bi-arrow-right"></i>'
+            ],
+            responsive: {
+                0:{
+                    items:1
+                },
+                768:{
+                    items:2
+                }
             }
-        }
-    });
+        });
+    }
 
-    $('#date1').datetimepicker({
-        format: 'YYYY-MM-DD'
-    });
-    $('#date2').datetimepicker({
-        format: 'YYYY-MM-DD'
-    });
+    if (typeof $.fn.datetimepicker === 'function') {
+        $('#date1').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#date2').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+    }
     // ════════════════════════════════════════════════
     // AUTOMATED TABLE RESPONSIVENESS (DATA-LABELS)
     // ════════════════════════════════════════════════
