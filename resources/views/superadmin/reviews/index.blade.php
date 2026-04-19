@@ -83,7 +83,7 @@
                                         data-id="{{ $review->id }}"
                                         data-action="approve"
                                         style="font-size:0.75rem;">
-                                        <i class="bi bi-check-lg"></i> Accepter
+                                        ACCEPTER
                                     </button>
                                     @endif
 
@@ -94,7 +94,7 @@
                                         data-id="{{ $review->id }}"
                                         data-action="reject"
                                         style="font-size:0.75rem;">
-                                        <i class="bi bi-slash-circle"></i> Refuser
+                                        REFUSER
                                     </button>
                                     @endif
 
@@ -183,10 +183,10 @@
                 const baseStyle  = 'font-size:0.75rem;';
                 let html = '';
                 if (data.status === 'rejected') {
-                    html += `<button type="button" class="btn btn-success btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="approve" style="${baseStyle}"><i class="bi bi-check-lg"></i> Accepter</button>`;
+                    html += `<button type="button" class="btn btn-success btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="approve" style="${baseStyle}">ACCEPTER</button>`;
                 }
                 if (data.status === 'accepted') {
-                    html += `<button type="button" class="btn btn-warning btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="reject" style="${baseStyle}"><i class="bi bi-slash-circle"></i> Refuser</button>`;
+                    html += `<button type="button" class="btn btn-warning btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="reject" style="${baseStyle}">REFUSER</button>`;
                 }
                 actionsCol.innerHTML = html;
 

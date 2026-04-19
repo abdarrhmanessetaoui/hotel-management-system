@@ -1158,15 +1158,25 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
     .admin-content-col {
         padding-left: 15px !important;
         padding-right: 15px !important;
-        padding-top: 65px !important;
+        padding-top: 80px !important; /* Increased padding to clear hamburger */
         width: 100% !important;
-        max-width: 100% !important;
-        min-width: 100% !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
         flex: 1 1 100% !important;
         margin-left: 0 !important;
+        overflow-x: hidden !important;
     }
 
     .admin-layout-row { flex-direction: column !important; }
+
+    /* Prevent tables from breaking mobile viewport */
+    .table-responsive {
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 1rem;
+        border: 0;
+    }
 
     /* 3. Dashboard grid: 2x2 on mobile */
     .admin-content-col .row.mt-4.text-center > div {
@@ -1203,8 +1213,9 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
         align-items: center;
         justify-content: center;
         position: fixed;
-        top: 12px;
-        left: 12px;
+        /* Using safe-area to avoid notch, plus fallback for older devices */
+        top: max(25px, env(safe-area-inset-top)); 
+        left: 20px;
         z-index: 5000 !important;
         background: var(--primary);
         color: #0f172b;
