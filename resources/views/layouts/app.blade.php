@@ -39,19 +39,22 @@
 
     <!-- Admin Panel -->
     @if(isset($AdminView))
-        <div class="container-fluid">
-            <div class="row flex-nowrap">
-                @if(Auth::check() && Auth::user()->isSuperAdmin())
-                    @include('superadmin.sidebar')
-                @else
-                    @include('Admin.sidebar')
-                @endif
-                <div class="col py-3">
+        <div class="container-fluid p-0 overflow-hidden">
+            <div class="row g-0 admin-layout-row">
+                <div class="admin-sidebar-col">
+                    @if(Auth::check() && Auth::user()->isSuperAdmin())
+                        @include('superadmin.sidebar')
+                    @else
+                        @include('admin.sidebar')
+                    @endif
+                </div>
+                <div class="col admin-content-col py-3 px-3 px-md-4 overflow-auto" style="height: 100vh;">
                     @yield('content')
                 </div>
             </div>
         </div>
     @endif
+
 
     <!-- Header & Hero (Full Width) -->
     @yield('header')

@@ -87,7 +87,8 @@
                                     @foreach($rooms as $room)
                                         <option value="{{ $room->id }}"
                                                 {{ old('room_id', $selectedRoomId) == $room->id ? 'selected' : '' }}>
-                                            {{ ['single'=>'Simple','double'=>'Double','suite'=>'Suite','deluxe'=>'Luxe'][$room->type] ?? ucfirst($room->type) }}
+                                            {{ ['single'=>'Simple','double'=>'Double','suite'=>'Suite','deluxe'=>'Luxe'][$room->type] ?? ucfirst($room->type) }} 
+                                            (#{{ $room->room_number }}) 
                                             — {{ number_format($room->price, 0) }} DH / Nuit
                                         </option>
                                     @endforeach

@@ -192,7 +192,7 @@
                 </div>
 
                 <a href="{{ route('reservations.index') }}"
-                   class="btn btn-dark w-100 py-3 mb-3">
+                   class="btn btn-primary w-100 py-3 mb-3">
                     <i class="fa fa-arrow-left me-2"></i>Mes Réservations
                 </a>
 

@@ -19,7 +19,7 @@
                                 {{ $hotel->city->name }}
                             </a>
                         </li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">
+                        <li class="breadcrumb-item text-primary active" aria-current="page">
                             {{ $hotel->name }}
                         </li>
                     </ol>
@@ -121,10 +121,10 @@
             {{-- ═══ RIGHT COLUMN ═══ --}}
             <div class="col-lg-4" id="available-rooms">
 
-                <h6 class="section-title text-primary text-uppercase">
-                    Réservez Votre Séjour
-                </h6>
-                <h4 class="mb-4">Chambres Disponibles</h4>
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-primary text-uppercase">Réservez Votre Séjour</h6>
+                    <h4 class="mb-4">Chambres Disponibles</h4>
+                </div>
 
                 @forelse ($rooms as $room)
                     <div class="room-item shadow rounded overflow-hidden mb-4 wow fadeInUp"

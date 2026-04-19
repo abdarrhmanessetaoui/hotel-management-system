@@ -66,6 +66,15 @@
 .thead-brand {
     background-color: var(--primary) !important;
     color: #0F172B !important;
+    border-radius: 0 !important;
+}
+
+.card {
+    border-radius: 0 !important;
+}
+
+.table {
+    border-radius: 0 !important;
 }
 .thead-brand th {
     border-bottom: none !important;
@@ -75,6 +84,151 @@
     text-transform: uppercase;
     font-size: 0.85rem;
     letter-spacing: 0.5px;
+}
+
+/* ════════════════════════════════════════════════
+   GLOBAL RESPONSIVE DESIGN SYSTEM
+════════════════════════════════════════════════ */
+
+/* Table Responsiveness Enhancements */
+.table-responsive {
+    border: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+    /* Stacked Table Concept for simple tables */
+    .table-stack-mobile thead {
+        display: none;
+    }
+    .table-stack-mobile tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 8px;
+        padding: 10px;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    }
+    .table-stack-mobile td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 8px 5px;
+        border: none;
+        border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+    .table-stack-mobile td:last-child {
+        border-bottom: none;
+    }
+    .table-stack-mobile td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        text-align: left;
+        color: var(--dark);
+        opacity: 0.6;
+    }
+}
+
+/* Card Responsiveness */
+.card {
+    transition: transform 0.2s ease;
+}
+
+@media (max-width: 576px) {
+    .container, .container-fluid {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
+    .card-body {
+        padding: 1.25rem !important;
+    }
+    
+    .row {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+    
+    .row > * {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    /* Full-width buttons on mobile */
+    .btn-mobile-full {
+        width: 100% !important;
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    /* Full-width forms on mobile */
+    .form-group-mobile {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Admin Dashboard Chart Scaling */
+@media (max-width: 992px) {
+    .dashboard-chart-container {
+        height: 350px !important;
+    }
+}
+@media (max-width: 576px) {
+    .dashboard-chart-container {
+        height: 280px !important;
+    }
+}
+
+/* Admin Sidebar Visibility / Layout Repair */
+@media (max-width: 768px) {
+    .admin-layout-row {
+        flex-wrap: wrap !important;
+    }
+    .admin-sidebar-col {
+        width: 100% !important;
+        min-height: auto !important;
+        height: auto !important;
+        position: relative !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+    }
+    .admin-content-col {
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE TYPOGRAPHY & SPACING
+════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .display-1 { font-size: 3rem !important; }
+    .display-2 { font-size: 2.5rem !important; }
+    .display-3 { font-size: 2rem !important; }
+    .display-4 { font-size: 1.8rem !important; }
+    
+    h1 { font-size: 1.75rem !important; }
+    h2 { font-size: 1.5rem !important; }
+    h3 { font-size: 1.35rem !important; }
+    h4 { font-size: 1.2rem !important; }
+    h5 { font-size: 1.1rem !important; }
+    h6 { font-size: 1rem !important; }
+
+    /* Carousel Adjustment */
+    #header-carousel .carousel-item {
+        height: auto !important;
+        min-height: 600px !important;
+    }
+    
+    .carousel-caption {
+        padding-top: 80px !important;
+    }
 }
 
 .newsletter {
@@ -214,7 +368,21 @@
 }
 
 .page-header-inner {
-    background: rgba(15, 23, 43, .7);
+    background: rgba(15, 23, 43, 0.85); /* Darker for better contrast */
+    backdrop-filter: blur(2px); /* Blur the busy background images */
+    padding-top: 150px !important; /* SAFE ZONE: Push text below the sticky navbar */
+    padding-bottom: 80px !important;
+}
+
+.page-header-inner .container {
+    position: relative;
+    z-index: 10; /* Ensure text is above all overlays */
+}
+
+.page-header h1.display-3, .page-header h1.display-1 {
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8); /* Make text POP */
+    letter-spacing: 1px;
+    font-weight: 800 !important;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
@@ -666,294 +834,430 @@
 }
 
 /* ════════════════════════════════════════════════
-   RESPONSIVE ENHANCEMENTS (Mobile First)
+   GLOBAL RESPONSIVENESS (Mobile First)
    ════════════════════════════════════════════════ */
 
-/* Prevent horizontal scroll globally */
+/* Standardize Viewport Behavior */
 html, body {
     overflow-x: hidden;
     width: 100%;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Fluid Typography */
+/* Fluid Typography for All Screens */
 h1, .display-1, .display-3 {
-    font-size: clamp(2rem, 8vw, 4rem) !important;
-    line-height: 1.2;
+    font-size: clamp(1.8rem, 8vw, 3.5rem) !important;
+    line-height: 1.25;
 }
+h2, .display-4 { font-size: clamp(1.6rem, 6vw, 2.75rem) !important; }
+h3 { font-size: clamp(1.4rem, 5vw, 2rem) !important; }
 
-h2, .display-4 {
-    font-size: clamp(1.75rem, 6vw, 3rem) !important;
-}
-
-h3 {
-    font-size: clamp(1.5rem, 5vw, 2.25rem) !important;
-}
-
-/* Vertical Spacing & Padding for Mobile */
+/* Global Container & Spacing Fixes */
 @media (max-width: 767.98px) {
-    .container:not(.p-0), .container-fluid:not(.p-0) {
-        padding-left: 15px;
-        padding-right: 15px;
+    .container, .container-fluid:not(.p-0) {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
     }
+    .py-5 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+    .mb-5 { margin-bottom: 1.5rem !important; }
+    .mt-5 { margin-top: 1.5rem !important; }
     
-    .section-padding {
-        padding-top: 40px !important;
-        padding-bottom: 40px !important;
-    }
-
-    .py-5 {
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
-    }
-
-    /* Stack grid elements that might be too tight */
-    .row.g-5, .row.gx-5 {
+    /* Gutter management */
+    .row.g-4, .row.g-5 {
         --bs-gutter-x: 1rem;
-        --bs-gutter-y: 2rem;
-    }
-    
-    /* Global image fix to prevent overflow */
-    img {
-        max-width: 100% !important;
-        height: auto !important;
-    }
-}
-
-/* Modern Card Stacking */
-@media (max-width: 575.98px) {
-    .card, .room-item, .service-item {
-        margin-bottom: 1.25rem;
-    }
-
-    /* Full-width buttons on mobile for better accessibility */
-    .btn:not(.btn-square):not(.btn-sm-square):not(.btn-lg-square) {
-        width: 100% !important;
-        margin-bottom: 0.5rem;
-        display: block !important;
-    }
-    
-    .btn-group {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 0.5rem;
-    }
-    
-    .btn-group > .btn {
-        margin-left: 0 !important;
-        border-radius: 4px !important; /* Resetting bootstrap group radius */
-    }
-}
-
-/* Global Table Responsiveness Fix */
-.table-responsive {
-    border: 0;
-    margin-bottom: 1rem;
-    width: 100%;
-}
-
-/* Form Responsiveness */
-@media (max-width: 767.98px) {
-    .form-control-lg, .btn-lg {
-        padding: 0.6rem 0.8rem !important;
-        font-size: 0.95rem !important;
-    }
-    
-    .form-label {
-        margin-bottom: 0.25rem;
-        font-size: 0.85rem;
-    }
-    
-    .input-group {
-        width: 100% !important;
-    }
-}
-
-/* Footer Mobile Optimization */
-@media (max-width: 767.98px) {
-    .footer .row > div {
-        margin-bottom: 1.5rem;
-        text-align: center;
-    }
-    
-    .footer .btn.btn-link {
-        text-align: center;
-        width: 100%;
-    }
-    
-    .footer .btn.btn-link::before {
-        display: none;
-    }
-    
-    .footer .copyright {
-        text-align: center !important;
-    }
-}
-
-/* Image Fluidity */
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* Navigation Dropdown Fix for Mobile */
-@media (max-width: 991.98px) {
-    .modern-dropdown {
-        box-shadow: none !important;
-        border: none !important;
-        background: rgba(0,0,0,0.02) !important;
-        padding-left: 1rem !important;
-        transform: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        position: static !important;
-        display: none; /* Let bootstrap handle display:block */
-    }
-    
-    .dropdown-menu.show {
-        display: block !important;
-    }
-    
-    .navbar-toggler {
-        border: none !important;
-        padding: 0.5rem;
-    }
-    
-    .navbar-toggler:focus {
-        box-shadow: none !important;
-    }
-
-    /* Polishing the fixed header on mobile */
-    #main-navbar {
-        padding-top: 15px !important;
-        padding-bottom: 15px !important;
+        --bs-gutter-y: 1.5rem;
     }
 }
 
 /* ════════════════════════════════════════════════
-   CAROUSEL MOBILE POLISH
+   UNIVERSAL TABLE RESPONSIVENESS
    ════════════════════════════════════════════════ */
-@media (max-width: 991.98px) {
-    /* Adjust caption to not overlap with top/bottom too much */
-    .carousel-caption {
-        padding-bottom: 5rem !important;
-        justify-content: flex-end !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-    }
-    
-    /* Hide carousel controls on small mobile to keep it clean */
-    #header-carousel .carousel-control-prev, 
-    #header-carousel .carousel-control-next {
-        display: none !important;
-    }
-    
-    #header-carousel .carousel-indicators {
-        bottom: 20px;
+
+/* Solution 1: Smooth Horizontal Scroll (Default for Admin/Complex Tables) */
+.table-responsive {
+    border-radius: 8px;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+.table-responsive table {
+    min-width: 700px; /* Prevents squashing in admin panels */
+}
+
+@media (min-width: 992px) {
+    .table-responsive table {
+        min-width: 100%; /* Back to normal on desktop */
     }
 }
 
-/* Chat icon position for mobile */
-@media (max-width: 575.98px) {
-    .chatbot-fab {
-        bottom: 20px !important;
-        right: 20px !important;
-        width: 50px !important;
-        height: 50px !important;
+/* Solution 2: Stacked Cards (For Client Views with data-labels) */
+@media (max-width: 767.98px) {
+    .table-stacked thead { display: none !important; }
+    .table-stacked tbody tr {
+        display: block !important;
+        margin-bottom: 1rem !important;
+        border: 1px solid rgba(0,0,0,0.08) !important;
+        border-radius: 10px !important;
+        background: #fff;
+    }
+    .table-stacked tbody td {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 10px 15px !important;
+        border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+        text-align: right !important;
+    }
+    .table-stacked tbody td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        color: #888;
+        flex: 1;
+        text-align: left;
     }
 }
 
-/* Section Title lines on mobile - Hiding them to give more space for text */
+/* ════════════════════════════════════════════════
+   CARDS & GRID STACKING
+   ════════════════════════════════════════════════ */
 @media (max-width: 575.98px) {
-    .section-title::before, .section-title::after {
-        display: none !important;
-    }
-}
-
-/* Ensure buttons are touch-friendly but not too bulky */
-@media (max-width: 575.98px) {
-    .btn {
-        padding: 0.65rem 1rem !important;
-        font-size: 0.9rem !important;
-        white-space: normal !important; /* Allow wrapping for long button text on very narrow screens */
-    }
-    
-    #header-carousel .btn {
+    /* Force 1 column for everything that needs it */
+    .col-md-3, .col-md-4, .col-md-6, .col-6 {
         width: 100% !important;
     }
+    
+    .room-item {
+        margin-bottom: 1rem;
+    }
+
+    .room-item img {
+        height: 180px !important;
+    }
+
+    .p-4 { padding: 1.25rem !important; }
 }
 
-/* Adjust carousel caption positioning for mobile */
+/* Dashboard Fix (Stats Cards) */
+@media (max-width: 767.98px) {
+    .row.mt-4.text-center > div {
+        margin-bottom: 1.5rem !important;
+        padding-bottom: 1rem !important;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .row.mt-4.text-center > div:last-child {
+        border-bottom: none;
+    }
+}
+
+/* ════════════════════════════════════════════════
+   FORMS & BUTTONS
+   ════════════════════════════════════════════════ */
+@media (max-width: 575.98px) {
+    .btn:not(.btn-square):not(.btn-sm-square):not(.btn-lg-square):not(.btn-close):not(.btn-social) {
+        width: 100% !important;
+        margin-bottom: 0.5rem;
+        padding: 0.75rem 1rem !important;
+        display: block !important;
+    }
+    
+    .form-control, .form-select {
+        height: 50px !important;
+        font-size: 1rem !important;
+    }
+}
+
+/* ════════════════════════════════════════════════
+   ADMIN / SUPERADMIN SIDEBAR POLISH
+   ════════════════════════════════════════════════ */
+@media (max-width: 767.98px) {
+    /* Sidebar becomes a slim vertical icon bar only */
+    .col-auto {
+        width: 60px !important;
+        padding: 0 !important;
+    }
+    
+    .nav-pills .nav-link {
+        justify-content: center !important;
+        padding: 12px 0 !important;
+    }
+    
+    .nav-pills .nav-link span {
+        display: none !important;
+    }
+    
+    .dropdown-toggle span, .dropdown-toggle div {
+        display: none !important;
+    }
+
+    /* Adjust main content to not be overlapping bar */
+    .col.py-3 {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+
+/* Footer & Other Polish */
+@media (max-width: 767.98px) {
+    .footer { text-align: center; padding-top: 3rem !important; }
+    .footer .section-title { text-align: center !important; width: 100%; }
+    .footer .btn-link { text-align: center !important; }
+}
+
+/* Carousel Polish */
 @media (max-width: 991.98px) {
     .carousel-caption {
         padding-bottom: 3rem !important;
         justify-content: center !important;
         text-align: center !important;
     }
+    .carousel-control-prev, .carousel-control-next { display: none !important; }
 }
 
-/* Ensure Truly Full Width for Carousel Container */
-#header-carousel-container {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    max-width: 100% !important;
+img { max-width: 100%; height: auto; }
+
+/* ════════════════════════════════════════════════
+   GLOBAL TYPOGRAPHY CLAMPING
+   ════════════════════════════════════════════════ */
+h1 { font-size: clamp(1.8rem, 5vw, 3rem) !important; }
+h2 { font-size: clamp(1.6rem, 4vw, 2.5rem) !important; }
+h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
+
+.display-1 { font-size: clamp(2.2rem, 8vw, 5rem) !important; }
+.display-2 { font-size: clamp(2rem, 6vw, 4rem) !important; }
+.display-3 { 
+    font-size: clamp(1.8rem, 5vw, 3.2rem) !important; 
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.2;
 }
 
-/* Footer Length Optimization for Mobile */
-@media (max-width: 767.98px) {
-    .footer {
-        padding-top: 2.5rem !important;
-        padding-bottom: 2rem !important;
-    }
-    
-    .footer .row.gy-5 {
-        --bs-gutter-y: 1.5rem !important;
-    }
-    
-    .footer h6 {
-        margin-bottom: 0.75rem !important;
-    }
-    
-    .footer .btn-link {
-        padding: 2px 0 !important;
-        font-size: 0.85rem;
-    }
+/* Breadcrumb Polish */
+.breadcrumb-item.active {
+    color: var(--primary) !important;
+}
+
+.breadcrumb-item a {
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.breadcrumb-item a:hover {
+    color: var(--primary);
+    opacity: 1;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(255,255,255,0.5);
 }
 
 /* ════════════════════════════════════════════════
-   UNIVERSAL CARD OPTIMIZATION (Cities, Hotels, Rooms)
+   ADMIN PANEL LAYOUT FIX
    ════════════════════════════════════════════════ */
-.room-item img {
-    height: 250px !important;
-    object-fit: cover !important;
-    transition: transform 0.5s ease;
+.admin-layout-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    min-height: 100vh;
+    background: #f8f9fa;
 }
 
-@media (max-width: 575.98px) {
-    .room-item img {
-        height: 190px !important; /* Shorter, more proportional cards for mobile */
+.admin-sidebar-col {
+    width: auto;
+    flex: 0 0 auto;
+    z-index: 1000;
+}
+
+.admin-content-col {
+    flex: 1 1 auto;
+    min-width: 0;
+    background: #f8f9fa;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.admin-content-col > * {
+    flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+    /* 1. Sidebar Toggle System (Enhanced UI) */
+    .admin-sidebar-col {
+        position: fixed !important;
+        left: -100% !important; /* Fully hidden off-screen */
+        top: 0;
+        bottom: 0;
+        width: 85% !important;
+        max-width: 300px !important;
+        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        background: #fff !important;
+        box-shadow: 20px 0 60px rgba(0,0,0,0.25) !important;
+        z-index: 4000 !important; /* Under the toggle button */
+        height: 100vh !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        overflow-y: auto !important; /* Enable scrolling for long menus */
+    }
+
+    .admin-sidebar-col.active {
+        left: 0 !important;
+    }
+
+    /* Force labels and profile text to show on mobile when active */
+    .admin-sidebar-col span.d-none.d-md-inline, 
+    .admin-sidebar-col div.d-none.d-sm-block,
+    .admin-sidebar-col .fw-medium,
+    .admin-sidebar-col .dropdown div.d-none.d-sm-block {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .admin-sidebar-col .dropdown-toggle {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+    }
+
+    .admin-sidebar-col .dropdown-toggle div {
+        text-align: left !important;
+    }
+
+    .admin-sidebar-col a.nav-link {
+        padding: 15px 25px !important;
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+    }
+
+    .admin-sidebar-col a.nav-link i {
+        width: 30px !important; /* Fixed width for icon container align labels */
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 0 !important;
+        font-size: 1.3rem !important;
+    }
+
+    .admin-sidebar-col a.nav-link span {
+        margin-left: 10px !important;
+        line-height: 1 !important;
+        display: block !important;
+    }
+
+    /* Mobile Header Toggle (Floating above EVERYTHING) */
+    .mobile-toggle-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 5000 !important; /* Highest z-index to stay visible above sidebar */
+        background: var(--primary);
+        color: #0f172b;
+        border: none;
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(255, 126, 33, 0.4);
+        font-size: 1.4rem;
+    }
+
+    /* 2. Content Visibility Fix */
+    .admin-content-col {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        padding-top: 85px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+        margin-left: 0 !important;
+    }
+}
+
+}
+
+    .admin-layout-row {
+        flex-direction: column !important;
+    }
+
+    /* 3. Dashboard Grid (2x2) */
+    .admin-content-col .row.mt-4.text-center > div {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        margin-bottom: 30px;
+        border-right: 1px solid rgba(0,0,0,0.05);
     }
     
-    .room-item .p-4 {
-        padding: 1.25rem !important; /* Less internal padding to reduce vertical length */
+    .admin-content-col .row.mt-4.text-center > div:nth-child(2n) {
+        border-right: none;
+    }
+
+    /* 4. Chart Height adjustment */
+    .dashboard-chart-container {
+        min-height: 320px !important;
+        height: 350px !important;
+    }
+
+    /* 5. Mobile Header Toggle */
+    .mobile-toggle-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 2100;
+        background: var(--primary);
+        color: #0f172b;
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(255, 126, 33, 0.3);
+        font-size: 1.25rem;
+        cursor: pointer;
     }
     
-    .room-item h5 {
+    .mobile-toggle-btn:active {
+        transform: scale(0.92);
+    }
+    
+    /* 6. Typography adjustments */
+    h3 { font-size: 1.5rem !important; }
+    h4 { font-size: 1.2rem !important; }
+
+    /* Super Admin specific tweaks */
+    .card-header h3 {
+        font-size: 1.25rem !important;
+        padding-left: 45px; /* Offset for hamburger button */
+    }
+
+    .card-body {
+        padding: 1.25rem !important;
+    }
+
+    .admin-content-col h4 {
         font-size: 1.1rem !important;
+        margin-bottom: 2px;
+    }
+
+    .admin-content-col span.small {
+        font-size: 0.65rem !important;
+        letter-spacing: 0px;
     }
 }
 
-.room-item {
-    border: 1px solid rgba(0,0,0,0.06);
-    background: #fff;
-    height: 100%;
-    margin-bottom: 5px; /* Tiny gap when stacked */
-}
 
-.room-item:hover img {
-    transform: scale(1.05);
+/* Hide toggle by default on desktop */
+.mobile-toggle-btn {
+    display: none;
 }
-
 

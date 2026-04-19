@@ -14,14 +14,14 @@
 @include('components.show-success')
 
 {{-- Dashboard Overview --}}
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
+<div class="row h-100">
+    <div class="col-12 h-100">
+        <div class="card h-100 d-flex flex-column border-0 shadow-sm">
             <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
                 <h3 class="mb-0 fw-bold">Aperçu du Système</h3>
             </div>
-            <div class="card-body">
-                <div style="height: 480px; width: 100%;">
+            <div class="card-body flex-grow-1 d-flex flex-column">
+                <div class="dashboard-chart-container flex-grow-1 mb-4" style="width: 100%; min-height: 450px;">
                     <canvas id="mainDashboardChart"></canvas>
                 </div>
 

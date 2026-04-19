@@ -12,14 +12,14 @@
                 @csrf
                 @method('put')
 
-                <div class="col-6">
+                <div class="col-md-6 col-12">
                     <label class="form-label">Numéro de Chambre</label>
                     <input type="text" name="room_number" value="{{ old('room_number', $room->room_number) }}"
                            class="form-control @error('room_number') is-invalid @enderror">
                     @error('room_number')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
-                <div class="col-6">
+                <div class="col-md-6 col-12">
                     <label class="form-label">Type de Chambre</label>
                     <select name="room_type_id" class="form-select @error('room_type_id') is-invalid @enderror">
                         <option value="">Choisir...</option>
@@ -30,14 +30,14 @@
                     @error('room_type_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
-                <div class="col-6">
+                <div class="col-md-6 col-12">
                     <label class="form-label">Prix / Nuit (DH)</label>
                     <input type="number" step="0.01" name="price" value="{{ old('price', $room->price) }}"
                            class="form-control @error('price') is-invalid @enderror">
                     @error('price')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
-                <div class="col-6">
+                <div class="col-md-6 col-12">
                     <label class="form-label">Statut</label>
                     <select name="status" class="form-select @error('status') is-invalid @enderror">
                         <option value="available" @selected(old('status', $room->status) === 'available')>Disponible</option>

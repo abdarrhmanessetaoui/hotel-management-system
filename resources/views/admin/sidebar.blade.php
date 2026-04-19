@@ -1,4 +1,4 @@
-<div class="col-auto col-md-3 col-xl-2 px-0 bg-white d-flex flex-column" style="min-height:100vh; min-width:64px; z-index: 10; border-right: 1px solid rgba(0,0,0,0.08) !important; box-shadow: 4px 0 15px rgba(0,0,0,0.03);">
+<div class="bg-white d-flex flex-column h-100" style="min-width:64px; z-index: 10; border-right: 1px solid rgba(0,0,0,0.08) !important; box-shadow: 4px 0 15px rgba(0,0,0,0.03);">
 
     {{-- Brand --}}
     <a href="{{ route('admin.index') }}"
@@ -32,6 +32,19 @@
                       {{ request()->routeIs('admin.reservations.*') ? 'active text-white' : 'text-dark opacity-75' }}">
                 <i class="bi bi-calendar-check fs-5 flex-shrink-0"></i>
                 <span class="d-none d-md-inline fw-medium text-nowrap">Réservations</span>
+                @php 
+                    $pendingReservations = \App\Models\Reservation::where('status', 'pending')
+                        ->whereHas('room', function($q) { 
+                            $q->where('hotel_id', auth()->user()->hotel_id); 
+                        })->count();
+                @endphp
+                @if($pendingReservations > 0)
+                    <span class="badge rounded-pill ms-auto d-none d-md-inline shadow-sm 
+                                {{ request()->routeIs('admin.reservations.*') ? 'bg-white text-primary' : 'bg-primary text-white' }}"
+                          style="font-size:0.7rem; font-weight: 800; min-width: 20px;">
+                        {{ $pendingReservations }}
+                    </span>
+                @endif
             </a>
         </li>
 

@@ -35,20 +35,20 @@
                             </span>
                         </td>
                         <td class="text-end pe-4">
-                            <div class="d-flex justify-content-end gap-1">
-                                <a class="btn btn-warning btn-sm py-1 px-2 fw-bold text-dark"
+                            <div class="d-flex justify-content-end gap-2">
+                                <a class="btn btn-primary btn-sm px-3 fw-bold text-white rounded"
                                    href="{{ route('admin.roomtypes.edit', $type->id) }}" style="font-size: 0.75rem;">
-                                    Modifier
+                                    MODIFIER
                                 </a>
                                 <form method="post"
                                       action="{{ route('admin.roomtypes.destroy', $type->id) }}"
                                       class="m-0 p-0 d-inline-block">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="btn btn-danger btn-sm py-1 px-2 fw-bold"
+                                    <button type="submit" class="btn btn-danger btn-sm px-3 fw-bold text-white rounded"
                                             onclick="return confirm('Souhaitez-vous vraiment supprimer ce type de chambre ? Attention, cela affectera les chambres liées.')"
                                             style="font-size: 0.75rem;">
-                                        Supprimer
+                                        SUPPRIMER
                                     </button>
                                 </form>
                             </div>

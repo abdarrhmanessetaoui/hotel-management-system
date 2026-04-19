@@ -31,6 +31,69 @@
 @endsection
 
 @section('content')
+<style>
+    /* ════════════════════════════════════════════════
+       RESPONSIVE TABLE FIX (STACKED CARDS ON MOBILE)
+       ════════════════════════════════════════════════ */
+    @media (max-width: 767.98px) {
+        .table-responsive {
+            border: none !important;
+        }
+        
+        table.table thead {
+            display: none !important; /* Hide column headers on mobile */
+        }
+        
+        table.table tbody tr {
+            display: block !important;
+            margin-bottom: 20px !important;
+            border: 1px solid rgba(0,0,0,0.08) !important;
+            border-radius: 12px !important;
+            background: #fff !important;
+            overflow: hidden !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04) !important;
+        }
+        
+        table.table tbody td {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            text-align: right !important;
+            padding: 12px 20px !important;
+            border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+            width: 100% !important;
+        }
+
+        table.table tbody td:last-child {
+            border-bottom: none !important;
+            padding-top: 15px !important;
+            padding-bottom: 15px !important;
+        }
+
+        /* Labels for Table Data */
+        table.table tbody td::before {
+            content: attr(data-label); /* Requires data-label in HTML */
+            float: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: #666;
+            text-align: left !important;
+        }
+
+        /* Specific alignment for multiple lines */
+        table.table tbody td > div, 
+        table.table tbody td > small {
+            text-align: right !important;
+        }
+        
+        .bg-primary.p-4 {
+            padding: 1.5rem !important;
+            border-radius: 15px 15px 0 0 !important;
+        }
+    }
+</style>
+
 <div class="container-xxl py-5">
     <div class="container">
 
@@ -66,10 +129,10 @@
                     <thead class="bg-light">
                         <tr>
                             <th class="p-4" scope="col">Hôtel</th>
-                            <th scope="col">Chambre</th>
-                            <th scope="col">Dates</th>
-                            <th scope="col">Personnes</th>
-                            <th scope="col">Statut</th>
+                            <th scope="col" class="text-center">Chambre</th>
+                            <th scope="col" class="text-center">Dates</th>
+                            <th scope="col" class="text-center">Personnes</th>
+                            <th scope="col" class="text-center">Statut</th>
                             <th scope="col" class="text-end pe-4">Actions</th>
                         </tr>
                     </thead>
@@ -77,7 +140,7 @@
                         @forelse($reservations as $res)
                             <tr>
                                 {{-- Hotel --}}
-                                <td class="p-4">
+                                <td class="p-4" data-label="Hôtel">
                                     <div class="fw-bold text-dark">{{ $res->hotel->name }}</div>
                                     <small class="text-muted">
                                         <i class="fa fa-map-marker-alt text-primary me-1"></i>
@@ -86,30 +149,34 @@
                                 </td>
 
                                 {{-- Room type --}}
-                                <td>
-                                    {{ ['single' => 'Simple', 'double' => 'Double', 'suite' => 'Suite', 'deluxe' => 'Luxe'][$res->room->type] ?? ucfirst($res->room->type) }}
+                                <td class="text-center" data-label="Chambre">
+                                    <span class="fw-medium">
+                                        {{ ['single' => 'Simple', 'double' => 'Double', 'suite' => 'Suite', 'deluxe' => 'Luxe'][$res->room->type] ?? ucfirst($res->room->type) }}
+                                    </span>
                                 </td>
 
                                 {{-- Dates --}}
-                                <td>
-                                    <small class="d-block">
-                                        <i class="fa fa-calendar-check text-primary me-1"></i>
-                                        {{ \Carbon\Carbon::parse($res->check_in)->format('d M Y') }}
-                                    </small>
-                                    <small class="d-block">
-                                        <i class="fa fa-calendar-times text-primary me-1"></i>
-                                        {{ \Carbon\Carbon::parse($res->check_out)->format('d M Y') }}
-                                    </small>
+                                <td class="text-center" data-label="Dates">
+                                    <div class="d-inline-block text-start">
+                                        <small class="d-block">
+                                            <i class="fa fa-calendar-check text-primary me-1"></i>
+                                            {{ \Carbon\Carbon::parse($res->check_in)->format('d M Y') }}
+                                        </small>
+                                        <small class="d-block">
+                                            <i class="fa fa-calendar-times text-primary me-1"></i>
+                                            {{ \Carbon\Carbon::parse($res->check_out)->format('d M Y') }}
+                                        </small>
+                                    </div>
                                 </td>
 
                                 {{-- Guests --}}
-                                <td>
+                                <td class="text-center" data-label="Personnes">
                                     {{ $res->guests }}
                                     {{ $res->guests > 1 ? 'Personnes' : 'Personne' }}
                                 </td>
 
                                 {{-- Status --}}
-                                <td>
+                                <td class="text-center" data-label="Statut">
                                     @if($res->status == 'pending')
                                         <span class="badge bg-warning text-dark rounded-pill px-3">En Attente</span>
                                     @elseif($res->status == 'confirmed')
@@ -124,9 +191,9 @@
                                 </td>
 
                                 {{-- Actions --}}
-                                <td class="text-end pe-4">
+                                <td class="text-end pe-4" data-label="Actions">
                                     <a href="{{ route('reservations.show', $res) }}"
-                                       class="btn btn-sm btn-outline-primary rounded">
+                                       class="btn btn-sm btn-outline-primary rounded px-3">
                                         <i class="fa fa-eye me-1"></i>Détails
                                     </a>
                                 </td>
@@ -149,6 +216,7 @@
             </div>
 
         </div>
+
 
     </div>
 </div>
