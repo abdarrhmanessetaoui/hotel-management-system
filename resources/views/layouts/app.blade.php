@@ -42,7 +42,7 @@
     <!-- Admin Panel -->
     @if(isset($AdminView))
         <!-- Mobile Sidebar Toggle & Overlay (Injected server-side for reliability) -->
-        <button class="mobile-toggle-btn shadow"><i class="fa fa-bars"></i></button>
+        <button type="button" class="mobile-toggle-btn shadow"><i class="fa fa-bars"></i></button>
         <div class="sidebar-overlay"></div>
 
         <div class="container-fluid p-0 overflow-hidden">
