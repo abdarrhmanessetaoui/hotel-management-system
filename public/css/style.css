@@ -1203,39 +1203,39 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
 
     .table-responsive td,
     .table-responsive th {
-        display: block !important;
+        display: grid !important;
+        grid-template-columns: 40% 1fr !important;
+        align-items: center !important;
         text-align: right !important;
-        padding: 14px 16px 14px 45% !important; /* Left padding makes room for label */
+        padding: 12px 16px !important;
         border: none !important;
         border-bottom: 1px solid rgba(0,0,0,0.04) !important;
         min-height: 48px;
-        position: relative !important;
-        word-break: break-word; /* Prevent long text hiding */
+        gap: 10px;
     }
 
     /* Target generic cell values so they don't look completely orphaned */
     .table-responsive td::before,
     .table-responsive th::before {
         content: attr(data-label);
-        position: absolute;
-        left: 16px;
-        top: 50%;
-        transform: translateY(-50%);
         font-weight: bold;
         text-transform: uppercase;
         color: var(--primary);
         font-size: 0.75rem;
-        white-space: nowrap;
+        text-align: left !important;
+        word-break: break-word;
     }
     
-    /* Ensure content inside td behaves correctly vertically */
+    /* Ensure content inside td behaves correctly horizontally */
     .table-responsive td > * {
-        vertical-align: middle;
-        display: inline-block;
         max-width: 100%;
     }
 
     .table-responsive td:last-child {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center !important;
+        align-items: center;
         text-align: center !important;
         padding: 16px !important;
         background: rgba(255, 126, 33, 0.04);
