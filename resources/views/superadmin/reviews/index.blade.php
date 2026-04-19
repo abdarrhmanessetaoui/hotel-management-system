@@ -74,7 +74,7 @@
 
                             {{-- Actions --}}
                             <td class="text-center pe-4">
-                                <div class="review-actions" id="actions-col-{{ $review->id }}">
+                                <div class="d-flex justify-content-center align-items-center gap-2" id="actions-col-{{ $review->id }}">
 
                                     {{-- Accept --}}
                                     @if($review->status !== 'accepted')
@@ -97,15 +97,6 @@
                                         <i class="bi bi-slash-circle"></i> Refuser
                                     </button>
                                     @endif
-
-                                    {{-- Delete --}}
-                                    <button type="button"
-                                        class="btn btn-danger btn-sm py-1 px-2 fw-bold action-btn"
-                                        data-id="{{ $review->id }}"
-                                        data-action="destroy"
-                                        style="font-size:0.75rem;">
-                                        <i class="bi bi-trash3"></i> Supprimer
-                                    </button>
 
                                 </div>
                             </td>
@@ -187,7 +178,7 @@
                     statusCol.innerHTML = '<span class="review-badge badge-rejected"><i class="bi bi-x-circle-fill"></i> Refusé</span>';
                 }
 
-                // Update action buttons — solid style matching system
+                // Update action buttons after AJAX
                 const actionsCol = document.getElementById(`actions-col-${id}`);
                 const baseStyle  = 'font-size:0.75rem;';
                 let html = '';
@@ -197,7 +188,6 @@
                 if (data.status === 'accepted') {
                     html += `<button type="button" class="btn btn-warning btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="reject" style="${baseStyle}"><i class="bi bi-slash-circle"></i> Refuser</button>`;
                 }
-                html += `<button type="button" class="btn btn-danger btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="destroy" style="${baseStyle}"><i class="bi bi-trash3"></i> Supprimer</button>`;
                 actionsCol.innerHTML = html;
 
             } catch (err) {
