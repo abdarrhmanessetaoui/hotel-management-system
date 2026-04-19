@@ -1,14 +1,16 @@
 [build]
 builder = "nixpacks"
-buildCommand = "composer install --no-dev --optimize-autoloader && php artisan optimize:clear && php artisan storage:link && npm run build || true"
 
 [deploy]
-# Migrations run HERE (at deploy/release time), NOT at build time
-# The private network is available here, unlike during build
-startCommand = "php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php-fpm8.3 -D && nginx -g 'daemon off;'"
+# Safe Migration Practice: Runs once before the new version is live
+releaseCommand = "php artisan migrate --force"
+startCommand = "bash scripts/start.sh"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 
 [[deploy.healthcheck]]
 type = "http"
 path = "/"
+timeout = 100
+interval = 30
+threshold = 3
