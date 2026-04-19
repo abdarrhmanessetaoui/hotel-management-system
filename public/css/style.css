@@ -1186,6 +1186,7 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
     .table-responsive th {
         display: block !important;
         width: 100% !important;
+        box-sizing: border-box !important;
     }
 
     .table-responsive thead {
@@ -1203,32 +1204,40 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
 
     .table-responsive td,
     .table-responsive th {
-        display: grid !important;
-        grid-template-columns: 40% 1fr !important;
-        align-items: center !important;
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
         text-align: right !important;
-        padding: 12px 16px !important;
+        padding: 12px 16px 12px 40% !important; /* Huge left padding to protect left side */
         border: none !important;
         border-bottom: 1px solid rgba(0,0,0,0.04) !important;
         min-height: 48px;
-        gap: 10px;
+        position: relative !important;
+        word-wrap: break-word; /* Allows long string wrapping */
     }
 
-    /* Target generic cell values so they don't look completely orphaned */
+    /* Absolute position the label on the left edge */
     .table-responsive td::before,
     .table-responsive th::before {
         content: attr(data-label);
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
         font-weight: bold;
         text-transform: uppercase;
         color: var(--primary);
         font-size: 0.75rem;
         text-align: left !important;
+        max-width: 35%;
         word-break: break-word;
     }
     
-    /* Ensure content inside td behaves correctly horizontally */
-    .table-responsive td > * {
-        max-width: 100%;
+    /* Ensure embedded images and spans align nicely to the right */
+    .table-responsive td img, 
+    .table-responsive td .badge {
+        display: inline-block;
+        vertical-align: middle;
     }
 
     .table-responsive td:last-child {
