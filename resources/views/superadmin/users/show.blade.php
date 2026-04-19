@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mb-3">
-        <a href="{{ route('superadmin.users.index') }}" class="btn btn-secondary btn-sm">Retour</a>
-    </div>
-
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Détails de l'Utilisateur : {{ $user->name }}</h3>
+            <h3 class="mb-0">
+                <a href="{{ route('superadmin.users.index') }}" class="btn btn-secondary btn-sm me-3">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+                Détails de l'Utilisateur : {{ $user->name }}
+            </h3>
             <a href="{{ route('superadmin.users.edit', $user) }}" class="btn btn-primary btn-sm">Modifier</a>
         </div>
         <div class="card-body">
