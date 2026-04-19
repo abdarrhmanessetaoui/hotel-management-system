@@ -16,7 +16,8 @@ nixPkgs = [
   "php83-extensions.gd",
   "composer",
   "nodejs_20",
-  "caddy"
+  "nginx",
+  "gettext"
 ]
 
 [phases.build]
@@ -26,7 +27,7 @@ cmds = [
   "npm run build",
   "php artisan storage:link || true",
   "mkdir -p storage/framework/{sessions,views,cache}",
-  "chmod -R 775 storage bootstrap/cache"
+  "chmod -R 777 storage bootstrap/cache"
 ]
 
 [start]
