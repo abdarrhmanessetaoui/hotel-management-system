@@ -1083,11 +1083,15 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
     flex-grow: 1;
 }
 
+/* ════════════════════════════════════════════════
+   ADMIN PANEL — MOBILE RESPONSIVE (≤768px)
+   ════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-    /* 1. Sidebar Toggle System (Enhanced UI) */
+
+    /* 1. Sidebar: slide-in drawer */
     .admin-sidebar-col {
         position: fixed !important;
-        left: -100% !important; /* Fully hidden off-screen */
+        left: -100% !important;
         top: 0;
         bottom: 0;
         width: 85% !important;
@@ -1095,19 +1099,19 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
         transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         background: #fff !important;
         box-shadow: 20px 0 60px rgba(0,0,0,0.25) !important;
-        z-index: 4000 !important; /* Under the toggle button */
+        z-index: 4000 !important;
         height: 100vh !important;
         min-width: 0 !important;
         margin: 0 !important;
-        overflow-y: auto !important; /* Enable scrolling for long menus */
+        overflow-y: auto !important;
     }
 
     .admin-sidebar-col.active {
         left: 0 !important;
     }
 
-    /* Force labels and profile text to show on mobile when active */
-    .admin-sidebar-col span.d-none.d-md-inline, 
+    /* Force labels to show when sidebar is open on mobile */
+    .admin-sidebar-col span.d-none.d-md-inline,
     .admin-sidebar-col div.d-none.d-sm-block,
     .admin-sidebar-col .fw-medium,
     .admin-sidebar-col .dropdown div.d-none.d-sm-block {
@@ -1122,9 +1126,7 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
         gap: 12px !important;
     }
 
-    .admin-sidebar-col .dropdown-toggle div {
-        text-align: left !important;
-    }
+    .admin-sidebar-col .dropdown-toggle div { text-align: left !important; }
 
     .admin-sidebar-col a.nav-link {
         padding: 15px 25px !important;
@@ -1132,33 +1134,73 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
         align-items: center !important;
         width: 100% !important;
         justify-content: flex-start !important;
-        text-align: left !important;
     }
 
     .admin-sidebar-col a.nav-link i {
-        width: 30px !important; /* Fixed width for icon container align labels */
+        width: 30px !important;
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
-        margin: 0 !important;
         font-size: 1.3rem !important;
     }
 
     .admin-sidebar-col a.nav-link span {
         margin-left: 10px !important;
-        line-height: 1 !important;
         display: block !important;
     }
 
-    /* Mobile Header Toggle (Floating above EVERYTHING) */
+    /* 2. Main content area padding under the toggle button */
+    .admin-content-col {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        padding-top: 65px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+        margin-left: 0 !important;
+    }
+
+    .admin-layout-row { flex-direction: column !important; }
+
+    /* 3. Dashboard grid: 2x2 on mobile */
+    .admin-content-col .row.mt-4.text-center > div {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        margin-bottom: 30px;
+        border-right: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .admin-content-col .row.mt-4.text-center > div:nth-child(2n) {
+        border-right: none;
+    }
+
+    /* 4. Chart */
+    .dashboard-chart-container {
+        min-height: 300px !important;
+        height: 320px !important;
+    }
+
+    /* 5. Typography */
+    h3 { font-size: 1.4rem !important; }
+    h4 { font-size: 1.15rem !important; }
+
+    .card-header h3 {
+        font-size: 1.2rem !important;
+        padding-left: 50px; /* Space for hamburger */
+    }
+
+    .card-body { padding: 1rem !important; }
+
+    /* 6. Mobile hamburger toggle — ONLY visible here on mobile */
     .mobile-toggle-btn {
         display: flex !important;
         align-items: center;
         justify-content: center;
         position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 5000 !important; /* Highest z-index to stay visible above sidebar */
+        top: 12px;
+        left: 12px;
+        z-index: 5000 !important;
         background: var(--primary);
         color: #0f172b;
         border: none;
@@ -1167,96 +1209,13 @@ h3 { font-size: clamp(1.4rem, 3vw, 2rem) !important; }
         border-radius: 8px;
         box-shadow: 0 4px 15px rgba(255, 126, 33, 0.3);
         font-size: 1.2rem;
-    }
-
-    /* 2. Content Visibility Fix */
-    .admin-content-col {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
-        padding-top: 65px !important; /* Reduced from 85px */
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 100% !important;
-        flex: 1 1 100% !important;
-        margin-left: 0 !important;
-    }
-}
-
-}
-
-    .admin-layout-row {
-        flex-direction: column !important;
-    }
-
-    /* 3. Dashboard Grid (2x2) */
-    .admin-content-col .row.mt-4.text-center > div {
-        flex: 0 0 50% !important;
-        max-width: 50% !important;
-        margin-bottom: 30px;
-        border-right: 1px solid rgba(0,0,0,0.05);
-    }
-    
-    .admin-content-col .row.mt-4.text-center > div:nth-child(2n) {
-        border-right: none;
-    }
-
-    /* 4. Chart Height adjustment */
-    .dashboard-chart-container {
-        min-height: 320px !important;
-        height: 350px !important;
-    }
-
-    /* 5. Mobile Header Toggle */
-    .mobile-toggle-btn {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 2100;
-        background: var(--primary);
-        color: #0f172b;
-        border: none;
-        width: 45px;
-        height: 45px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(255, 126, 33, 0.3);
-        font-size: 1.25rem;
         cursor: pointer;
     }
-    
-    .mobile-toggle-btn:active {
-        transform: scale(0.92);
-    }
-    
-    /* 6. Typography adjustments */
-    h3 { font-size: 1.5rem !important; }
-    h4 { font-size: 1.2rem !important; }
 
-    /* Super Admin specific tweaks */
-    .card-header h3 {
-        font-size: 1.25rem !important;
-        padding-left: 45px; /* Offset for hamburger button */
-    }
-
-    .card-body {
-        padding: 1.25rem !important;
-    }
-
-    .admin-content-col h4 {
-        font-size: 1.1rem !important;
-        margin-bottom: 2px;
-    }
-
-    .admin-content-col span.small {
-        font-size: 0.65rem !important;
-        letter-spacing: 0px;
-    }
+    .mobile-toggle-btn:active { transform: scale(0.92); }
 }
 
-
-/* Hide toggle by default on desktop */
+/* Hide hamburger by default on desktop */
 .mobile-toggle-btn {
     display: none;
 }
