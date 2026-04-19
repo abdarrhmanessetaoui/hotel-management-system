@@ -3,7 +3,7 @@ builder = "nixpacks"
 
 [deploy]
 # Safe Migration Practice: Runs once before the new version is live
-releaseCommand = "php artisan migrate --force"
+releaseCommand = "export DB_HOST=${MYSQLHOST:-$DB_HOST} DB_PORT=${MYSQLPORT:-$DB_PORT} DB_DATABASE=${MYSQLDATABASE:-$DB_DATABASE} DB_USERNAME=${MYSQLUSER:-$DB_USERNAME} DB_PASSWORD=${MYSQLPASSWORD:-$DB_PASSWORD}; php artisan migrate --force"
 startCommand = "bash scripts/start.sh"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
