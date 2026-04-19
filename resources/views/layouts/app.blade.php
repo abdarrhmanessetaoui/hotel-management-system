@@ -45,7 +45,7 @@
         <button type="button" class="mobile-toggle-btn shadow"><i class="fa fa-bars"></i></button>
         <div class="sidebar-overlay"></div>
 
-        <div class="container-fluid p-0 overflow-hidden">
+        <div class="container-fluid p-0">
             <div class="row g-0 admin-layout-row">
                 <div class="admin-sidebar-col">
                     @if(Auth::check() && Auth::user()->isSuperAdmin())
