@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
+    <div class="row h-100">
+        <div class="col-12 h-100">
+            <div class="card h-100 d-flex flex-column">
                 <div class="card-header">
                     <h3 class="mb-0">Aperçu du Système</h3>
                 </div>
-                <div class="card-body">
-                    <div style="height: 500px; width: 100%;">
+                <div class="card-body flex-grow-1 d-flex flex-column">
+                    <div class="dashboard-chart-container flex-grow-1 mb-4" style="width: 100%; min-height: 450px;">
                         <canvas id="mainDashboardChart"></canvas>
                     </div>
 

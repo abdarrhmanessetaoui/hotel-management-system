@@ -106,5 +106,86 @@
     $('#date2').datetimepicker({
         format: 'YYYY-MM-DD'
     });
+    // ════════════════════════════════════════════════
+    // AUTOMATED TABLE RESPONSIVENESS (DATA-LABELS)
+    // ════════════════════════════════════════════════
+    $(document).ready(function() {
+        $('table').each(function() {
+            var $table = $(this);
+            var $headers = $table.find('thead th');
+            
+            if ($headers.length > 0) {
+                $table.find('tbody tr').each(function() {
+                    $(this).find('td').each(function(index) {
+                        var label = $headers.eq(index).text().trim();
+                        if (label && label !== '#' && label !== 'Action' && label !== 'Actions') {
+                            $(this).attr('data-label', label);
+                        }
+                    });
+                });
+            }
+        });
+    });
+
+    // ════════════════════════════════════════════════
+    // MOBILE SIDEBAR TOGGLE SYSTEM (v2)
+    // ════════════════════════════════════════════════
+    $(document).ready(function() {
+        if ($('.admin-sidebar-col').length > 0) {
+            
+            // 1. Setup Elements
+            if ($('.mobile-toggle-btn').length === 0) {
+                $('body').append('<button class="mobile-toggle-btn shadow"><i class="fa fa-bars"></i></button>');
+            }
+            if ($('.sidebar-overlay').length === 0) {
+                $('body').append('<div class="sidebar-overlay"></div>');
+            }
+
+            const $toggleBtn = $('.mobile-toggle-btn');
+            const $sidebar = $('.admin-sidebar-col');
+            const $overlay = $('.sidebar-overlay');
+            const $icon = $toggleBtn.find('i');
+
+            function toggleSidebar(state) {
+                if (state === undefined) state = !$sidebar.hasClass('active');
+                
+                if (state) {
+                    $sidebar.addClass('active');
+                    $overlay.addClass('active');
+                    $icon.removeClass('fa-bars').addClass('fa-times');
+                    $('body').css('overflow', 'hidden'); // Prevent background scroll
+                } else {
+                    $sidebar.removeClass('active');
+                    $overlay.removeClass('active');
+                    $icon.removeClass('fa-times').addClass('fa-bars');
+                    $('body').css('overflow', '');
+                }
+            }
+
+            $toggleBtn.on('click', function(e) {
+                e.stopPropagation();
+                toggleSidebar();
+            });
+
+            $overlay.on('click', function() {
+                toggleSidebar(false);
+            });
+
+            // Close on nav link click (mobile) - Exclude dropdown toggles
+            $('.admin-sidebar-col a:not(.dropdown-toggle)').on('click', function() {
+                if ($(window).width() <= 768) {
+                    toggleSidebar(false);
+                }
+            });
+
+            // Prevent scroll on sidebar if it's too long
+            $sidebar.on('touchmove', function(e) {
+                e.stopPropagation();
+            });
+        }
+    });
+
 })(jQuery);
+
+
 

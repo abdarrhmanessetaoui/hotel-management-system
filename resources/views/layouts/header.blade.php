@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             
             {{-- Centered Menu --}}
-            <div class="navbar-nav ms-0 py-3 py-lg-0 align-items-lg-center text-start" id="main-nav">
+            <div class="navbar-nav mx-lg-auto py-3 py-lg-0 align-items-lg-center text-start" id="main-nav">
                 <a class="nav-item nav-link fw-medium scroll-target" data-section="top" href="{{ route('home') }}">Accueil</a>
                 <a class="nav-item nav-link fw-medium scroll-target" data-section="villes" href="{{ route('home') }}#villes">Destinations</a>
                 <a class="nav-item nav-link fw-medium scroll-target" data-section="services" href="{{ route('home') }}#services">Services</a>
@@ -39,12 +39,12 @@
                     </a>
                 @else
                     <div class="nav-item dropdown">
-                        <button class="btn-custom-solid dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn-custom-solid dropdown-toggle w-100 d-none d-lg-inline-block" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-user-circle me-2"></i>{{ explode(' ', Auth::user()->name)[0] }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end mt-2 border-0 shadow modern-dropdown">
-                            <li><a href="{{ route('reservations.index') }}" class="dropdown-item py-2"><i class="fa fa-calendar-check me-2 text-primary"></i>Mes Réservations</a></li>
-                            <li><a href="{{ route('profile') }}" class="dropdown-item py-2"><i class="fa fa-user me-2 text-primary"></i>Mon Profil</a></li>
+                            <li><a href="{{ route('reservations.index') }}" class="dropdown-item py-2 scroll-target"><i class="fa fa-calendar-check me-2 text-primary"></i>Mes Réservations</a></li>
+                            <li><a href="{{ route('profile') }}" class="dropdown-item py-2 scroll-target"><i class="fa fa-user me-2 text-primary"></i>Mon Profil</a></li>
                             <li><hr class="dropdown-divider my-1"></li>
                             <li>
                                 <form method="post" action="{{ route('logout') }}">
@@ -56,6 +56,7 @@
                             </li>
                         </ul>
                     </div>
+
 
                     @if(Auth::user()->isAdmin())
                         <a href="{{ route('admin.index') }}" class="btn-custom-outline ms-lg-2">
@@ -244,6 +245,15 @@
         border: 1px solid rgba(0,0,0,0.05) !important;
         display: block !important;
         visibility: hidden;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+    }
+
+    .modern-dropdown.show {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
     }
 
     @media (max-width: 991.98px) {
@@ -258,7 +268,7 @@
             visibility: visible !important;
             z-index: 3000 !important;
             margin: 0 !important;
-            padding: 80px 0 30px 20px !important; 
+            padding: 80px 0 30px 0 !important; /* NO LEFT PADDING ON BOX */
             transition: left 0.4s cubic-bezier(0.77,0,0.175,1) !important;
             display: flex !important;
             flex-direction: column;
@@ -309,18 +319,22 @@
             cursor: pointer;
         }
 
-        #main-nav, .auth-nav, .navbar-nav, .nav-item {
+        /* --------------------------------------------------
+           THE ALIGNMENT FIX (IDENTICAL STARTING POINT)
+           -------------------------------------------------- */
+        #main-nav, .auth-nav, .navbar-nav, .nav-item, ul, li {
             padding-left: 0 !important;
             margin-left: 0 !important;
             width: 100% !important;
             display: block !important;
+            list-style: none !important;
         }
 
         .nav-link, .dropdown-item {
             font-size: 1.15rem !important;
             font-weight: 700 !important;
             color: #1a1a1a !important;
-            padding: 15px 0 !important; 
+            padding: 15px 0 15px 25px !important; /* FIXED 25PX STARTING POINT */
             margin: 0 !important;
             border-bottom: 1px solid rgba(0,0,0,0.04) !important;
             width: 100% !important;
@@ -328,6 +342,8 @@
             background: transparent !important;
             box-shadow: none !important;
             border-radius: 0 !important;
+            pointer-events: auto !important; 
+            visibility: visible !important; 
         }
         
         .nav-link i, .dropdown-item i {
@@ -364,6 +380,7 @@
             margin-bottom: 10px;
         }
     }
+
 
 </style>
 

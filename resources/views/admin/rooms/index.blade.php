@@ -45,15 +45,15 @@
                                 @endif
                             </td>
                             <td class="text-end pe-4">
-                                <div class="btn-group shadow-sm">
-                                    <a href="{{ route('admin.rooms.edit', $room->id) }}" class="btn btn-sm btn-white border px-2">
-                                        <i class="fa fa-edit text-primary"></i>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{ route('admin.rooms.edit', $room->id) }}" class="btn btn-sm btn-primary text-white px-3 rounded fw-bold" style="font-size: 0.75rem;">
+                                        MODIFIER
                                     </a>
                                     <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-white border px-2" onclick="return confirm('Supprimer cette chambre ?')">
-                                            <i class="fa fa-trash text-danger"></i>
+                                        <button type="submit" class="btn btn-sm btn-danger text-white px-3 rounded fw-bold" style="font-size: 0.75rem;" onclick="return confirm('Supprimer cette chambre ?')">
+                                            SUPPRIMER
                                         </button>
                                     </form>
                                 </div>

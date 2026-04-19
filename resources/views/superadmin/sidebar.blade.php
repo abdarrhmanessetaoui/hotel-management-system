@@ -1,4 +1,4 @@
-<div class="col-auto col-md-3 col-xl-2 px-0 bg-white d-flex flex-column" style="min-height:100vh; min-width:64px; z-index: 10; border-right: 1px solid rgba(0,0,0,0.08) !important; box-shadow: 4px 0 15px rgba(0,0,0,0.03);">
+<div class="bg-white d-flex flex-column h-100" style="min-width:64px; z-index: 10; border-right: 1px solid rgba(0,0,0,0.08) !important; box-shadow: 4px 0 15px rgba(0,0,0,0.03);">
 
     {{-- Brand --}}
     <a href="{{ route('superadmin.index') }}"
