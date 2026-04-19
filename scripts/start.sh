@@ -31,9 +31,12 @@ mkdir -p storage/logs
 mkdir -p bootstrap/cache
 chmod -R 777 storage bootstrap/cache
 
-# 3. DATABASE MIGRATIONS (The Fix)
+# 3. DATABASE MIGRATIONS & SEEDING
 echo "📂 Running Database Migrations..."
 php artisan migrate --force
+
+echo "🌱 Seeding Database with example data..."
+php artisan db:seed --force
 
 # 4. Optimization
 echo "⚡ Optimizing Laravel..."
