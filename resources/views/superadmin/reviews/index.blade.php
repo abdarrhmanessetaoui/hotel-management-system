@@ -76,26 +76,22 @@
                             <td class="text-center pe-4">
                                 <div class="d-flex justify-content-center align-items-center gap-2" id="actions-col-{{ $review->id }}">
 
-                                    {{-- Accept --}}
-                                    @if($review->status !== 'accepted')
-                                    <button type="button"
-                                        class="btn btn-success btn-sm py-1 px-2 fw-bold action-btn"
-                                        data-id="{{ $review->id }}"
-                                        data-action="approve"
-                                        style="font-size:0.75rem;">
-                                        ACCEPTER
-                                    </button>
-                                    @endif
+                                    @if($review->status === 'pending')
+                                        <button type="button"
+                                            class="btn btn-success btn-sm py-1 px-2 fw-bold action-btn"
+                                            data-id="{{ $review->id }}"
+                                            data-action="approve"
+                                            style="font-size:0.75rem;">
+                                            ACCEPTER
+                                        </button>
 
-                                    {{-- Reject --}}
-                                    @if($review->status !== 'rejected')
-                                    <button type="button"
-                                        class="btn btn-warning btn-sm py-1 px-2 fw-bold action-btn"
-                                        data-id="{{ $review->id }}"
-                                        data-action="reject"
-                                        style="font-size:0.75rem;">
-                                        REFUSER
-                                    </button>
+                                        <button type="button"
+                                            class="btn btn-warning btn-sm py-1 px-2 fw-bold action-btn"
+                                            data-id="{{ $review->id }}"
+                                            data-action="reject"
+                                            style="font-size:0.75rem;">
+                                            REFUSER
+                                        </button>
                                     @endif
 
                                 </div>
@@ -178,17 +174,9 @@
                     statusCol.innerHTML = '<span class="review-badge badge-rejected"><i class="bi bi-x-circle-fill"></i> Refusé</span>';
                 }
 
-                // Update action buttons after AJAX
+                // Remove action buttons after decision is made
                 const actionsCol = document.getElementById(`actions-col-${id}`);
-                const baseStyle  = 'font-size:0.75rem;';
-                let html = '';
-                if (data.status === 'rejected') {
-                    html += `<button type="button" class="btn btn-success btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="approve" style="${baseStyle}">ACCEPTER</button>`;
-                }
-                if (data.status === 'accepted') {
-                    html += `<button type="button" class="btn btn-warning btn-sm py-1 px-2 fw-bold action-btn" data-id="${id}" data-action="reject" style="${baseStyle}">REFUSER</button>`;
-                }
-                actionsCol.innerHTML = html;
+                actionsCol.innerHTML = '';
 
             } catch (err) {
                 console.error(err);
