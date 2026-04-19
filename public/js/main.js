@@ -137,40 +137,44 @@
             // Elements are now rendered via blade directly
             // No need to inject them.
 
-            const $toggleBtn = $('.mobile-toggle-btn');
-            const $sidebar = $('.admin-sidebar-col');
-            const $overlay = $('.sidebar-overlay');
-            const $icon = $toggleBtn.find('i');
+            // UI is hardcoded in Blade.
 
-            function toggleSidebar(state) {
-                if (state === undefined) state = !$sidebar.hasClass('active');
+
+            // Use event delegation for reliability on mobile
+            $(document).on('click', '.mobile-toggle-btn', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 
-                if (state) {
-                    $sidebar.addClass('active');
-                    $overlay.addClass('active');
+                const $icon = $(this).find('i');
+                const isCurrentlyActive = $('.admin-sidebar-col').hasClass('active');
+                
+                if (!isCurrentlyActive) {
+                    $('.admin-sidebar-col').addClass('active');
+                    $('.sidebar-overlay').addClass('active');
                     $icon.removeClass('fa-bars').addClass('fa-times');
                     $('body').css('overflow', 'hidden'); // Prevent background scroll
                 } else {
-                    $sidebar.removeClass('active');
-                    $overlay.removeClass('active');
+                    $('.admin-sidebar-col').removeClass('active');
+                    $('.sidebar-overlay').removeClass('active');
                     $icon.removeClass('fa-times').addClass('fa-bars');
                     $('body').css('overflow', '');
                 }
-            }
-
-            $toggleBtn.on('click', function(e) {
-                e.stopPropagation();
-                toggleSidebar();
             });
 
-            $overlay.on('click', function() {
-                toggleSidebar(false);
+            $(document).on('click', '.sidebar-overlay', function() {
+                $('.admin-sidebar-col').removeClass('active');
+                $('.sidebar-overlay').removeClass('active');
+                $('.mobile-toggle-btn i').removeClass('fa-times').addClass('fa-bars');
+                $('body').css('overflow', '');
             });
 
             // Close on nav link click (mobile) - Exclude dropdown toggles
-            $('.admin-sidebar-col a:not(.dropdown-toggle)').on('click', function() {
+            $(document).on('click', '.admin-sidebar-col a:not(.dropdown-toggle)', function() {
                 if ($(window).width() <= 768) {
-                    toggleSidebar(false);
+                    $('.admin-sidebar-col').removeClass('active');
+                    $('.sidebar-overlay').removeClass('active');
+                    $('.mobile-toggle-btn i').removeClass('fa-times').addClass('fa-bars');
+                    $('body').css('overflow', '');
                 }
             });
 
