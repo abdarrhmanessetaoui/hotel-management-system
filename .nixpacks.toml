@@ -16,8 +16,7 @@ nixPkgs = [
   "php83-extensions.gd",
   "composer",
   "nodejs_20",
-  "nginx",
-  "gettext"
+  "nginx"
 ]
 
 [phases.build]
