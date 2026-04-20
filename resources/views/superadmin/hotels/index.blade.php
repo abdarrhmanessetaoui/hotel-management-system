@@ -28,12 +28,12 @@
                 <tbody>
                 @forelse($hotels as $hotel)
                     <tr>
-                        <th>{{ $loop->iteration }}</th>
-                        <td>{{ $hotel->name }}</td>
-                        <td>{{ $hotel->city->name ?? '-' }}</td>
-                        <td>{{ $hotel->rooms_count ?? 0 }}</td>
-                        <td>{{ $hotel->reservations_count ?? 0 }}</td>
-                        <td>{{ $hotel->rating ?? '-' }}</td>
+                        <th><span>{{ $loop->iteration }}</span></th>
+                        <td><span>{{ $hotel->name }}</span></td>
+                        <td><span>{{ $hotel->city->name ?? '-' }}</span></td>
+                        <td><span>{{ $hotel->rooms_count ?? 0 }}</span></td>
+                        <td><span>{{ $hotel->reservations_count ?? 0 }}</span></td>
+                        <td><span>{{ $hotel->rating ?? '-' }}</span></td>
                         <td>
                             @if(!empty($hotel->image))
                                 <img src="{{ Str::startsWith($hotel->image,'http') ? $hotel->image : asset($hotel->image) }}"

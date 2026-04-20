@@ -93,7 +93,7 @@
     <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('js/main.js') }}?v=1.9"></script>
+    <script src="{{ asset('js/main.js') }}?v=2.0"></script>
 
     {{-- Section-level pushed scripts (e.g. owl carousel init, date pickers) --}}
     @stack('scripts')
