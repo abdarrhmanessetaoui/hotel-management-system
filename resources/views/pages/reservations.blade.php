@@ -38,6 +38,7 @@
     @media (max-width: 767.98px) {
         .table-responsive {
             border: none !important;
+            overflow: visible !important;
         }
         
         table.table thead {
@@ -46,50 +47,72 @@
         
         table.table tbody tr {
             display: block !important;
-            margin-bottom: 20px !important;
-            border: 1px solid rgba(0,0,0,0.08) !important;
-            border-radius: 12px !important;
             background: #fff !important;
-            overflow: hidden !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04) !important;
+            border: 1px solid #e0e0e0 !important;
+            border-radius: 10px !important;
+            margin-bottom: 20px !important;
+            padding: 15px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+            position: relative;
         }
         
         table.table tbody td {
             display: flex !important;
             justify-content: space-between !important;
             align-items: center !important;
-            text-align: right !important;
-            padding: 12px 20px !important;
-            border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+            padding: 10px 0 !important;
+            border-bottom: 1px solid #f5f5f5 !important;
             width: 100% !important;
+            text-align: right !important;
         }
 
         table.table tbody td:last-child {
             border-bottom: none !important;
+            display: block !important;
             padding-top: 15px !important;
-            padding-bottom: 15px !important;
         }
 
-        /* Labels for Table Data */
+        /* Labels using data-label attribute */
         table.table tbody td::before {
-            content: attr(data-label); /* Requires data-label in HTML */
-            float: left;
+            content: attr(data-label);
             font-weight: 700;
+            color: #888;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            color: #666;
+            letter-spacing: 0.5px;
             text-align: left !important;
+            flex: 1;
         }
 
-        /* Specific alignment for multiple lines */
-        table.table tbody td > div, 
-        table.table tbody td > small {
+        table.table tbody td > * {
+            flex: 2;
             text-align: right !important;
         }
-        
+
+        /* Mobile specific "Details" button */
+        .btn-reservation-details {
+            width: 100%;
+            text-align: center;
+            display: block;
+            padding: 10px;
+            border: 2px solid var(--primary) !important;
+            border-radius: 8px;
+            color: var(--primary) !important;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            background: transparent;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-reservation-details:hover {
+            background: var(--primary);
+            color: #fff !important;
+        }
+
         .bg-primary.p-4 {
             padding: 1.5rem !important;
-            border-radius: 15px 15px 0 0 !important;
+            border-radius: 12px 12px 0 0 !important;
         }
     }
 </style>
@@ -193,7 +216,7 @@
                                 {{-- Actions --}}
                                 <td class="text-end pe-4" data-label="Actions">
                                     <a href="{{ route('reservations.show', $res) }}"
-                                       class="btn btn-sm btn-outline-primary rounded px-3">
+                                       class="btn btn-sm btn-outline-primary rounded px-3 btn-reservation-details">
                                         <i class="fa fa-eye me-1"></i>Détails
                                     </a>
                                 </td>

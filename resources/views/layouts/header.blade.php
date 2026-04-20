@@ -35,6 +35,7 @@
             </div>
 
             {{-- Right Actions --}}
+            {{-- Right Actions --}}
             <div class="navbar-nav auth-nav align-items-lg-center gap-2 pb-3 pb-lg-0">
                 @guest
                     <a href="{{ route('login') }}" class="btn-custom-outline transition-all">
@@ -44,35 +45,66 @@
                         S'inscrire
                     </a>
                 @else
-                    <div class="nav-item dropdown">
+                    {{-- Personalized Mobile Greeting (New) --}}
+                    <div class="d-lg-none px-4 py-3 border-bottom mb-3 bg-light">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; font-size: 1.2rem; font-weight: 700;">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </div>
+                            <div>
+                                <small class="text-muted d-block" style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;">Bonjour,</small>
+                                <span class="fw-bold text-dark" style="font-size: 1.1rem;">{{ Auth::user()->name }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Desktop Dropdown & Mobile Standard Links --}}
+                    <div class="nav-item dropdown w-100">
                         <button class="btn-custom-solid dropdown-toggle w-100 d-none d-lg-inline-block" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-user-circle me-2"></i>{{ explode(' ', Auth::user()->name)[0] }}
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end mt-2 border-0 shadow modern-dropdown">
-                            <li><a href="{{ route('reservations.index') }}" class="dropdown-item py-2 scroll-target"><i class="fa fa-calendar-check me-2 text-primary"></i>Mes Réservations</a></li>
-                            <li><a href="{{ route('profile') }}" class="dropdown-item py-2 scroll-target"><i class="fa fa-user me-2 text-primary"></i>Mon Profil</a></li>
+                        
+                        {{-- On Mobile, these are plain links in the vertical list --}}
+                        <div class="d-lg-none">
+                            <a href="{{ route('reservations.index') }}" class="nav-link scroll-target border-bottom">
+                                <i class="fa fa-calendar-check me-2 text-primary"></i>Mes Réservations
+                            </a>
+                            <a href="{{ route('profile') }}" class="nav-link scroll-target border-bottom">
+                                <i class="fa fa-user me-2 text-primary"></i>Mon Profil</a>
+                            
+                            @if(Auth::user()->isAdmin())
+                                <a href="{{ route('admin.index') }}" class="nav-link scroll-target border-bottom text-primary">
+                                    <i class="fa fa-cog me-2"></i>Dashboard Admin
+                                </a>
+                            @elseif(Auth::user()->isSuperAdmin())
+                                <a href="{{ route('superadmin.index') }}" class="nav-link scroll-target border-bottom text-primary">
+                                    <i class="fa fa-crown me-2"></i>Dashboard Super Admin
+                                </a>
+                            @endif
+
+                            <form method="post" action="{{ route('logout') }}" class="w-100">
+                                @csrf
+                                <button type="submit" class="nav-link text-danger border-0 w-100 text-start bg-transparent">
+                                    <i class="fa fa-sign-out-alt me-2"></i>Déconnexion
+                                </button>
+                            </form>
+                        </div>
+
+                        {{-- Desktop Only Dropdown Content --}}
+                        <ul class="dropdown-menu dropdown-menu-end mt-2 border-0 shadow modern-dropdown d-none d-lg-block">
+                            <li><a href="{{ route('reservations.index') }}" class="dropdown-item scroll-target">Mes Réservations</a></li>
+                            <li><a href="{{ route('profile') }}" class="dropdown-item scroll-target">Mon Profil</a></li>
                             <li><hr class="dropdown-divider my-1"></li>
                             <li>
-                                <form method="post" action="{{ route('logout') }}">
+                                <form method="post" action="{{ route('logout') }}" class="w-100">
                                     @csrf
-                                    <button type="submit" class="dropdown-item py-2 text-danger">
-                                        <i class="fa fa-sign-out-alt me-2"></i>Déconnexion
+                                    <button type="submit" class="dropdown-item text-danger border-0">
+                                        Déconnexion
                                     </button>
                                 </form>
                             </li>
                         </ul>
                     </div>
-
-
-                    @if(Auth::user()->isAdmin())
-                        <a href="{{ route('admin.index') }}" class="btn-custom-outline ms-lg-2">
-                            <i class="fa fa-cog me-1"></i> Admin
-                        </a>
-                    @elseif(Auth::user()->isSuperAdmin())
-                        <a href="{{ route('superadmin.index') }}" class="btn-custom-outline ms-lg-2">
-                            <i class="fa fa-crown me-1"></i> Super Admin
-                        </a>
-                    @endif
                 @endguest
             </div>
         </div>
@@ -267,18 +299,18 @@
             position: fixed !important;
             top: 0 !important;
             left: -100% !important; 
-            width: 85% !important;
+            width: 100% !important; /* Full width as requested */
             height: 100vh !important;
-            background: #ffffff !important; /* PURE SOLID WHITE */
+            background: #ffffff !important; 
             opacity: 1 !important;
             visibility: visible !important;
-            z-index: 3000 !important;
+            z-index: 5000 !important; /* High enough to cover navbar */
             margin: 0 !important;
-            padding: 20px 0 30px 0 !important; /* Reduced top padding for logo */
+            padding: 20px 0 30px 0 !important;
             transition: left 0.4s cubic-bezier(0.77,0,0.175,1) !important;
             display: flex !important;
             flex-direction: column;
-            box-shadow: 10px 0 40px rgba(0,0,0,0.1) !important;
+            box-shadow: none !important;
             border: none !important;
             border-radius: 0 !important;
         }
@@ -340,7 +372,7 @@
             font-size: 1.15rem !important;
             font-weight: 700 !important;
             color: #1a1a1a !important;
-            padding: 15px 0 15px 25px !important; /* FIXED 25PX STARTING POINT */
+            padding: 15px 25px !important; /* Default padding */
             margin: 0 !important;
             border-bottom: 1px solid rgba(0,0,0,0.04) !important;
             width: 100% !important;
@@ -351,6 +383,13 @@
             pointer-events: auto !important; 
             visibility: visible !important; 
         }
+
+        /* Specific centering for Auth dropdown items in mobile sidebar */
+        .auth-nav .dropdown-item {
+            text-align: center !important;
+            padding: 12px 15px !important;
+            border-bottom: 1px solid rgba(0,0,0,0.02) !important;
+        }
         
         .nav-link i, .dropdown-item i {
             display: none !important; 
@@ -359,7 +398,6 @@
         .auth-nav {
             margin-top: auto !important; 
             padding-top: 10px !important;
-            border-top: 20px solid #f8f9fa !important;
         }
 
         .auth-nav .dropdown-menu {

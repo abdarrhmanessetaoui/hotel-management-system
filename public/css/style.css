@@ -245,9 +245,9 @@ svg {
     .back-to-top {
         left: 20px; /* Move to the left side on mobile to avoid chatbot overlap */
         right: auto;
-        bottom: 15px;
-        width: 44px;
-        height: 44px;
+        bottom: 25px; /* Slightly higher for visibility */
+        width: 48px;
+        height: 48px;
     }
 }
 
@@ -424,17 +424,36 @@ h6,
    PAGE HEADER
 ════════════════════════════════════════════════ */
 .page-header {
+    width: 100% !important;
+    position: relative !important;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    overflow: hidden !important;
+    min-height: clamp(300px, 40vh, 500px); /* Responsive hero height */
 }
 
 .page-header-inner {
-    background: rgba(15, 23, 43, 0.85);
+    width: 100% !important;
+    min-height: clamp(300px, 40vh, 500px);
+    background: linear-gradient(rgba(15, 23, 43, 0.7), rgba(15, 23, 43, 0.85)); /* Slightly lighter top gradient */
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     padding-top: clamp(80px, 14vw, 150px) !important;
-    padding-bottom: clamp(40px, 8vw, 80px) !important;
+    padding-bottom: clamp(60px, 10vw, 100px) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media (max-width: 767.98px) {
+    .page-header {
+        min-height: 400px; /* Ensure enough space for mobile text */
+    }
+    .page-header-inner {
+        min-height: 400px;
+        padding-top: 100px !important;
+    }
 }
 
 .page-header-inner .container {
@@ -455,8 +474,9 @@ h6,
 
 .breadcrumb-item a {
     color: #ffffff;
-    opacity: 0.8;
+    opacity: 0.9;
     text-decoration: none;
+    font-weight: 500;
 }
 
 .breadcrumb-item a:hover {
@@ -464,8 +484,32 @@ h6,
     opacity: 1;
 }
 
+.breadcrumb-item.active {
+    color: var(--primary) !important;
+    font-weight: 700;
+}
+
 .breadcrumb-item+.breadcrumb-item::before {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.6) !important;
+    content: "\f105" !important;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+@media (max-width: 575.98px) {
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        display: flex;
+        flex-wrap: nowrap; /* Force one line */
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .breadcrumb-item {
+        font-size: 0.65rem !important; /* Smaller text */
+        white-space: nowrap;
+    }
 }
 
 
@@ -714,7 +758,26 @@ h6,
 }
 
 .testimonial-carousel .testimonial-item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     padding: 30px;
+    transition: transform 0.3s ease;
+}
+
+.testimonial-carousel .testimonial-item p {
+    flex-grow: 1; /* Pushes author info to the bottom */
+}
+
+/* Ensure Owl Carousel items have equal height */
+.testimonial-carousel .owl-stage {
+    display: flex;
+}
+
+.testimonial-carousel .owl-item {
+    display: flex;
+    flex: 1 0 auto;
 }
 
 .testimonial-carousel .owl-nav {
@@ -1701,11 +1764,25 @@ h6,
 
 @media (max-width: 575.98px) {
 
-    .container,
-    .container-fluid,
-    .container-xxl {
+    /* 
+     * Force zero padding ONLY for edge-to-edge sections (Hero, Page Header).
+     * This prevents the white gap glitch while allowing other sections to have 
+     * a clean safe-area margin.
+     */
+    .carousel, 
+    .page-header, 
+    .page-header-inner,
+    .container-fluid.p-0 {
         padding-left: 0 !important;
         padding-right: 0 !important;
+    }
+
+    /* Restore safe margins for text-heavy content sections */
+    .container,
+    .container-xxl,
+    .container-fluid:not(.p-0):not(.page-header):not(.page-header-inner) {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
     }
 
     .p-4 {
@@ -1733,6 +1810,12 @@ h6,
         width: 100% !important;
         flex: 0 0 100% !important;
         max-width: 100% !important;
+        margin-bottom: 2rem !important; /* Better spacing between items */
+    }
+
+    .room-item img {
+        height: 200px !important; /* Consistent height from user request */
+        object-fit: cover;
     }
 
     /* 
@@ -1821,5 +1904,195 @@ h6,
 
     .dashboard-chart-container {
         height: 480px;
+    }
+}
+/* ------------------------------------------------
+   COMPACT FOOTER (Responsive Redesign)
+   ------------------------------------------------ */
+.compact-footer {
+    font-size: 13px !important;
+}
+
+.compact-footer-title {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #FF7E21 !important; /* Bold Orange */
+    letter-spacing: 1px;
+}
+
+.compact-links {
+    padding: 0;
+    margin: 0;
+}
+
+.compact-links li {
+    margin-bottom: 4px;
+}
+
+.compact-links a {
+    color: #666666;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-size: 13px;
+}
+
+.compact-links a:hover {
+    color: #FF7E21;
+}
+
+.compact-contact-info p {
+    font-size: 13px;
+    color: #444444;
+}
+
+.btn-social-sm {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border: 1px solid rgba(0,0,0,0.1);
+    color: #FF7E21;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.btn-social-sm:hover {
+    background: #FF7E21;
+    color: #ffffff;
+    border-color: #FF7E21;
+}
+
+@media (max-width: 767.98px) {
+    .compact-footer {
+        padding-top: 30px !important;
+    }
+    
+    .compact-footer .row.g-3 {
+        margin-top: 10px;
+    }
+
+    .compact-footer-title {
+        text-align: center !important;
+    }
+
+    .compact-links {
+        text-align: center;
+    }
+}
+
+/* ------------------------------------------------
+   POLISHED FOOTER DESIGN (Final Redesign)
+   ------------------------------------------------ */
+.site-footer {
+    padding: 60px 0 30px !important;
+    background: #ffffff !important;
+    color: #444444 !important;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.footer-title {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px;
+    color: #0F172B !important;
+    margin-bottom: 25px !important;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-title::after {
+    content: '';
+    display: block;
+    width: 35px;
+    height: 3px;
+    background: #FF7E21; /* Brand Orange */
+    margin-top: 12px;
+    border-radius: 2px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 5px;
+}
+
+.footer-links a {
+    color: #FF7E21 !important; /* Orange links as requested */
+    text-decoration: none;
+    font-weight: 500;
+    line-height: 2.2 !important;
+    font-size: 14.5px;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #0F172B !important;
+    padding-left: 5px;
+}
+
+.footer-social-box {
+    margin-top: 25px;
+}
+
+.social-btn {
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #FF7E21 !important;
+    margin-right: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #fff;
+}
+
+.social-btn:hover {
+    background: #FF7E21;
+    color: #fff !important;
+    border-color: #FF7E21;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 126, 33, 0.3);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(0,0,0,0.06);
+    padding-top: 25px;
+    margin-top: 50px;
+    text-align: center;
+    color: #888;
+    font-size: 13.5px;
+    font-weight: 500;
+}
+
+@media (max-width: 767.98px) {
+    .site-footer {
+        padding-top: 40px !important;
+        text-align: center;
+    }
+    
+    .footer-col {
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+    
+    .footer-col:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .footer-title::after {
+        margin-left: auto;
+        margin-right: auto;
     }
 }

@@ -1,74 +1,53 @@
-<div class="container-fluid footer wow fadeIn" data-wow-delay="0.1s" style="background: #ffffff; color: #444444; border-top: 1px solid rgba(0,0,0,0.05);">
-    <div class="container pb-5">
-        <div class="row g-5 justify-content-lg-center">
-
-            {{-- ── Contact ─────────────────────────────────────────────── --}}
-            <div class="col-md-6 col-lg-3">
-                <h6 class="section-title text-start text-primary text-uppercase mb-4">Contact</h6>
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, Casablanca, Maroc</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+212 599 887 766</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>hotelia@gmail.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-
-            {{-- Plateforme --}}
-            <div class="col-md-6 col-lg-3">
-                <h6 class="section-title text-start text-primary text-uppercase mb-4">
-                    Plateforme
-                </h6>
-                <a class="btn btn-link" href="{{ route('home') }}">Accueil</a>
-                <a class="btn btn-link" href="{{ route('home') }}#villes">Nos Villes</a>
-                <a class="btn btn-link" href="{{ route('login') }}">Connexion</a>
-                <a class="btn btn-link" href="{{ route('register') }}">S'inscrire</a>
-                @auth
-                    <a class="btn btn-link" href="{{ route('reservations.index') }}">
-                        Mes Réservations
-                    </a>
-                @endauth
-            </div>
-
-            {{-- Villes --}}
-            <div class="col-md-6 col-lg-3">
-                <h6 class="section-title text-start text-primary text-uppercase mb-4">
-                    Destinations
-                </h6>
-                <a class="btn btn-link" href="{{ route('home') }}#villes">Marrakech</a>
-                <a class="btn btn-link" href="{{ route('home') }}#villes">Casablanca</a>
-                <a class="btn btn-link" href="{{ route('home') }}#villes">Agadir</a>
-                <a class="btn btn-link" href="{{ route('home') }}#villes">Tanger</a>
-                <a class="btn btn-link" href="{{ route('home') }}#villes">Voir toutes</a>
-            </div>
-
-        </div>
-    </div>
-
-    {{-- ── Copyright ───────────────────────────────────────────────────── --}}
+<footer class="container-fluid site-footer wow fadeIn" data-wow-delay="0.1s">
     <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; {{ date('Y') }}
-                    <a href="{{ route('home') }}" class="text-primary fw-bold text-decoration-none">
-                        Hotelia
-                    </a>. Tous droits réservés.
+        <div class="row g-5">
+            
+            {{-- 1. CONTACT --}}
+            <div class="col-12 col-md-4 footer-col">
+                <h6 class="footer-title">Contact</h6>
+                <div class="footer-contact-item mb-4">
+                    <a href="mailto:hotelia@gmail.com" class="text-decoration-none" style="color: #666; font-size: 15px;">
+                        <i class="fa fa-envelope text-primary me-2"></i>hotelia@gmail.com
+                    </a>
                 </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <small class="text-white-50">
-                        Plateforme hôtelière N°1 au Maroc
-                    </small>
+                <div class="footer-social-box">
+                    <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
+
+            {{-- 2. PLATEFORME --}}
+            <div class="col-12 col-md-4 footer-col">
+                <h6 class="footer-title">Plateforme</h6>
+                <ul class="footer-links">
+                    <li><a href="{{ route('home') }}">Accueil</a></li>
+                    <li><a href="{{ route('home') }}#villes">Nos Villes</a></li>
+                    <li><a href="{{ route('login') }}">Connexion</a></li>
+                    <li><a href="{{ route('register') }}">S'inscrire</a></li>
+                    @auth
+                        <li><a href="{{ route('reservations.index') }}">Mes Réservations</a></li>
+                    @endauth
+                </ul>
+            </div>
+
+            {{-- 3. DESTINATIONS --}}
+            <div class="col-12 col-md-4 footer-col">
+                <h6 class="footer-title">Destinations</h6>
+                <ul class="footer-links">
+                    <li><a href="{{ route('home') }}#villes">Marrakech</a></li>
+                    <li><a href="{{ route('home') }}#villes">Casablanca</a></li>
+                    <li><a href="{{ route('home') }}#villes">Agadir</a></li>
+                    <li><a href="{{ route('home') }}#villes">Tanger</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        {{-- Bottom Copyright Bar --}}
+        <div class="footer-bottom">
+            <p class="mb-0">© {{ date('Y') }} Hotelia. Tous droits réservés.</p>
         </div>
     </div>
-</div>
-<!-- Footer End -->
-
-<!-- Back to Top -->
-<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top">
-    <i class="bi bi-arrow-up"></i>
-</a>
+</footer>

@@ -26,7 +26,7 @@
                                  style="height: 250px; object-fit: cover;"
                                  src="{{ $hotel->image ? (Str::startsWith($hotel->image, 'http') ? $hotel->image : asset($hotel->image)) : asset('img/hotels/default.jpg') }}"
                                  alt="{{ $hotel->name }}">
-                            <small class="position-absolute start-0 top-0 bg-primary text-white rounded py-1 px-3 ms-4">
+                            <small class="position-absolute start-0 top-0 bg-primary text-white rounded py-1 px-3 m-2">
                                 <i class="fa fa-star text-white me-1"></i>{{ number_format($hotel->rating, 1) }}
                             </small>
                         </div>

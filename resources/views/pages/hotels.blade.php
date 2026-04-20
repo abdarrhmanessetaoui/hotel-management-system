@@ -4,10 +4,10 @@
     @include('layouts.header')
 
     {{-- Page Header — dynamic city background --}}
-    <div class="container-fluid page-header mb-5 p-0"
+    <div class="container-fluid page-header mb-0 p-0"
          style="background-image: url('{{ $city->image ? (Str::startsWith($city->image, 'http') ? $city->image : asset($city->image)) : asset('img/carousel-1.jpg') }}');">
         <div class="container-fluid page-header-inner py-5">
-            <div class="container text-center pb-5">
+            <div class="container text-center py-5">
 
                 <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
                     Hotelia — Destinations
@@ -23,8 +23,8 @@
                 </p>
 
                 {{-- Breadcrumb --}}
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-center text-uppercase">
+                <nav aria-label="breadcrumb" class="mt-4">
+                    <ol class="breadcrumb justify-content-center text-uppercase mb-0">
                         <li class="breadcrumb-item">
                             <a href="{{ route('home') }}">Accueil</a>
                         </li>
