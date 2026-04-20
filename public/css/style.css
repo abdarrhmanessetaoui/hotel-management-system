@@ -1240,7 +1240,7 @@ h6,
    ██  ADMIN MOBILE  ≤768px  ██
    All mobile overrides in one block.
 ════════════════════════════════════════════════ */
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
 
     /* 1 — Layout stacks vertically */
     .admin-layout-row {
@@ -1409,15 +1409,16 @@ h6,
         display: none !important;
     }
 
-    /* Each <tr> becomes a rounded white card */
+    /* Each <tr> becomes a standalone Card-Block */
     .table-responsive tbody tr {
-        background: #ffffff;
-        margin-bottom: 14px !important;
-        border-radius: 14px !important;
-        border: 1px solid rgba(0, 0, 0, 0.07) !important;
-        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.07),
-            0 1px 4px rgba(0, 0, 0, 0.04) !important;
-        overflow: hidden;
+        display: block !important;
+        background: #ffffff !important;
+        margin-bottom: 22px !important; /* Space between the '4 trs' as requested */
+        border-radius: 16px !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06), 0 2px 5px rgba(0, 0, 0, 0.04) !important;
+        overflow: hidden !important;
+        padding: 0 !important;
     }
 
     /*

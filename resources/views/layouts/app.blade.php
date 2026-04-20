@@ -28,8 +28,8 @@
 
 
     <!-- Template Stylesheet -->
-    <link href="{{ asset('css/style.css') }}?v=2.1" rel="stylesheet">
-    <link href="{{ asset('css/chatbot.css') }}?v=2.1" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}?v=2.2" rel="stylesheet">
+    <link href="{{ asset('css/chatbot.css') }}?v=2.2" rel="stylesheet">
     <!-- Branding -->
     <link rel="icon" type="image/png" href="{{ asset('img/favicon-brand.png') }}">
     <title>Hotelia</title>
@@ -94,7 +94,7 @@
     <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('js/main.js') }}?v=2.1"></script>
+    <script src="{{ asset('js/main.js') }}?v=2.2"></script>
 
     {{-- Section-level pushed scripts --}}
     @stack('scripts')
