@@ -28,54 +28,55 @@
 
 
     <!-- Template Stylesheet -->
-    <link href="{{ asset('css/style.css') }}?v=1.9" rel="stylesheet">
-    <link href="{{ asset('css/chatbot.css') }}?v=1.9" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}?v=2.1" rel="stylesheet">
+    <link href="{{ asset('css/chatbot.css') }}?v=2.1" rel="stylesheet">
     <!-- Branding -->
     <link rel="icon" type="image/png" href="{{ asset('img/favicon-brand.png') }}">
     <title>Hotelia</title>
-
 </head>
-<body>
+
+<body class="bg-light">
     <!-- Spinner loading (Global) -->
     @include('components.spinner')
 
     <!-- Admin Panel -->
     @if(isset($AdminView))
-        <!-- Mobile Sidebar Toggle & Overlay (Injected server-side for reliability) -->
-        <button type="button" class="mobile-toggle-btn shadow"><i class="fa fa-bars"></i></button>
-        <div class="sidebar-overlay"></div>
+        {{-- Universal Mobile Hamburger (Top Left) --}}
+        <button class="mobile-toggle-btn shadow" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        {{-- Dark Backdrop overlay for mobile sidebar --}}
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
         <div class="container-fluid p-0">
             <div class="row g-0 admin-layout-row">
-                <div class="admin-sidebar-col">
+                <!-- Sidebar -->
+                <div class="col-auto admin-sidebar-col shadow-sm" id="adminSidebar">
                     @if(Auth::check() && Auth::user()->isSuperAdmin())
                         @include('superadmin.sidebar')
                     @else
                         @include('admin.sidebar')
                     @endif
                 </div>
-                <div class="col admin-content-col py-3 px-3 px-md-4 overflow-auto" style="height: 100vh;">
+
+                <!-- Content -->
+                <div class="col admin-content-col min-vh-100 py-3">
                     @yield('content')
                 </div>
             </div>
         </div>
-    @endif
+    @else
+        <!-- Public Site Logic -->
+        @yield('header')
 
-
-    <!-- Header & Hero (Full Width) -->
-    @yield('header')
-
-    @if(!isset($AdminView))
-        <!-- Restricted Width Content Area -->
         <div class="container-xxl bg-white p-0">
-            <!-- Content -->
             @yield('content')
-            <!-- Footer -->
             @yield('footer')
         </div>
     @endif
 
-    <!-- Global Chatbot FAB: visible on every page (public + admin + superadmin) -->
+    <!-- Global Chatbot FAB -->
     @include('components.chatbot')
 
     <!-- JavaScript Libraries -->
@@ -93,9 +94,9 @@
     <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('js/main.js') }}?v=2.0"></script>
+    <script src="{{ asset('js/main.js') }}?v=2.1"></script>
 
-    {{-- Section-level pushed scripts (e.g. owl carousel init, date pickers) --}}
+    {{-- Section-level pushed scripts --}}
     @stack('scripts')
 </body>
 </html>
