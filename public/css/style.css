@@ -243,9 +243,9 @@ svg {
 
 @media (max-width: 575.98px) {
     .back-to-top {
-        left: auto;
-        right: 20px;
-        bottom: 20px;
+        left: 20px; /* Move to the left side on mobile to avoid chatbot overlap */
+        right: auto;
+        bottom: 15px;
         width: 44px;
         height: 44px;
     }
@@ -1002,21 +1002,28 @@ h6,
 @media (max-width: 767.98px) {
     .footer {
         text-align: center;
-        padding-top: 3rem !important;
+        padding-top: 2rem !important; /* Smaller top padding */
     }
 
     .footer .section-title {
         text-align: center !important;
         width: 100%;
+        font-size: 0.85rem !important; /* Smaller section titles */
+        margin-bottom: 0.75rem !important;
     }
 
     .footer .btn.btn-link {
         text-align: center !important;
         justify-content: center;
+        font-size: 0.85rem !important; /* Smaller link font */
+        margin-bottom: 2px;
+        min-height: 35px; /* Compact height */
     }
 
     .footer .btn.btn-social {
-        margin: 0 4px 4px;
+        margin: 0 4px 8px;
+        width: 32px; /* Smaller social buttons */
+        height: 32px;
     }
 
     .footer .footer-menu {
@@ -1026,10 +1033,22 @@ h6,
         gap: 8px;
     }
 
-    .footer .footer-menu a {
-        margin-right: 0;
-        padding-right: 0;
-        border-right: none;
+    .footer p {
+        font-size: 0.85rem !important; /* Smaller text */
+        margin-bottom: 0.5rem !important;
+    }
+
+    .footer p i {
+        margin-right: 8px !important;
+    }
+
+    .footer .d-flex {
+        justify-content: center !important;
+    }
+
+    .footer .copyright {
+        padding: 15px 0;
+        font-size: 0.8rem;
     }
 }
 
@@ -1654,9 +1673,10 @@ h6,
 @media (max-width: 767.98px) {
 
     .container,
-    .container-fluid:not(.p-0) {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+    .container-fluid:not(.p-0),
+    .container-xxl {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 
     .py-5 {
@@ -1682,9 +1702,10 @@ h6,
 @media (max-width: 575.98px) {
 
     .container,
-    .container-fluid {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+    .container-fluid,
+    .container-xxl {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 
     .p-4 {
@@ -1708,17 +1729,17 @@ h6,
     /* Single-column grid stacking */
     .col-md-3,
     .col-md-4,
-    .col-md-6,
-    .col-6 {
+    .col-md-6 {
         width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
     }
 
-    /*
+    /* 
      * Full-width buttons on small screens.
-     * Does NOT match icon buttons, social, toggle, or table action buttons.
-     * Table action buttons are handled above with higher specificity.
+     * EXCLUDING navbar buttons which should remain compact.
      */
-    .btn:not(.btn-square):not(.btn-sm-square):not(.btn-lg-square):not(.btn-close):not(.btn-social):not(.mobile-toggle-btn) {
+    .btn:not(.btn-square):not(.btn-sm-square):not(.btn-lg-square):not(.btn-close):not(.btn-social):not(.mobile-toggle-btn):not(.navbar-nav .btn) {
         width: 100% !important;
         margin-bottom: 0.5rem;
         padding: 0.75rem 1rem !important;
@@ -1752,6 +1773,22 @@ h6,
     .form-select {
         height: 50px !important;
         font-size: 1rem !important;
+    }
+
+    /* Navbar buttons specific override — ensures they are small and centered */
+    .navbar-nav .nav-item {
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+
+    .navbar-nav .nav-item .btn {
+        width: auto !important;
+        min-width: 180px !important;
+        max-width: 280px !important;
+        margin: 6px auto !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
 }
 

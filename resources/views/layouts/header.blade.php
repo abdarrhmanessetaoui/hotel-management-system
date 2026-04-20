@@ -18,6 +18,12 @@
 
         {{-- Nav Links & Actions --}}
         <div class="collapse navbar-collapse" id="navbarCollapse">
+            {{-- Mobile Logo Header --}}
+            <div class="d-lg-none text-center py-4 mb-3 border-bottom">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('img/logo.png') }}" alt="Hotelia" style="height: 40px; width: auto;">
+                </a>
+            </div>
             
             {{-- Centered Menu --}}
             <div class="navbar-nav mx-lg-auto py-3 py-lg-0 align-items-lg-center text-start" id="main-nav">
@@ -268,7 +274,7 @@
             visibility: visible !important;
             z-index: 3000 !important;
             margin: 0 !important;
-            padding: 80px 0 30px 0 !important; /* NO LEFT PADDING ON BOX */
+            padding: 20px 0 30px 0 !important; /* Reduced top padding for logo */
             transition: left 0.4s cubic-bezier(0.77,0,0.175,1) !important;
             display: flex !important;
             flex-direction: column;
@@ -375,9 +381,19 @@
         }
         
         .btn-custom-solid, .btn-custom-outline {
-            height: 50px !important;
-            width: 100% !important;
-            margin-bottom: 10px;
+            height: 45px !important;
+            width: 85% !important; /* Small width */
+            max-width: 220px !important;
+            margin: 12px auto !important; /* Centered with margin */
+            display: flex !important;
+            font-size: 0.9rem !important;
+        }
+
+        .auth-nav {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            padding-bottom: 20px !important;
         }
     }
 
