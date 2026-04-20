@@ -121,10 +121,17 @@
             if ($headers.length > 0) {
                 $table.find('tbody tr').each(function() {
                     $(this).children('td, th').each(function(index) {
+                        // 1. Set dynamic labels for mobile cards
                         var label = $headers.eq(index).text().trim();
                         if (label && label !== '#' && label !== 'Action' && label !== 'Actions') {
                             $(this).attr('data-label', label);
                         }
+
+                        // 2. UNIVERSAL FIX: Wrap naked text nodes in <span> for Safari Flexbox stability
+                        // This ensures that text content isn't discarded when using display:flex on the cell
+                        $(this).contents().filter(function() {
+                            return this.nodeType === 3 && $.trim(this.nodeValue).length > 0;
+                        }).wrap('<span></span>');
                     });
                 });
             }
@@ -183,7 +190,7 @@
             });
 
             // Prevent scroll on sidebar if it's too long
-            $sidebar.on('touchmove', function(e) {
+            $('#adminSidebar').on('touchmove', function(e) {
                 e.stopPropagation();
             });
         }
