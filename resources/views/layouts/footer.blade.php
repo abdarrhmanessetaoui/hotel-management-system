@@ -1,9 +1,9 @@
 <div class="container-fluid footer wow fadeIn" data-wow-delay="0.1s" style="background: #ffffff; color: #444444; border-top: 1px solid rgba(0,0,0,0.05);">
     <div class="container pb-5">
-        <div class="row g-5">
+        <div class="row g-5 justify-content-lg-center">
 
             {{-- ── Contact ─────────────────────────────────────────────── --}}
-            <div class="col-md-6 col-lg-5">
+            <div class="col-md-6 col-lg-3">
                 <h6 class="section-title text-start text-primary text-uppercase mb-4">Contact</h6>
                 <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, Casablanca, Maroc</p>
                 <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+212 599 887 766</p>
@@ -16,39 +16,32 @@
                 </div>
             </div>
 
-            {{-- ── Links ───────────────────────────────────────────────── --}}
-            <div class="col-md-6 col-lg-7">
-                <div class="row gy-5 g-4">
+            {{-- Plateforme --}}
+            <div class="col-md-6 col-lg-3">
+                <h6 class="section-title text-start text-primary text-uppercase mb-4">
+                    Plateforme
+                </h6>
+                <a class="btn btn-link" href="{{ route('home') }}">Accueil</a>
+                <a class="btn btn-link" href="{{ route('home') }}#villes">Nos Villes</a>
+                <a class="btn btn-link" href="{{ route('login') }}">Connexion</a>
+                <a class="btn btn-link" href="{{ route('register') }}">S'inscrire</a>
+                @auth
+                    <a class="btn btn-link" href="{{ route('reservations.index') }}">
+                        Mes Réservations
+                    </a>
+                @endauth
+            </div>
 
-                    {{-- Plateforme --}}
-                    <div class="col-6 col-md-6">
-                        <h6 class="section-title text-start text-primary text-uppercase mb-4">
-                            Plateforme
-                        </h6>
-                        <a class="btn btn-link" href="{{ route('home') }}">Accueil</a>
-                        <a class="btn btn-link" href="{{ route('home') }}#villes">Nos Villes</a>
-                        <a class="btn btn-link" href="{{ route('login') }}">Connexion</a>
-                        <a class="btn btn-link" href="{{ route('register') }}">S'inscrire</a>
-                        @auth
-                            <a class="btn btn-link" href="{{ route('reservations.index') }}">
-                                Mes Réservations
-                            </a>
-                        @endauth
-                    </div>
-
-                    {{-- Villes --}}
-                    <div class="col-6 col-md-6">
-                        <h6 class="section-title text-start text-primary text-uppercase mb-4">
-                            Destinations
-                        </h6>
-                        <a class="btn btn-link" href="{{ route('home') }}#villes">Marrakech</a>
-                        <a class="btn btn-link" href="{{ route('home') }}#villes">Casablanca</a>
-                        <a class="btn btn-link" href="{{ route('home') }}#villes">Agadir</a>
-                        <a class="btn btn-link" href="{{ route('home') }}#villes">Tanger</a>
-                        <a class="btn btn-link" href="{{ route('home') }}#villes">Voir toutes</a>
-                    </div>
-
-                </div>
+            {{-- Villes --}}
+            <div class="col-md-6 col-lg-3">
+                <h6 class="section-title text-start text-primary text-uppercase mb-4">
+                    Destinations
+                </h6>
+                <a class="btn btn-link" href="{{ route('home') }}#villes">Marrakech</a>
+                <a class="btn btn-link" href="{{ route('home') }}#villes">Casablanca</a>
+                <a class="btn btn-link" href="{{ route('home') }}#villes">Agadir</a>
+                <a class="btn btn-link" href="{{ route('home') }}#villes">Tanger</a>
+                <a class="btn btn-link" href="{{ route('home') }}#villes">Voir toutes</a>
             </div>
 
         </div>

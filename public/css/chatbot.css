@@ -136,23 +136,24 @@
 /* ── Mobile responsiveness for Chatbot ──── */
 @media (max-width: 576px) {
     .chatbot-wrapper {
-        bottom: 10px;
-        right: 10px;
-        left: auto; /* Don't stretch across screen */
+        bottom: 15px;
+        right: 15px;
+        left: auto; 
     }
     
     .chat-window {
-        width: calc(100vw - 20px);
-        max-width: 350px;
-        height: 50vh;
-        min-height: 350px;
+        width: calc(100vw - 30px);
+        max-width: 400px;
+        height: 60vh;
+        min-height: 400px;
         right: 0;
-        bottom: 0;
+        bottom: 70px; /* Position above the FAB */
     }
     
     .chatbot-fab {
         width: 48px;
         height: 48px;
         font-size: 20px;
+        box-shadow: 0 4px 12px rgba(255, 126, 33, 0.4);
     }
 }
