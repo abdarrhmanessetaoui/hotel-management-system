@@ -27,8 +27,8 @@
                         <tbody>
                             @forelse($cities as $city)
                                 <tr>
-                                    <th class="ps-4">{{ $loop->iteration }}</th>
-                                    <td class="fw-bold text-dark">{{ $city->name }}</td>
+                                    <th class="ps-4"><span>{{ $loop->iteration }}</span></th>
+                                    <td class="fw-bold text-dark"><span>{{ $city->name }}</span></td>
                                     <td>
                                         <span class="badge border text-dark bg-light px-3 py-2">
                                             {{ $city->hotels_count ?? 0 }} Hôtels
