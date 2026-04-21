@@ -156,6 +156,11 @@ Hotelia
 
 ## 📸 Demo & Screenshots
 
+### 🌐 Desktop UI & AI Chatbot
+
+**Home Page with Smart Assistant (Support Chat)**
+![Desktop Chatbot View](docs/images/desktop-chatbot.png)
+
 ### 📱 Mobile UI (100% Responsive)
 
 **Mobile Home Page — "Les Meilleurs Hôtels du Maroc"**
