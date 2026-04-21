@@ -1,8 +1,5 @@
 {{-- Navbar Header (Fixed Top Overlay) --}}
 <header id="main-header" class="fixed-top header-transparent transition-all">
-    
-
-
     {{-- Main Navigation --}}
     <nav class="navbar navbar-expand-lg py-0 px-3 px-lg-5 transition-all" id="main-navbar">
         
@@ -35,86 +32,64 @@
             </div>
 
             {{-- Right Actions --}}
-            {{-- Right Actions --}}
             <div class="navbar-nav auth-nav align-items-lg-center gap-2 pb-3 pb-lg-0">
                 @guest
-                    <a href="{{ route('login') }}" class="btn-custom-outline transition-all">
-                        Connexion
-                    </a>
-                    <a href="{{ route('register') }}" class="btn-custom-solid transition-all">
-                        S'inscrire
-                    </a>
+                    <a href="{{ route('login') }}" class="btn-custom-outline transition-all">Connexion</a>
+                    <a href="{{ route('register') }}" class="btn-custom-solid transition-all">S'inscrire</a>
                 @else
-                    {{-- Personalized Mobile Greeting (New) --}}
-                    <div class="d-lg-none px-4 py-3 border-bottom mb-3 bg-light">
-                        <div class="d-flex align-items-center">
-                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; font-size: 1.2rem; font-weight: 700;">
+                    {{-- [MOBILE ONLY] Personalized User Header --}}
+                    <div class="d-lg-none px-4 py-4 border-bottom mb-3 w-100 bg-light">
+                        <div class="d-flex align-items-center justify-content-center flex-column">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mb-2 shadow-sm" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: 800;">
                                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                             </div>
-                            <div>
-                                <small class="text-muted d-block" style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;">Bonjour,</small>
-                                <span class="fw-bold text-dark" style="font-size: 1.1rem;">{{ Auth::user()->name }}</span>
+                            <div class="text-center">
+                                <small class="text-muted d-block text-uppercase letter-spacing-1" style="font-size: 0.7rem;">Bonjour,</small>
+                                <span class="fw-bold text-dark fs-5">{{ Auth::user()->name }}</span>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Desktop Dropdown & Mobile Standard Links --}}
-                    {{-- Personalized Mobile Greeting --}}
-                    <div class="d-lg-none px-4 py-3 border-bottom mb-3 bg-light">
-                        <div class="d-flex align-items-center">
-                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; font-size: 1.2rem; font-weight: 700;">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                            </div>
-                            <div>
-                                <small class="text-muted d-block" style="font-size: 0.75rem; text-transform: uppercase;">Bonjour,</small>
-                                <span class="fw-bold text-dark" style="font-size: 1.15rem;">{{ Auth::user()->name }}</span>
-                            </div>
-                        </div>
+                    {{-- [MOBILE ONLY] Authenticated Navigation Links --}}
+                    <div class="d-lg-none w-100 auth-mobile-links">
+                        <a href="{{ route('reservations.index') }}" class="mobile-nav-item">
+                            <i class="fa fa-calendar-check me-3 text-primary"></i>Mes Réservations
+                        </a>
+                        <a href="{{ route('profile') }}" class="mobile-nav-item">
+                            <i class="fa fa-user me-3 text-primary"></i>Mon Profil
+                        </a>
+                        
+                        @if(Auth::user()->isAdmin())
+                            <a href="{{ route('admin.index') }}" class="mobile-nav-item text-primary fw-bold">
+                                <i class="fa fa-cog me-3"></i>Tableau de bord Admin
+                            </a>
+                        @elseif(Auth::user()->isSuperAdmin())
+                            <a href="{{ route('superadmin.index') }}" class="mobile-nav-item text-primary fw-bold">
+                                <i class="fa fa-crown me-3"></i>Tableau de bord Super Admin
+                            </a>
+                        @endif
+
+                        <form method="post" action="{{ route('logout') }}" class="w-100">
+                            @csrf
+                            <button type="submit" class="mobile-nav-item text-danger border-0 w-100 text-start bg-transparent">
+                                <i class="fa fa-sign-out-alt me-3"></i>Déconnexion
+                            </button>
+                        </form>
                     </div>
 
-                    {{-- Unified Links (Clean list for Mobile, Dropdown for Desktop) --}}
-                    <div class="nav-item dropdown w-100">
-                        {{-- Desktop Only Button --}}
-                        <button class="btn-custom-solid dropdown-toggle w-100 d-none d-lg-inline-block" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{-- [DESKTOP ONLY] Dropdown Menu --}}
+                    <div class="nav-item dropdown d-none d-lg-block">
+                        <button class="btn-custom-solid dropdown-toggle border-0" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-user-circle me-2"></i>{{ explode(' ', Auth::user()->name)[0] }}
                         </button>
-                        
-                        {{-- Mobile Navigation Links (strictly vertical) --}}
-                        <div class="d-lg-none auth-mobile-links">
-                            <a href="{{ route('reservations.index') }}" class="mobile-nav-item">
-                                <i class="fa fa-calendar-check me-2 text-primary"></i>Mes Réservations
-                            </a>
-                            <a href="{{ route('profile') }}" class="mobile-nav-item">
-                                <i class="fa fa-user me-2 text-primary"></i>Mon Profil
-                            </a>
-                            
-                            @if(Auth::user()->isAdmin())
-                                <a href="{{ route('admin.index') }}" class="mobile-nav-item text-primary">
-                                    <i class="fa fa-cog me-2"></i>Dashboard Admin
-                                </a>
-                            @elseif(Auth::user()->isSuperAdmin())
-                                <a href="{{ route('superadmin.index') }}" class="mobile-nav-item text-primary">
-                                    <i class="fa fa-crown me-2"></i>Dashboard Super Admin
-                                </a>
-                            @endif
-
-                            <form method="post" action="{{ route('logout') }}" class="w-100">
-                                @csrf
-                                <button type="submit" class="mobile-nav-item text-danger border-0 w-100 text-start bg-transparent">
-                                    <i class="fa fa-sign-out-alt me-2"></i>Déconnexion
-                                </button>
-                            </form>
-                        </div>
-
-                        {{-- Desktop Dropdown --}}
-                        <ul class="dropdown-menu dropdown-menu-end mt-2 border-0 shadow modern-dropdown d-none d-lg-block">
-                            <li><a href="{{ route('reservations.index') }}" class="dropdown-item">Mes Réservations</a></li>
-                            <li><a href="{{ route('profile') }}" class="dropdown-item">Mon Profil</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end mt-2 border-0 shadow modern-dropdown">
+                            <li><a href="{{ route('reservations.index') }}" class="dropdown-item py-2"><i class="fa fa-calendar-check me-2 text-primary"></i>Mes Réservations</a></li>
+                            <li><a href="{{ route('profile') }}" class="dropdown-item py-2"><i class="fa fa-user me-2 text-primary"></i>Mon Profil</a></li>
                             <li><hr class="dropdown-divider my-1"></li>
                             <li>
                                 <form method="post" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="dropdown-item text-danger border-0">Déconnexion</button>
+                                    <button type="submit" class="dropdown-item text-danger py-2"><i class="fa fa-sign-out-alt me-2"></i>Déconnexion</button>
                                 </form>
                             </li>
                         </ul>
@@ -127,335 +102,63 @@
 
 <style>
     /* ════════════════════════════════════════════════
-    GLOBAL HEADER STYLES & TRANSITIONS
+    GLOBAL HEADER & MOBILE FIXES
     ════════════════════════════════════════════════ */
-    html, body {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    #main-header {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        margin-top: 0 !important;
-        z-index: 1050;
-        width: 100%;
-        /* Hardware acceleration for smooth transitions */
-        transform: translateZ(0); 
-    }
+    #main-header { z-index: 1050; width: 100%; transition: all 0.3s ease; }
+    .transition-all { transition: all 0.3s ease; }
     
-    .transition-all {
-        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    #main-nav .nav-link { 
+        padding: 0 15px !important; 
+        display: flex; align-items: center; height: 55px; 
     }
 
-    .hover-primary:hover { color: var(--bs-primary) !important; }
-
-    /* ════════════════════════════════════════════════
-    STATE 1: TRANSPARENT (Top of page)
-    ════════════════════════════════════════════════ */
-    .header-transparent {
-        background: transparent;
-        border: none;
-    }
-
-    .header-transparent #main-nav .nav-link {
-        color: rgba(255, 255, 255, 0.9);
-    }
-    .header-transparent #main-nav .nav-link:hover,
-    .header-transparent #main-nav .nav-link.scroll-active {
-        color: var(--primary);
-    }
-
-    .border-light-subtle {
-        border-color: rgba(255, 255, 255, 0.1) !important;
-    }
-
-    #main-nav .nav-link {
-        padding: 0 15px !important;
-        display: flex;
-        align-items: center;
-        height: 55px; /* Match logo height for absolute centering */
-    }
-
-    /* Modern indicator line for active state */
-    @media (min-width: 992px) {
-        #main-nav .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 10px; /* Position inside the 60px height */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background-color: var(--primary);
-            transition: width 0.3s ease;
-            border-radius: 2px;
-        }
-        
-        #main-nav .nav-link.scroll-active::after,
-        #main-nav .nav-link:hover::after {
-            width: 80%;
-        }
-        
-        #main-nav .nav-link {
-            position: relative;
-        }
-    }
-
-    /* ════════════════════════════════════════════════
-    STATE 2: SOLID WHITE (On Scroll)
-    ════════════════════════════════════════════════ */
-    .header-scrolled {
-        background: #ffffff !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
-        border: 1px solid rgba(0,0,0,0.05) !important;
-    }
-
-
-
-    .header-scrolled #main-nav .nav-link {
-        color: #333333 !important;
-    }
-    
-    .header-scrolled #main-nav .nav-link:hover,
-    .header-scrolled #main-nav .nav-link.scroll-active {
-        color: var(--primary) !important;
-    }
-
-    .header-scrolled #nav-toggler {
-        color: #333333 !important;
-    }
-
-    /* ════════════════════════════════════════════════
-    SaaS SQUARE BUTTONS
-    ════════════════════════════════════════════════ */
-    .btn-custom-solid,
-    .btn-custom-outline {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        font-size: 0.95rem;
-        padding: 0 20px;
-        height: 42px;
-        line-height: normal;
-        border-radius: 0; /* Sharp corners like screenshot */
-        transition: all 0.2s ease;
-        text-decoration: none;
-        cursor: pointer;
-        box-sizing: border-box;
-    }
-
-    /* Solid Orange Button */
-    .btn-custom-solid {
-        background: var(--primary);
-        color: #0f172b !important;
-        border: 1px solid var(--primary);
-    }
-    .btn-custom-solid:hover {
-        background: var(--primary-dark); /* darker hover */
-        border-color: var(--primary-dark);
-        color: #ffffff !important;
-    }
-
-    /* Outline Orange Button */
-    .btn-custom-outline {
-        background: transparent;
-        border: 1px solid var(--primary);
-        color: var(--primary) !important;
-    }
-    .btn-custom-outline:hover {
-        background: rgba(255, 126, 33, 0.1);
-    }
-
-    /* Solid state adaptations */
-    .header-scrolled .btn-custom-solid {
-        box-shadow: 0 4px 10px rgba(255, 126, 33, 0.2);
-    }
-    
-    .header-scrolled .btn-custom-outline {
-        /* On white background, keep orange but maybe slightly darker */
-    }
-
-    /* Toggle specific */
-    button.btn-custom-solid.dropdown-toggle::after,
-    button.btn-custom-outline.dropdown-toggle::after {
-        margin-left: 6px;
-        vertical-align: middle;
-    }
-
-    /* ════════════════════════════════════════════════
-    DROPDOWN & MOBILE STYLING
-    ════════════════════════════════════════════════ */
-    .modern-dropdown {
-        background-color: #ffffff;
-        border-radius: 0 !important;
-        padding: 8px 0;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.12) !important;
-        border: 1px solid rgba(0,0,0,0.05) !important;
-        display: block !important;
-        visibility: hidden;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: all 0.3s ease;
-    }
-
-    .modern-dropdown.show {
-        visibility: visible;
-        opacity: 1;
-        transform: translateY(0);
-    }
+    .header-transparent { background: transparent; }
+    .header-transparent .nav-link { color: #fff !important; }
+    .header-scrolled { background: #fff !important; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .header-scrolled .nav-link { color: #333 !important; }
+    .header-scrolled #nav-toggler { color: #333 !important; }
 
     @media (max-width: 991.98px) {
         #navbarCollapse {
-            position: fixed !important;
-            top: 0 !important;
-            left: -100% !important; 
-            width: 100% !important; /* Forces full width */
-            max-width: 100% !important;
-            min-width: 100% !important;
-            height: 100vh !important;
-            background: #ffffff !important; 
-            opacity: 1 !important;
-            visibility: visible !important;
-            z-index: 9999 !important; /* Overlays everything */
-            margin: 0 !important;
-            padding: 2.5rem 0 !important;
-            transition: left 0.4s cubic-bezier(0.77,0,0.175,1) !important;
+            position: fixed !important; top: 0; left: -100% !important;
+            width: 100vw !important; height: 100vh !important;
+            background: #fff !important; z-index: 9999 !important;
+            padding: 1rem 0 !important; transition: left 0.4s ease !important;
+            display: flex !important; flex-direction: column; overflow-y: auto !important;
+        }
+        #navbarCollapse.show { left: 0 !important; }
+        .sidebar-close { position: absolute; top: 20px; right: 20px; border: none; background: none; font-size: 1.5rem; }
+
+        /* AUTH FIX: Hide absolute desktop buttons on mobile */
+        .auth-nav .dropdown { display: none !important; } 
+        .auth-nav .btn-custom-solid, .auth-nav .btn-custom-outline { display: none !important; }
+        
+        .mobile-nav-item {
             display: flex !important;
-            flex-direction: column;
-            overflow-y: auto !important;
-        }
-
-        #navbarCollapse.show {
-            left: 0 !important;
-        }
-
-        body.sidebar-open #main-header {
-            z-index: 3001 !important;
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 43, 0.4);
-            backdrop-filter: blur(2px);
-            z-index: 2500;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        body.sidebar-open .sidebar-overlay {
-            display: block;
-            opacity: 1;
-        }
-        
-        body.sidebar-open {
-            overflow: hidden !important;
-        }
-
-        .sidebar-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            color: #333;
-            cursor: pointer;
-        }
-
-        /* --------------------------------------------------
-           THE ALIGNMENT FIX (IDENTICAL STARTING POINT)
-           -------------------------------------------------- */
-        #main-nav, .auth-nav, .navbar-nav, .nav-item, ul, li {
-            padding-left: 0 !important;
-            margin-left: 0 !important;
-            width: 100% !important;
-            display: block !important;
-            list-style: none !important;
-        }
-
-        .nav-link, .dropdown-item {
-            font-size: 1.15rem !important;
+            align-items: center !important;
+            padding: 15px 30px !important;
+            font-size: 1.1rem !important;
             font-weight: 700 !important;
             color: #1a1a1a !important;
-            padding: 15px 25px !important; /* Default padding */
-            margin: 0 !important;
             border-bottom: 1px solid rgba(0,0,0,0.04) !important;
-            width: 100% !important;
-            text-align: left !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            pointer-events: auto !important; 
-            visibility: visible !important; 
+            text-decoration: none !important;
+            background: #fff !important;
         }
 
-        /* Specific centering for Auth dropdown items in mobile sidebar */
-        .auth-nav .dropdown-item {
-            text-align: center !important;
-            padding: 12px 15px !important;
-            border-bottom: 1px solid rgba(0,0,0,0.02) !important;
-        }
-        
-        .nav-link i, .dropdown-item i {
-            display: none !important; 
-        }
-
-        .auth-nav {
-            margin-top: auto !important; 
-            padding-top: 10px !important;
-        }
-
-        .auth-nav .dropdown-menu {
-            display: block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-            transform: none !important;
-            position: static !important;
-            background: transparent !important; 
-            box-shadow: none !important; 
-            margin: 0 !important;
-            padding: 0 !important;
-            border: none !important;
-            width: 100%;
-        }
-
-        .dropdown-item.text-danger {
-            color: #dc3545 !important;
-        }
-        
-        .btn-custom-solid, .btn-custom-outline {
-            height: 45px !important;
-            width: 85% !important; /* Small width */
-            max-width: 220px !important;
-            margin: 12px auto !important; /* Centered with margin */
-            display: flex !important;
-            font-size: 0.9rem !important;
-        }
-
-        .auth-nav {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            padding-bottom: 20px !important;
-        }
+        .auth-nav { margin-top: auto !important; width: 100% !important; }
     }
 
-
+    /* SaaS Styles for Buttons */
+    .btn-custom-solid, .btn-custom-outline {
+        font-weight: 700; padding: 0 25px; height: 42px; border-radius: 8px; transition: 0.3s;
+    }
+    .btn-custom-solid { background: var(--primary); color: #000 !important; }
+    .btn-custom-outline { border: 1px solid var(--primary); color: var(--primary) !important; }
 </style>
 
-{{-- Backdrop for Sidebar --}}
-<div class="sidebar-overlay" id="sidebar-overlay"></div>
+{{-- Backdrop --}}
+<div class="sidebar-overlay" id="sidebar-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9000;display:none;"></div>
 
-{{-- Vanilla JS for Header Interactions --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const header = document.getElementById('main-header');
@@ -463,54 +166,29 @@
         const overlay = document.getElementById('sidebar-overlay');
         const navToggler = document.getElementById('nav-toggler');
         
-        // 1. Sidebar Logic
         function toggleSidebar() {
-            document.body.classList.toggle('sidebar-open');
-            if (document.body.classList.contains('sidebar-open')) {
-                navCollapse.classList.add('show');
-            } else {
-                navCollapse.classList.remove('show');
-                // Small delay to ensure smooth transition before backdrop hides
-            }
+            const isOpen = document.body.classList.toggle('sidebar-open');
+            navCollapse.classList.toggle('show', isOpen);
+            overlay.style.display = isOpen ? 'block' : 'none';
         }
 
-        navToggler.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleSidebar();
-        });
-
-        overlay.addEventListener('click', toggleSidebar);
+        navToggler.onclick = toggleSidebar;
+        overlay.onclick = toggleSidebar;
 
         // Close on link click
-        document.querySelectorAll('.scroll-target').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth < 992) toggleSidebar();
-            });
+        document.querySelectorAll('.scroll-target, .mobile-nav-item').forEach(link => {
+            link.onclick = () => { if (window.innerWidth < 992) toggleSidebar(); };
         });
 
-        // Add Close Button to Navbar Collapse if missing
         if (window.innerWidth < 992 && !document.querySelector('.sidebar-close')) {
-            const closeBtn = document.createElement('button');
-            closeBtn.className = 'sidebar-close';
-            closeBtn.innerHTML = '<i class="fa fa-times"></i>';
-            closeBtn.onclick = toggleSidebar;
-            navCollapse.prepend(closeBtn);
+            const btn = document.createElement('button');
+            btn.className = 'sidebar-close'; btn.innerHTML = '✕'; btn.onclick = toggleSidebar;
+            navCollapse.prepend(btn);
         }
 
-        // 2. Scroll Transparency Toggle
-        function toggleHeaderBackground() {
-            const hasHero = !!document.getElementById('header-carousel');
-            if (window.scrollY > 50 || !hasHero) {
-                header.classList.add('header-scrolled');
-                header.classList.remove('header-transparent');
-            } else {
-                header.classList.remove('header-scrolled');
-                header.classList.add('header-transparent');
-            }
-        }
-
-        toggleHeaderBackground();
-        window.addEventListener('scroll', toggleHeaderBackground, { passive: true });
+        window.onscroll = () => {
+            if (window.scrollY > 50) { header.classList.add('header-scrolled'); header.classList.remove('header-transparent'); }
+            else { header.classList.remove('header-scrolled'); header.classList.add('header-transparent'); }
+        };
     });
 </script>
