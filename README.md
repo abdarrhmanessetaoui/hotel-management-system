@@ -156,10 +156,18 @@ Hotelia
 
 ## 📸 Demo & Screenshots
 
-### 🌐 Desktop UI & AI Chatbot
+### 🌐 Desktop Web Experience
 
 **Home Page with Smart Assistant (Support Chat)**
 ![Desktop Chatbot View](docs/images/desktop-chatbot.png)
+
+**Authentication (Login & Registration Modals)**
+![User Login](docs/images/desktop-login.png)
+<br>
+![User Register](docs/images/desktop-register.png)
+
+**Destinations & Cities Explorer**
+![Desktop Cities View](docs/images/desktop-cities.png)
 
 ### 📱 Mobile UI (100% Responsive)
 
@@ -169,9 +177,12 @@ Hotelia
 **Mobile Cities View**
 ![Mobile Cities View](docs/images/mobile-cities.png)
 
-### 🖥️ Admin Dashboard (Desktop)
+### 🖥️ Admin & Super Admin Dashboards (Desktop)
 
-**Interface: Créer une Chambre (Room Creation)**
+**Super Admin: Profile Management**
+![Super Admin Profile](docs/images/superadmin-profile.png)
+
+**Admin Dashboard: Créer une Chambre (Room Creation)**
 ![Admin Create Room](docs/images/admin-rooms.png)
 
 ---
