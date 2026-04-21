@@ -156,20 +156,18 @@ Hotelia
 
 ## 📸 Demo & Screenshots
 
-> 📌 **Important:** To display the images you just uploaded, simply **drag and drop** them from your computer directly into the GitHub README editor (on github.com). GitHub will automatically generate the links! Replace the `[LINK-HERE]` parts below with those generated links.
-
 ### 📱 Mobile UI (100% Responsive)
 
 **Mobile Home Page — "Les Meilleurs Hôtels du Maroc"**
-![Mobile Home View]([LINK-HERE-MOBILE-HOME])
+![Mobile Home View](docs/images/mobile-home.png)
 
 **Mobile Cities View**
-![Mobile Cities View]([LINK-HERE-MOBILE-CITIES])
+![Mobile Cities View](docs/images/mobile-cities.png)
 
 ### 🖥️ Admin Dashboard (Desktop)
 
 **Interface: Créer une Chambre (Room Creation)**
-![Admin Create Room]([LINK-HERE-ADMIN-ROOMS])
+![Admin Create Room](docs/images/admin-rooms.png)
 
 ---
 
@@ -323,13 +321,11 @@ Hotelia uses a relational MySQL database managed entirely through Laravel Eloque
 
 ### Diagrams & Models
 
-> 📌 **Important:** Drag and drop your diagram images into the GitHub editor to replace the `[LINK-HERE]` placeholders below.
-
 **Class Diagram / ERD:**
-![Class Diagram]([LINK-HERE-CLASS-DIAGRAM])
+![Class Diagram](docs/images/class-diagram.png)
 
 **Use Case Diagram:**
-![Use Case Diagram]([LINK-HERE-USE-CASE-DIAGRAM])
+![Use Case Diagram](docs/images/use-case-diagram.png)
 
 ---
 
