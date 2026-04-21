@@ -12,16 +12,10 @@
             <i class="fa fa-bars fs-2"></i>
         </button>
 
-        {{-- Nav Links & Actions --}}
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            {{-- Mobile Logo Header --}}
-            <div class="d-lg-none text-center py-4 mb-3 border-bottom">
-                <a href="{{ route('home') }}">
-                    <img src="{{ asset('img/logo.png') }}" alt="Hotelia" style="height: 40px; width: auto;">
-                </a>
-            </div>
-            
-            {{-- Main Menu --}}
+        {{-- ═══════════════════════════════════════════
+             DESKTOP NAV (unchanged, hidden on mobile)
+             ═══════════════════════════════════════════ --}}
+        <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarDesktop">
             <div class="navbar-nav mx-lg-auto py-3 py-lg-0 align-items-lg-center" id="main-nav">
                 <a class="nav-item nav-link fw-bold scroll-target" href="{{ route('home') }}">Accueil</a>
                 <a class="nav-item nav-link fw-bold scroll-target" href="{{ route('home') }}#villes">Destinations</a>
@@ -30,53 +24,23 @@
                 <a class="nav-item nav-link fw-bold scroll-target" href="{{ route('home') }}#newsletter">Contact</a>
             </div>
 
-            {{-- Auth Section --}}
-            <div class="navbar-nav auth-nav align-items-lg-center gap-2 pb-3 pb-lg-0">
+            <div class="navbar-nav align-items-lg-center gap-2">
                 @guest
                     <a href="{{ route('login') }}" class="btn-custom-outline">Connexion</a>
                     <a href="{{ route('register') }}" class="btn-custom-solid">S'inscrire</a>
                 @else
-                    {{-- 📱 MOBILE VIEW (Hidden on Desktop) --}}
-                    <div class="d-lg-none w-100">
-                        {{-- SINGLE Greeting Block --}}
-                        <div class="px-4 py-4 border-bottom mb-3 bg-light text-center">
-                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-2 shadow-sm" style="width: 65px; height: 65px; font-size: 1.6rem; font-weight: 800;">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                            </div>
-                            <small class="text-muted d-block text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">Bonjour,</small>
-                            <span class="fw-bold text-dark fs-5">{{ Auth::user()->name }}</span>
-                        </div>
-
-                        {{-- Mobile Link List --}}
-                        <div class="auth-mobile-links">
-                            <a href="{{ route('reservations.index') }}" class="mobile-nav-item">
-                                <i class="fa fa-calendar-check me-3 text-primary"></i>Mes Réservations
-                            </a>
-                            <a href="{{ route('profile') }}" class="mobile-nav-item">
-                                <i class="fa fa-user me-3 text-primary"></i>Mon Profil
-                            </a>
-                            @if(Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
-                                <a href="{{ Auth::user()->isSuperAdmin() ? route('superadmin.index') : route('admin.index') }}" class="mobile-nav-item text-primary fw-bold">
-                                    <i class="fa {{ Auth::user()->isSuperAdmin() ? 'fa-crown' : 'fa-cog' }} me-3"></i>Dashboard
-                                </a>
-                            @endif
-                            <form method="post" action="{{ route('logout') }}" class="w-100">
-                                @csrf
-                                <button type="submit" class="mobile-nav-item text-danger border-0 w-100 text-start bg-transparent">
-                                    <i class="fa fa-sign-out-alt me-3"></i>Déconnexion
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-
-                    {{-- 💻 DESKTOP VIEW (Hidden on Mobile) --}}
-                    <div class="nav-item dropdown d-none d-lg-block">
+                    <div class="nav-item dropdown">
                         <button class="btn-custom-solid dropdown-toggle border-0" data-bs-toggle="dropdown">
                             <i class="fa fa-user-circle me-2"></i>{{ explode(' ', Auth::user()->name)[0] }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end mt-2 border-0 shadow modern-dropdown">
                             <li><a href="{{ route('reservations.index') }}" class="dropdown-item py-2"><i class="fa fa-calendar-check me-2 text-primary"></i>Mes Réservations</a></li>
                             <li><a href="{{ route('profile') }}" class="dropdown-item py-2"><i class="fa fa-user me-2 text-primary"></i>Mon Profil</a></li>
+                            @if(Auth::user()->isAdmin())
+                                <li><a href="{{ route('admin.index') }}" class="dropdown-item py-2"><i class="fa fa-cog me-2 text-primary"></i>Dashboard</a></li>
+                            @elseif(Auth::user()->isSuperAdmin())
+                                <li><a href="{{ route('superadmin.index') }}" class="dropdown-item py-2"><i class="fa fa-crown me-2 text-primary"></i>Dashboard</a></li>
+                            @endif
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form method="post" action="{{ route('logout') }}">
@@ -89,94 +53,252 @@
                 @endguest
             </div>
         </div>
+
+        {{-- ═══════════════════════════════════════════
+             MOBILE MENU — Ultra-minimal drawer
+             Plain text. Left-aligned. No icons.
+             ═══════════════════════════════════════════ --}}
+        <div class="mobile-menu d-lg-none" id="mobileMenu">
+
+            {{-- Header: logo + close --}}
+            <div class="menu-header">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('img/logo.png') }}" alt="Hotelia" class="menu-logo">
+                </a>
+                <button class="menu-close" id="menuClose">✕</button>
+            </div>
+
+            <hr class="menu-divider">
+
+            {{-- Main navigation --}}
+            <nav class="menu-nav">
+                <a href="{{ route('home') }}">Accueil</a>
+                <a href="{{ route('home') }}#villes">Destinations</a>
+                <a href="{{ route('home') }}#services">Services</a>
+                <a href="{{ route('home') }}#testimonial">Avis</a>
+                <a href="{{ route('home') }}#newsletter">Contact</a>
+            </nav>
+
+            @auth
+                <hr class="menu-divider">
+
+                {{-- User greeting --}}
+                <div class="menu-user-name">Bonjour, {{ Auth::user()->name }}</div>
+
+                <hr class="menu-divider">
+
+                {{-- User links --}}
+                <nav class="menu-user-links">
+                    <a href="{{ route('reservations.index') }}">Mes Réservations</a>
+                    <a href="{{ route('profile') }}">Mon Profil</a>
+                    @if(Auth::user()->isAdmin())
+                        <a href="{{ route('admin.index') }}">Dashboard</a>
+                    @elseif(Auth::user()->isSuperAdmin())
+                        <a href="{{ route('superadmin.index') }}">Dashboard</a>
+                    @endif
+                    <form method="post" action="{{ route('logout') }}" class="m-0 p-0">
+                        @csrf
+                        <button type="submit" class="menu-logout-btn">Déconnexion</button>
+                    </form>
+                </nav>
+            @else
+                <hr class="menu-divider">
+                <nav class="menu-user-links">
+                    <a href="{{ route('login') }}">Connexion</a>
+                    <a href="{{ route('register') }}">S'inscrire</a>
+                </nav>
+            @endauth
+
+        </div>
     </nav>
 </header>
 
 <style>
-    #main-header { z-index: 1050; width: 100%; transition: 0.3s; position: fixed !important; }
+    /* ════════════════════════════════════════════════
+       DESKTOP HEADER (untouched)
+       ════════════════════════════════════════════════ */
+    #main-header { z-index: 1050; width: 100%; position: fixed !important; }
+    .transition-all { transition: all 0.3s ease; }
+
+    #main-nav .nav-link {
+        padding: 0 15px !important;
+        display: flex; align-items: center; height: 55px;
+    }
+
     .header-transparent { background: transparent; }
     .header-transparent .nav-link { color: #fff !important; }
     .header-scrolled { background: #fff !important; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     .header-scrolled .nav-link { color: #333 !important; }
     .header-scrolled #nav-toggler { color: #333 !important; }
 
-    @media (max-width: 991.98px) {
-        #navbarCollapse {
-            position: fixed !important; top: 0; left: -100% !important;
-            width: 100% !important; height: 100vh !important;
-            background: #ffffff !important; 
-            z-index: 1050 !important;
-            transition: left 0.4s ease !important; display: flex !important; flex-direction: column; overflow-y: auto !important;
-            opacity: 1 !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-        }
-        #navbarCollapse.show { left: 0 !important; }
-        .sidebar-close { position: absolute; top: 20px; right: 20px; border: none; background: none; font-size: 1.5rem; color: #333; }
+    .btn-custom-solid, .btn-custom-outline {
+        display: inline-flex; align-items: center; justify-content: center;
+        font-weight: 700; padding: 0 25px; height: 42px; border-radius: 8px;
+        text-decoration: none; cursor: pointer; transition: 0.2s;
+    }
+    .btn-custom-solid { background: var(--primary); color: #000 !important; border: 1px solid var(--primary); }
+    .btn-custom-solid:hover { background: var(--primary-dark); color: #fff !important; }
+    .btn-custom-outline { border: 1px solid var(--primary); color: var(--primary) !important; background: transparent; }
+    .btn-custom-outline:hover { background: rgba(255,126,33,0.1); }
 
-        /* ABSOLUTE FORCE: Hide desktop dropdown elements on mobile */
-        .auth-nav .dropdown, .modern-dropdown, .btn-custom-solid, .btn-custom-outline { display: none !important; }
-        
-        /* Show only the mobile auth block if authenticated */
-        .auth-nav .d-lg-none { display: block !important; }
+    button.btn-custom-solid.dropdown-toggle::after { margin-left: 6px; vertical-align: middle; }
 
-        .mobile-nav-item {
-            display: flex !important; align-items: center !important; padding: 18px 30px !important;
-            font-size: 1.1rem !important; font-weight: 700 !important; color: #1a1a1a !important;
-            border-bottom: 1px solid rgba(0,0,0,0.04) !important; text-decoration: none !important; background: #fff !important;
-        }
-        .nav-link { padding: 15px 30px !important; color: #1a1a1a !important; border-bottom: 1px solid rgba(0,0,0,0.04) !important; }
-        .auth-nav { margin-top: auto !important; width: 100% !important; }
+    .modern-dropdown {
+        background: #fff; border-radius: 8px !important; padding: 8px 0;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.12) !important;
+        border: 1px solid rgba(0,0,0,0.05) !important;
     }
 
-    .btn-custom-solid, .btn-custom-outline { font-weight: 700; padding: 0 25px; height: 42px; border-radius: 8px; }
-    .btn-custom-solid { background: var(--primary); color: #000 !important; }
-    .btn-custom-outline { border: 1px solid var(--primary); color: var(--primary) !important; }
+    /* ════════════════════════════════════════════════
+       MOBILE MENU — Ultra-minimal, plain text
+       Only active below 992px
+       ════════════════════════════════════════════════ */
+    .mobile-menu {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #ffffff;
+        z-index: 9999;
+        overflow-y: auto;
+        padding: 0 24px 40px 24px;
+        transform: translateX(-100%);
+        transition: transform 0.35s ease;
+    }
+
+    .mobile-menu.open {
+        transform: translateX(0);
+    }
+
+    .menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+    }
+
+    .menu-logo { height: 36px; width: auto; }
+
+    .menu-close {
+        background: none; border: none;
+        font-size: 22px; color: #333;
+        cursor: pointer; padding: 4px 10px;
+        line-height: 1;
+    }
+
+    .menu-divider {
+        border: none;
+        border-top: 1px solid #eee;
+        margin: 0;
+    }
+
+    .menu-nav a,
+    .menu-user-links a {
+        display: block;
+        padding: 16px 0;
+        font-size: 16px;
+        color: #222;
+        text-decoration: none;
+        border-bottom: 1px solid #f5f5f5;
+        text-align: left;
+        background: none;
+        font-weight: 400;
+    }
+
+    .menu-nav a:last-child,
+    .menu-user-links a:last-child {
+        border-bottom: none;
+    }
+
+    .menu-nav a:hover,
+    .menu-user-links a:hover {
+        color: var(--primary);
+    }
+
+    .menu-user-name {
+        padding: 16px 0;
+        font-size: 14px;
+        color: #888;
+        text-align: left;
+    }
+
+    .menu-logout-btn {
+        display: block; width: 100%;
+        padding: 16px 0; font-size: 16px;
+        color: #e74c3c; text-align: left;
+        background: none; border: none;
+        cursor: pointer; font-weight: 400;
+    }
+
+    .menu-logout-btn:hover { color: #c0392b; }
+
+    /* Backdrop behind menu */
+    .menu-backdrop {
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.4);
+        z-index: 9998;
+        display: none;
+    }
+    .menu-backdrop.active { display: block; }
+
+    /* Hide mobile menu elements on desktop */
+    @media (min-width: 992px) {
+        .mobile-menu, .menu-backdrop { display: none !important; }
+    }
+
+    /* Hide hamburger on desktop */
+    @media (min-width: 992px) {
+        #nav-toggler { display: none !important; }
+    }
 </style>
 
 {{-- Backdrop --}}
-<div id="sidebar-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1040;display:none;"></div>
+<div class="menu-backdrop" id="menuBackdrop"></div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const header = document.getElementById('main-header');
-        const navCollapse = document.getElementById('navbarCollapse');
-        const overlay = document.getElementById('sidebar-overlay');
-        const navToggler = document.getElementById('nav-toggler');
-        
-        function toggleSidebar() {
-            // BUG 3 FIX: Close any active desktop dropdowns before opening sidebar
-            document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+document.addEventListener('DOMContentLoaded', function () {
+    const header   = document.getElementById('main-header');
+    const menu     = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('menuBackdrop');
+    const toggler  = document.getElementById('nav-toggler');
+    const closeBtn = document.getElementById('menuClose');
 
-            const isOpen = document.body.classList.toggle('sidebar-open');
-            navCollapse.classList.toggle('show', isOpen);
-            overlay.style.display = isOpen ? 'block' : 'none';
-        }
-
-        navToggler.onclick = toggleSidebar;
-        overlay.onclick = toggleSidebar;
-
-        // Close on link click
-        document.querySelectorAll('.scroll-target, .mobile-nav-item').forEach(link => {
-            link.onclick = () => { if (window.innerWidth < 992) toggleSidebar(); };
-        });
-
-        if (window.innerWidth < 992 && !document.querySelector('.sidebar-close')) {
-            const btn = document.createElement('button');
-            btn.className = 'sidebar-close'; btn.innerHTML = '✕'; btn.onclick = toggleSidebar;
-            navCollapse.prepend(btn);
-        }
-
-        window.onscroll = () => {
-            if (window.scrollY > 50) { header.classList.add('header-scrolled'); header.classList.remove('header-transparent'); }
-            else { header.classList.remove('header-scrolled'); header.classList.add('header-transparent'); }
-        };
-
-        // BUG 3 FIX: Clicking outside should close both
-        document.addEventListener('click', function(e) {
-            if (!header.contains(e.target) && !overlay.contains(e.target) && document.body.classList.contains('sidebar-open')) {
-                toggleSidebar();
-            }
-        });
+    // Open
+    toggler.addEventListener('click', function (e) {
+        e.preventDefault();
+        menu.classList.add('open');
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
     });
+
+    // Close
+    function closeMenu() {
+        menu.classList.remove('open');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
+
+    // Close on any link click inside menu
+    menu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Scroll: transparent → solid header
+    function updateHeader() {
+        var hasHero = !!document.getElementById('header-carousel');
+        if (window.scrollY > 50 || !hasHero) {
+            header.classList.add('header-scrolled');
+            header.classList.remove('header-transparent');
+        } else {
+            header.classList.remove('header-scrolled');
+            header.classList.add('header-transparent');
+        }
+    }
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+});
 </script>

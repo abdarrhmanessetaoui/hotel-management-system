@@ -1839,42 +1839,26 @@ h6,
     .table-responsive tbody td:last-child>.btn,
     .table-responsive tbody td:last-child>a.btn,
     .table-responsive tbody td:last-child>button.btn,
-    .table-responsive tbody td:l}
-
-/* ════════════════════════════════════════════════════════
-   MOBILE MENU OVERLAY & AUTH ALIGNMENT
-   ════════════════════════════════════════════════════════ */
-@media (max-width: 991.98px) {
-    .mobile-nav-item {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
-        width: 100% !important;
-        padding: 18px 30px !important;
-        font-size: 1.1rem !important;
-        font-weight: 700 !important;
-        color: #1A1A1A !important;
-        border-bottom: 1px solid rgba(0,0,0,0.04) !important;
-        text-decoration: none !important;
-        background: #ffffff !important;
+    .table-responsive tbody td:last-child>.d-flex>.btn,
+    .table-responsive tbody td:last-child>.d-flex>a.btn,
+    .table-responsive tbody td:last-child>.d-flex>button.btn,
+    .table-responsive tbody td:last-child form>.btn,
+    .table-responsive tbody td:last-child form>button,
+    .table-responsive tbody td:last-child>form,
+    .table-responsive tbody td:last-child>.d-flex>form {
+        width: auto !important;
+        margin-bottom: 0 !important;
+        max-width: calc(50% - 4px) !important;
     }
 
-    .mobile-nav-item i {
-        font-size: 1.2rem !important;
-        width: 24px;
-        text-align: center;
-    }
-
-    body.sidebar-open .chatbot-fab,
-    body.sidebar-open .chatbot-window {
-        display: none !important;
-    }
-
-    #navbarCollapse {
-        box-shadow: none !important;
-        border: none !important;
+    /* Touch inputs */
+    .form-control,
+    .form-select {
+        height: 50px !important;
+        font-size: 1rem !important;
     }
 }
+
 
 
 /* ════════════════════════════════════════════════════════════
