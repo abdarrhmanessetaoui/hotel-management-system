@@ -59,48 +59,62 @@
                     </div>
 
                     {{-- Desktop Dropdown & Mobile Standard Links --}}
+                    {{-- Personalized Mobile Greeting --}}
+                    <div class="d-lg-none px-4 py-3 border-bottom mb-3 bg-light">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; font-size: 1.2rem; font-weight: 700;">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </div>
+                            <div>
+                                <small class="text-muted d-block" style="font-size: 0.75rem; text-transform: uppercase;">Bonjour,</small>
+                                <span class="fw-bold text-dark" style="font-size: 1.15rem;">{{ Auth::user()->name }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Unified Links (Clean list for Mobile, Dropdown for Desktop) --}}
                     <div class="nav-item dropdown w-100">
+                        {{-- Desktop Only Button --}}
                         <button class="btn-custom-solid dropdown-toggle w-100 d-none d-lg-inline-block" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-user-circle me-2"></i>{{ explode(' ', Auth::user()->name)[0] }}
                         </button>
                         
-                        {{-- On Mobile, these are plain links in the vertical list --}}
-                        <div class="d-lg-none">
-                            <a href="{{ route('reservations.index') }}" class="nav-link scroll-target border-bottom">
+                        {{-- Mobile Navigation Links (strictly vertical) --}}
+                        <div class="d-lg-none auth-mobile-links">
+                            <a href="{{ route('reservations.index') }}" class="mobile-nav-item">
                                 <i class="fa fa-calendar-check me-2 text-primary"></i>Mes Réservations
                             </a>
-                            <a href="{{ route('profile') }}" class="nav-link scroll-target border-bottom">
-                                <i class="fa fa-user me-2 text-primary"></i>Mon Profil</a>
+                            <a href="{{ route('profile') }}" class="mobile-nav-item">
+                                <i class="fa fa-user me-2 text-primary"></i>Mon Profil
+                            </a>
                             
                             @if(Auth::user()->isAdmin())
-                                <a href="{{ route('admin.index') }}" class="nav-link scroll-target border-bottom text-primary">
+                                <a href="{{ route('admin.index') }}" class="mobile-nav-item text-primary">
                                     <i class="fa fa-cog me-2"></i>Dashboard Admin
                                 </a>
                             @elseif(Auth::user()->isSuperAdmin())
-                                <a href="{{ route('superadmin.index') }}" class="nav-link scroll-target border-bottom text-primary">
+                                <a href="{{ route('superadmin.index') }}" class="mobile-nav-item text-primary">
                                     <i class="fa fa-crown me-2"></i>Dashboard Super Admin
                                 </a>
                             @endif
 
                             <form method="post" action="{{ route('logout') }}" class="w-100">
                                 @csrf
-                                <button type="submit" class="nav-link text-danger border-0 w-100 text-start bg-transparent">
+                                <button type="submit" class="mobile-nav-item text-danger border-0 w-100 text-start bg-transparent">
                                     <i class="fa fa-sign-out-alt me-2"></i>Déconnexion
                                 </button>
                             </form>
                         </div>
 
-                        {{-- Desktop Only Dropdown Content --}}
+                        {{-- Desktop Dropdown --}}
                         <ul class="dropdown-menu dropdown-menu-end mt-2 border-0 shadow modern-dropdown d-none d-lg-block">
-                            <li><a href="{{ route('reservations.index') }}" class="dropdown-item scroll-target">Mes Réservations</a></li>
-                            <li><a href="{{ route('profile') }}" class="dropdown-item scroll-target">Mon Profil</a></li>
+                            <li><a href="{{ route('reservations.index') }}" class="dropdown-item">Mes Réservations</a></li>
+                            <li><a href="{{ route('profile') }}" class="dropdown-item">Mon Profil</a></li>
                             <li><hr class="dropdown-divider my-1"></li>
                             <li>
-                                <form method="post" action="{{ route('logout') }}" class="w-100">
+                                <form method="post" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="dropdown-item text-danger border-0">
-                                        Déconnexion
-                                    </button>
+                                    <button type="submit" class="dropdown-item text-danger border-0">Déconnexion</button>
                                 </form>
                             </li>
                         </ul>
@@ -299,20 +313,20 @@
             position: fixed !important;
             top: 0 !important;
             left: -100% !important; 
-            width: 100% !important; /* Full width as requested */
+            width: 100% !important; /* Forces full width */
+            max-width: 100% !important;
+            min-width: 100% !important;
             height: 100vh !important;
             background: #ffffff !important; 
             opacity: 1 !important;
             visibility: visible !important;
-            z-index: 5000 !important; /* High enough to cover navbar */
+            z-index: 9999 !important; /* Overlays everything */
             margin: 0 !important;
-            padding: 20px 0 30px 0 !important;
+            padding: 2.5rem 0 !important;
             transition: left 0.4s cubic-bezier(0.77,0,0.175,1) !important;
             display: flex !important;
             flex-direction: column;
-            box-shadow: none !important;
-            border: none !important;
-            border-radius: 0 !important;
+            overflow-y: auto !important;
         }
 
         #navbarCollapse.show {
