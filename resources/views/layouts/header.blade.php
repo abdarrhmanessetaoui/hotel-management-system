@@ -93,7 +93,7 @@
 </header>
 
 <style>
-    #main-header { z-index: 1050; width: 100%; transition: 0.3s; }
+    #main-header { z-index: 1050; width: 100%; transition: 0.3s; position: fixed !important; }
     .header-transparent { background: transparent; }
     .header-transparent .nav-link { color: #fff !important; }
     .header-scrolled { background: #fff !important; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -104,8 +104,12 @@
         #navbarCollapse {
             position: fixed !important; top: 0; left: -100% !important;
             width: 100% !important; height: 100vh !important;
-            background: #fff !important; z-index: 9999 !important;
+            background: #ffffff !important; 
+            z-index: 1050 !important;
             transition: left 0.4s ease !important; display: flex !important; flex-direction: column; overflow-y: auto !important;
+            opacity: 1 !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
         }
         #navbarCollapse.show { left: 0 !important; }
         .sidebar-close { position: absolute; top: 20px; right: 20px; border: none; background: none; font-size: 1.5rem; color: #333; }
@@ -131,7 +135,7 @@
 </style>
 
 {{-- Backdrop --}}
-<div id="sidebar-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9000;display:none;"></div>
+<div id="sidebar-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1040;display:none;"></div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
