@@ -197,11 +197,11 @@
         display: block;
         padding: 16px 0;
         font-size: 16px;
-        color: #222;
-        text-decoration: none;
+        color: #222222 !important;
+        text-decoration: none !important;
         border-bottom: 1px solid #f5f5f5;
         text-align: left;
-        background: none;
+        background: none !important;
         font-weight: 400;
     }
 
@@ -212,7 +212,7 @@
 
     .menu-nav a:hover,
     .menu-user-links a:hover {
-        color: var(--primary);
+        color: var(--primary) !important;
     }
 
     .menu-user-name {
