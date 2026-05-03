@@ -1,7 +1,8 @@
-# 📋 Presenation ppt
-[Hotelia.pptx](docs/images/Hotelia.pptx)
+# 📋 Presentation
 
----
+[![Download PPT](https://img.shields.io/badge/Download-Hotelia.pptx-blue?style=for-the-badge&logo=microsoftpowerpoint)](docs/images/Hotelia.pptx)
+
+--
 
 <p align="center">
   <a href="https://laravel.com" target="_blank">
