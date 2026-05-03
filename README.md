@@ -29,10 +29,6 @@
 
 ---
 
-# 📋 Presenation ppt
-[Hotelia.pptx](docs/images/Hotelia.pptx)
-
----
 
 ## 📋 Table of Contents
 
