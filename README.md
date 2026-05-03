@@ -154,6 +154,11 @@ Hotelia
 
 ---
 
+## 🛝 Presenation ppt
+[Hotelia.pptx](docs/images/Hotelia.pptx)
+
+---
+
 ## 📸 Demo & Screenshots
 
 ### 🌐 Desktop Web Experience
@@ -161,8 +166,6 @@ Hotelia
 **Home Page with Smart Assistant (Support Chat)**
 ![Desktop Chatbot View](docs/images/desktop-chatbot.png)
 
-**Presenation ppt**
-[Hotelia.pptx](docs/images/Hotelia.pptx)
 
 **Authentication (Login & Registration Modals)**
 ![User Login](docs/images/desktop-login.png)
