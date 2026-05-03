@@ -118,3 +118,4 @@ document.getElementById('newsletter-form').addEventListener('submit', async func
     }
 });
 </script>
+

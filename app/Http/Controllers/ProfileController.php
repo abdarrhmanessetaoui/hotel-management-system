@@ -63,3 +63,4 @@ class ProfileController extends Controller
         return back()->with('success', 'Votre profil a été mis à jour avec succès.');
     }
 }
+

@@ -53,3 +53,4 @@ class BookingAgent
         return ['action' => 'none', 'payload' => [], 'reasoning' => 'Informational query only.'];
     }
 }
+

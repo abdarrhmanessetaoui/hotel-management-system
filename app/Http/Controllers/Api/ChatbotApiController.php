@@ -54,3 +54,4 @@ class ChatbotApiController extends Controller
         return response()->json(Reservation::with('user:id,name', 'room:id,room_number')->orderBy('id', 'desc')->limit(5)->get());
     }
 }
+

@@ -85,3 +85,4 @@ class RoomTypeController extends Controller
             ->with('message', 'Type de chambre supprimé avec succès.');
     }
 }
+

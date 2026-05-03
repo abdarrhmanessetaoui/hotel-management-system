@@ -98,3 +98,4 @@
 
 {{-- Removed Réservations Récentes table to match Super Admin layout structure --}}
 @endsection
+

@@ -20,3 +20,4 @@ class AiAuditLog extends Model
         'payload' => 'array'
     ];
 }
+

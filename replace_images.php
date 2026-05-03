@@ -36,3 +36,4 @@ foreach($files as $file) {
     }
 }
 echo "Done. Updated $updatedFiles files.\n";
+

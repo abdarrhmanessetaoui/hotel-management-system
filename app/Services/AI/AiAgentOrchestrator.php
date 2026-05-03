@@ -98,3 +98,4 @@ class AiAgentOrchestrator
         return $lang === 'ar' ? 'عذراً، واجهت مشكلة. سأساعدك قريباً.' : 'Désolé, j\'ai rencontré un problème. Je vous aiderai bientôt.';
     }
 }
+

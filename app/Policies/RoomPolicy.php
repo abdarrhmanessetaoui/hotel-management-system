@@ -25,3 +25,4 @@ class RoomPolicy
         return !in_array($room->id, [1,2,3]);
     }
 }
+

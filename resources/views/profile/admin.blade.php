@@ -35,3 +35,4 @@
         @include('layouts.footer')
     @endif
 @endsection
+

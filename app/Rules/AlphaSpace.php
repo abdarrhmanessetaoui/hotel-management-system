@@ -19,3 +19,4 @@ class AlphaSpace implements ValidationRule {
         }
     }
 }
+

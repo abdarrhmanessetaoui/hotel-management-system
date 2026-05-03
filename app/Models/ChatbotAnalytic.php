@@ -31,3 +31,4 @@ class ChatbotAnalytic extends Model
         return $this->belongsTo(ChatSession::class);
     }
 }
+

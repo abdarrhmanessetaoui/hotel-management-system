@@ -28,3 +28,4 @@ return new class extends Migration
         Schema::dropIfExists('chatbot_suggestions');
     }
 };
+

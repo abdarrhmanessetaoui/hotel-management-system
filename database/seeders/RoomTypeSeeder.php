@@ -54,3 +54,4 @@ class RoomTypeSeeder extends Seeder
         }
     }
 }
+

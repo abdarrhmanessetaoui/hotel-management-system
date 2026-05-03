@@ -24,3 +24,4 @@ class ChatbotSuggestionSeeder extends Seeder
         }
     }
 }
+

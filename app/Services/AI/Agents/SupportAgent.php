@@ -31,3 +31,4 @@ class SupportAgent
         return ['action' => 'none', 'payload' => [], 'reasoning' => 'Informational/Support query.'];
     }
 }
+

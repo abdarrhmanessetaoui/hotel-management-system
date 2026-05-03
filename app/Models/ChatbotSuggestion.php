@@ -12,3 +12,4 @@ class ChatbotSuggestion extends Model
     protected $fillable = ['text', 'role', 'is_active'];
 }
 
+

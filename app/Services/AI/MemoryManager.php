@@ -88,3 +88,4 @@ class MemoryManager
         $session->update(['context' => $context]);
     }
 }
+

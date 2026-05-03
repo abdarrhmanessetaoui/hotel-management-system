@@ -62,3 +62,4 @@ class ChatbotSuggestionController extends Controller
             ->with('success', 'La suggestion a été supprimée avec succès.');
     }
 }
+

@@ -33,3 +33,4 @@ class ToolRegistry
         return $this->booking->createReservation($args);
     }
 }
+

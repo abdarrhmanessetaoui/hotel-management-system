@@ -57,3 +57,4 @@ class ChatSession extends Model
         $this->increment('message_count');
     }
 }
+

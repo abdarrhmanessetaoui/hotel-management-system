@@ -63,3 +63,4 @@ class ReviewController extends Controller
         return back()->with('message', 'Avis supprimé définitivement.');
     }
 }
+

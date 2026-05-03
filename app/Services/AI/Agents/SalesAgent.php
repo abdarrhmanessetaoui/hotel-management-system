@@ -31,3 +31,4 @@ class SalesAgent
         return ['action' => 'none', 'payload' => [], 'reasoning' => 'Standard sales interaction.'];
     }
 }
+

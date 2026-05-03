@@ -108,3 +108,4 @@ class ChatbotController extends Controller
         return ChatbotSuggestion::where('is_active', true)->whereIn('role', [$role, 'all'])->pluck('text')->toArray();
     }
 }
+

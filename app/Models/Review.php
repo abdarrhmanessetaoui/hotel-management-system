@@ -60,3 +60,4 @@ class Review extends Model
         return $this->status === self::STATUS_REJECTED;
     }
 }
+

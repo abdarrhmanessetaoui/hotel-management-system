@@ -14,3 +14,4 @@ Route::prefix('chatbot-data')->group(function () {
     Route::get('/rooms', [ChatbotApiController::class, 'rooms']);
     Route::get('/bookings', [ChatbotApiController::class, 'bookings']);
 });
+

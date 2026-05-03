@@ -31,3 +31,4 @@ class ChatMessage extends Model
         return $this->belongsTo(ChatSession::class, 'chat_session_id');
     }
 }
+

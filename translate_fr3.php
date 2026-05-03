@@ -60,3 +60,4 @@ foreach ($files as $file) {
     }
 }
 echo "Translated $count additional Blade files to French successfully.\n";
+

@@ -45,3 +45,4 @@ class ReservationController extends Controller
             ->with('message', 'La réservation a été supprimée.');
     }
 }
+

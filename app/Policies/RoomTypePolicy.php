@@ -25,3 +25,4 @@ class RoomTypePolicy
         return !in_array($roomType->name, ['Standard', 'Deluxe', 'Superior']);
     }
 }
+
