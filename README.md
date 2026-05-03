@@ -1,6 +1,6 @@
 # 📋 Presentation
 
-<a href="docs/images/Hotelia.pptx?raw=true" download>
+<a href="https://github.com/abdarrhmanessetaoui/hotel-management-system/releases/download/v1.0/Hotelia.pptx">
   <img src="https://img.shields.io/badge/Download-Hotelia.pptx-blue?style=for-the-badge&logo=microsoftpowerpoint" alt="Download PPT">
 </a>
 
