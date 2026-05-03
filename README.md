@@ -21,7 +21,7 @@
 
 ---
 
-## 📋 Presenation ppt
+# 📋 Presenation ppt
 [Hotelia.pptx](docs/images/Hotelia.pptx)
 
 ---
