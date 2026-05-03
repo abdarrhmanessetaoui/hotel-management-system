@@ -21,6 +21,11 @@
 
 ---
 
+## 📋 Presenation ppt
+[Hotelia.pptx](docs/images/Hotelia.pptx)
+
+---
+
 ## 📋 Table of Contents
 
 - [About the Project](#-about-the-project)
@@ -152,12 +157,7 @@ Hotelia
     └── Fallback response engine
 ```
 
----
 
-## 🛝 Presenation ppt
-[Hotelia.pptx](docs/images/Hotelia.pptx)
-
----
 
 ## 📸 Demo & Screenshots
 
