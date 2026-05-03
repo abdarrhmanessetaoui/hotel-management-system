@@ -162,7 +162,7 @@ Hotelia
 ![Desktop Chatbot View](docs/images/desktop-chatbot.png)
 
 **Presenation ppt**
-![Ppt](docs/images/Hotelia.pptx)
+[Hotelia.pptx](docs/images/Hotelia.pptx)
 
 **Authentication (Login & Registration Modals)**
 ![User Login](docs/images/desktop-login.png)
