@@ -120,8 +120,8 @@ class UsersSeeder extends Seeder
             DB::table('users')->updateOrInsert(
                 ['email' => $user['email']],
                 array_merge($user['data'], [
-                    'created_at' => DB::raw('COALESCE(created_at, NOW())'),
-                    'updated_at' => DB::raw('NOW()'),
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ])
             );
         }

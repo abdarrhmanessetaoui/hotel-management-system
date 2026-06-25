@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            // Check if avatar exists and drop it to clean up
-            if (Schema::hasColumn('users', 'avatar')) {
+        if (Schema::hasColumn('users', 'avatar')) {
+            Schema::table('users', function (Blueprint $table) {
                 $table->dropColumn('avatar');
-            }
-            // Add the standardized profile_image column
+            });
+        }
+
+        Schema::table('users', function (Blueprint $table) {
             $table->string('profile_image')->nullable()->after('email');
         });
     }

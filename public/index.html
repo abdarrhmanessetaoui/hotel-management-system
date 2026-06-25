@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- Libraries Stylesheet -->
+    <link href="/lib/animate/animate.min.css" rel="stylesheet">
+        <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Template Stylesheet -->
+    <link href="/css/style.css?v=2.3" rel="stylesheet">
+    <link href="/css/chatbot.css?v=2.3" rel="stylesheet">
+    <!-- Branding -->
+    <link rel="icon" type="image/png" href="/img/favicon-brand.png">
+    <title>Hotelia</title>
+</head>
+
+<body class="bg-light">
+    <!-- Spinner loading (Global) -->
+    <div id="spinner" class="show position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex flex-column align-items-center justify-content-center" 
+     style="z-index: 99999; 
+            background: #ffffff;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s step-end;">
+    
+    <div class="loader-viewport d-flex flex-column align-items-center">
+        
+        
+        <img src="/img/logo.png" 
+             alt="Hotelia" 
+             class="modern-pulse-logo mb-5">
+        
+        
+        <div class="progress-track">
+            <div class="progress-fill"></div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    /* 1. Cinematic Breathing Animation */
+    .modern-pulse-logo {
+        height: 100px;
+        width: auto;
+        object-fit: contain;
+        animation: cinematic-breath 3s ease-in-out infinite both;
+        will-change: transform, opacity;
+    }
+
+    @keyframes cinematic-breath {
+        0%, 100% {
+            transform: scale(0.96);
+            opacity: 0.8;
+            filter: drop-shadow(0 5px 15px rgba(255, 126, 33, 0.15));
+        }
+        50% {
+            transform: scale(1.05);
+            opacity: 1;
+            filter: drop-shadow(0 15px 35px rgba(255, 126, 33, 0.3));
+        }
+    }
+
+    /* 2. Sleek Progress Bar */
+    .progress-track {
+        width: 280px;
+        height: 6px;
+        background: rgba(255, 126, 33, 0.1); 
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .progress-fill {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 60%;
+        height: 100%;
+        background: #FF7E21; /* Match logo exactly */
+        border-radius: 10px;
+        animation: progress-indeterminate 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+        box-shadow: 0 0 15px rgba(255, 126, 33, 0.5);
+    }
+
+    @keyframes progress-indeterminate {
+        0% { left: -100%; width: 30%; }
+        50% { left: 20%; width: 70%; }
+        100% { left: 100%; width: 30%; }
+    }
+
+    #spinner.hide {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none;
+    }
+</style>
+
+
+    <!-- Admin Panel -->
+            <!-- Public Site Logic -->
+            <header id="main-header" class="fixed-top header-transparent transition-all">
+    <nav class="navbar navbar-expand-lg py-0 px-3 px-lg-5 transition-all" id="main-navbar">
+        
+        
+        <a href="/" class="navbar-brand d-none d-md-flex align-items-center p-0" style="z-index: 10;">
+            <img src="/img/logo.png" id="brand-logo" alt="Hotelia" style="height: 55px; width: auto;">
+        </a>
+
+        
+        <button type="button" class="navbar-toggler border-0 shadow-none px-2 text-white" id="nav-toggler">
+            <i class="fa fa-bars fs-2"></i>
+        </button>
+
+        
+        <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarDesktop">
+            <div class="navbar-nav mx-lg-auto py-3 py-lg-0 align-items-lg-center" id="main-nav">
+                <a class="nav-item nav-link fw-bold scroll-target" href="/">Accueil</a>
+                <a class="nav-item nav-link fw-bold scroll-target" href="/#villes">Destinations</a>
+                <a class="nav-item nav-link fw-bold scroll-target" href="/#services">Services</a>
+                <a class="nav-item nav-link fw-bold scroll-target" href="/#testimonial">Avis</a>
+                <a class="nav-item nav-link fw-bold scroll-target" href="/#newsletter">Contact</a>
+            </div>
+
+            <div class="navbar-nav align-items-lg-center gap-2">
+                                    <a href="/login" class="btn-custom-outline">Connexion</a>
+                    <a href="/register" class="btn-custom-solid">S'inscrire</a>
+                            </div>
+        </div>
+
+        
+        <div class="mobile-menu d-lg-none" id="mobileMenu">
+
+            
+            <div class="menu-header">
+                <a href="/">
+                    <img src="/img/logo.png" alt="Hotelia" class="menu-logo">
+                </a>
+                <button class="menu-close" id="menuClose">✕</button>
+            </div>
+
+            <hr class="menu-divider">
+
+            
+            <nav class="menu-nav">
+                <a href="/">Accueil</a>
+                <a href="/#villes">Destinations</a>
+                <a href="/#services">Services</a>
+                <a href="/#testimonial">Avis</a>
+                <a href="/#newsletter">Contact</a>
+            </nav>
+
+                            <hr class="menu-divider">
+                <nav class="menu-user-links">
+                    <a href="/login">Connexion</a>
+                    <a href="/register">S'inscrire</a>
+                </nav>
+            
+        </div>
+    </nav>
+</header>
+
+<style>
+    /* ════════════════════════════════════════════════
+       DESKTOP HEADER (untouched)
+       ════════════════════════════════════════════════ */
+    #main-header { z-index: 1050; width: 100%; position: fixed !important; }
+    .transition-all { transition: all 0.3s ease; }
+
+    #main-nav .nav-link {
+        padding: 0 15px !important;
+        display: flex; align-items: center; height: 55px;
+    }
+
+    .header-transparent { background: transparent; }
+    .header-transparent .nav-link { color: #fff !important; }
+    .header-scrolled { background: #fff !important; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .header-scrolled .nav-link { color: #333 !important; }
+    .header-scrolled #nav-toggler { color: #333 !important; }
+
+    .btn-custom-solid, .btn-custom-outline {
+        display: inline-flex; align-items: center; justify-content: center;
+        font-weight: 700; padding: 0 25px; height: 42px; border-radius: 8px;
+        text-decoration: none; cursor: pointer; transition: 0.2s;
+    }
+    .btn-custom-solid { background: var(--primary); color: #000 !important; border: 1px solid var(--primary); }
+    .btn-custom-solid:hover { background: var(--primary-dark); color: #fff !important; }
+    .btn-custom-outline { border: 1px solid var(--primary); color: var(--primary) !important; background: transparent; }
+    .btn-custom-outline:hover { background: rgba(255,126,33,0.1); }
+
+    button.btn-custom-solid.dropdown-toggle::after { margin-left: 6px; vertical-align: middle; }
+
+    .modern-dropdown {
+        background: #fff; border-radius: 8px !important; padding: 8px 0;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.12) !important;
+        border: 1px solid rgba(0,0,0,0.05) !important;
+    }
+
+    /* ════════════════════════════════════════════════
+       MOBILE MENU — Ultra-minimal, plain text
+       Only active below 992px
+       ════════════════════════════════════════════════ */
+    .mobile-menu {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #ffffff;
+        z-index: 9999;
+        overflow-y: auto;
+        padding: 0 24px 40px 24px;
+        transform: translateX(-100%);
+        transition: transform 0.35s ease;
+    }
+
+    .mobile-menu.open {
+        transform: translateX(0);
+    }
+
+    .menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+    }
+
+    .menu-logo { height: 36px; width: auto; }
+
+    .menu-close {
+        background: none; border: none;
+        font-size: 22px; color: #333;
+        cursor: pointer; padding: 4px 10px;
+        line-height: 1;
+    }
+
+    .menu-divider {
+        border: none;
+        border-top: 1px solid #eee;
+        margin: 0;
+    }
+
+    .menu-nav a,
+    .menu-user-links a {
+        display: block;
+        padding: 16px 0;
+        font-size: 16px;
+        color: #222222 !important;
+        text-decoration: none !important;
+        border-bottom: 1px solid #f5f5f5;
+        text-align: left;
+        background: none !important;
+        font-weight: 400;
+    }
+
+    .menu-nav a:last-child,
+    .menu-user-links a:last-child {
+        border-bottom: none;
+    }
+
+    .menu-nav a:hover,
+    .menu-user-links a:hover {
+        color: var(--primary) !important;
+    }
+
+    .menu-user-name {
+        padding: 16px 0;
+        font-size: 14px;
+        color: #888;
+        text-align: left;
+    }
+
+    .menu-logout-btn {
+        display: block; width: 100%;
+        padding: 16px 0; font-size: 16px;
+        color: #e74c3c; text-align: left;
+        background: none; border: none;
+        cursor: pointer; font-weight: 400;
+    }
+
+    .menu-logout-btn:hover { color: #c0392b; }
+
+    /* Backdrop behind menu */
+    .menu-backdrop {
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.4);
+        z-index: 9998;
+        display: none;
+    }
+    .menu-backdrop.active { display: block; }
+
+    /* Hide mobile menu elements on desktop */
+    @media (min-width: 992px) {
+        .mobile-menu, .menu-backdrop { display: none !important; }
+    }
+
+    /* Hide hamburger on desktop */
+    @media (min-width: 992px) {
+        #nav-toggler { display: none !important; }
+    }
+</style>
+
+
+<div class="menu-backdrop" id="menuBackdrop"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const header   = document.getElementById('main-header');
+    const menu     = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('menuBackdrop');
+    const toggler  = document.getElementById('nav-toggler');
+    const closeBtn = document.getElementById('menuClose');
+
+    // Open
+    toggler.addEventListener('click', function (e) {
+        e.preventDefault();
+        menu.classList.add('open');
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close
+    function closeMenu() {
+        menu.classList.remove('open');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
+
+    // Close on any link click inside menu
+    menu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Scroll: transparent → solid header
+    function updateHeader() {
+        var hasHero = !!document.getElementById('header-carousel');
+        if (window.scrollY > 50 || !hasHero) {
+            header.classList.add('header-scrolled');
+            header.classList.remove('header-transparent');
+        } else {
+            header.classList.remove('header-scrolled');
+            header.classList.add('header-transparent');
+        }
+    }
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+});
+</script>
+
+
+    
+    <style>
+/* ── Carousel height ── */
+#header-carousel .carousel-item {
+    height: 100vh;         /* full screen on desktop */
+}
+#header-carousel .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+}
+
+.carousel-content-box {
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 992px) {
+    .carousel-content-box {
+        max-width: 750px;
+    }
+}
+</style>
+
+<div class="container-fluid p-0" id="header-carousel-container">
+    <div id="header-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+
+            
+            <div class="carousel-item active" data-bs-interval="5000">
+                <img src="https://images.unsplash.com/photo-1597212618440-806262de4f6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                     alt="Marrakech" loading="eager">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3 carousel-content-box">
+                        <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
+                            Bienvenue sur Hotelia
+                        </h6>
+                        <h1 class="display-3 text-white mb-4 animated slideInDown">
+                            Les Meilleurs Hôtels<br>du Maroc
+                        </h1>
+                        <p class="text-white mb-4 animated fadeInUp" style="font-size:1.1rem;">
+                            Explorez des centaines d'hôtels dans les plus belles
+                            villes du Maroc. Réservez en quelques clics.
+                        </p>
+                        <a class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
+                           href="#villes">
+                            <i class="fa fa-city me-2"></i>Explorer les Villes
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="carousel-item" data-bs-interval="5000">
+                <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                     alt="Hotel de luxe" loading="lazy">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3 carousel-content-box">
+                        <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
+                            Réservation Instantanée
+                        </h6>
+                        <h1 class="display-3 text-white mb-4 animated slideInDown">
+                            Trouvez Votre Chambre<br>Idéale
+                        </h1>
+                        <p class="text-white mb-4 animated fadeInUp" style="font-size:1.1rem;">
+                            Simple, Double, Suite ou Deluxe — comparez et réservez
+                            sans frais cachés ni intermédiaires.
+                        </p>
+                        <a class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
+                           href="#villes">
+                            <i class="fa fa-hotel me-2"></i>Voir les Hôtels
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="carousel-item" data-bs-interval="5000">
+                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                     alt="Hôtel en bord de mer" loading="lazy">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3 carousel-content-box">
+                        <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
+                            Plusieurs Villes
+                        </h6>
+                        <h1 class="display-3 text-white mb-4 animated slideInDown">
+                            Marrakech, Agadir,<br>Tanger &amp; Plus
+                        </h1>
+                        <p class="text-white mb-4 animated fadeInUp" style="font-size:1.1rem;">
+                            Une plateforme unique pour découvrir et réserver
+                            les meilleurs hôtels à travers tout le Maroc.
+                        </p>
+                        <a class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
+                           href="#villes">
+                            <i class="fa fa-map-marker-alt me-2"></i>Découvrir
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button"
+                data-bs-target="#header-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-primary rounded-circle"
+                  aria-hidden="true" style="width:50px;height:50px;padding:10px;"></span>
+            <span class="visually-hidden">Précédent</span>
+        </button>
+        <button class="carousel-control-next" type="button"
+                data-bs-target="#header-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-primary rounded-circle"
+                  aria-hidden="true" style="width:50px;height:50px;padding:10px;"></span>
+            <span class="visually-hidden">Suivant</span>
+        </button>
+    </div>
+</div>
+
+
+        <div class="container-xxl bg-white p-0">
+            
+    
+    <!-- Destination Start -->
+
+<div class="container-xxl py-4" id="villes">
+    <div class="container">
+
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title text-center text-primary text-uppercase">
+                Destinations
+            </h6>
+            <h1 class="mb-5">
+                Explorez Nos
+                <span class="text-primary text-uppercase">Villes</span>
+            </h1>
+        </div>
+
+        <div class="row g-4">
+
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <a href="/cities/1/hotels"
+                       class="room-item shadow rounded overflow-hidden d-block text-decoration-none"
+                       style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
+
+                        <div class="position-relative">
+                            <img class="img-fluid w-100" style="height: 250px; object-fit: cover;"
+                                 src="https://images.unsplash.com/photo-1597212618440-806262de4f6b?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                                 alt="Marrakech" loading="lazy">
+                            <small class="position-absolute start-0 bottom-0 bg-primary text-white rounded-end
+                                          py-1 px-3 mb-3">
+                                2
+                                Hôtels
+                            </small>
+                        </div>
+
+                        <div class="p-4 mt-2">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h5 class="mb-0 text-dark">Marrakech</h5>
+                                <span class="text-primary fw-medium">
+                                    Explorer
+                                    <i class="fa fa-arrow-right ms-1"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex mb-1">
+                                <small class="border-end me-3 pe-3 text-muted">
+                                    <i class="fa fa-hotel text-primary me-2"></i>
+                                    2
+                                    Hôtels
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                                    Marrakech, Maroc
+                                </small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+                    <a href="/cities/2/hotels"
+                       class="room-item shadow rounded overflow-hidden d-block text-decoration-none"
+                       style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
+
+                        <div class="position-relative">
+                            <img class="img-fluid w-100" style="height: 250px; object-fit: cover;"
+                                 src="https://images.unsplash.com/photo-1539020140153-e479b8c22e70?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                                 alt="Casablanca" loading="lazy">
+                            <small class="position-absolute start-0 bottom-0 bg-primary text-white rounded-end
+                                          py-1 px-3 mb-3">
+                                2
+                                Hôtels
+                            </small>
+                        </div>
+
+                        <div class="p-4 mt-2">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h5 class="mb-0 text-dark">Casablanca</h5>
+                                <span class="text-primary fw-medium">
+                                    Explorer
+                                    <i class="fa fa-arrow-right ms-1"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex mb-1">
+                                <small class="border-end me-3 pe-3 text-muted">
+                                    <i class="fa fa-hotel text-primary me-2"></i>
+                                    2
+                                    Hôtels
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                                    Casablanca, Maroc
+                                </small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <a href="/cities/3/hotels"
+                       class="room-item shadow rounded overflow-hidden d-block text-decoration-none"
+                       style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
+
+                        <div class="position-relative">
+                            <img class="img-fluid w-100" style="height: 250px; object-fit: cover;"
+                                 src="https://images.pexels.com/photos/3225531/pexels-photo-3225531.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800"
+                                 alt="Tanger" loading="lazy">
+                            <small class="position-absolute start-0 bottom-0 bg-primary text-white rounded-end
+                                          py-1 px-3 mb-3">
+                                2
+                                Hôtels
+                            </small>
+                        </div>
+
+                        <div class="p-4 mt-2">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h5 class="mb-0 text-dark">Tanger</h5>
+                                <span class="text-primary fw-medium">
+                                    Explorer
+                                    <i class="fa fa-arrow-right ms-1"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex mb-1">
+                                <small class="border-end me-3 pe-3 text-muted">
+                                    <i class="fa fa-hotel text-primary me-2"></i>
+                                    2
+                                    Hôtels
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                                    Tanger, Maroc
+                                </small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+                    <a href="/cities/4/hotels"
+                       class="room-item shadow rounded overflow-hidden d-block text-decoration-none"
+                       style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
+
+                        <div class="position-relative">
+                            <img class="img-fluid w-100" style="height: 250px; object-fit: cover;"
+                                 src="https://images.pexels.com/photos/1320686/pexels-photo-1320686.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800"
+                                 alt="Agadir" loading="lazy">
+                            <small class="position-absolute start-0 bottom-0 bg-primary text-white rounded-end
+                                          py-1 px-3 mb-3">
+                                2
+                                Hôtels
+                            </small>
+                        </div>
+
+                        <div class="p-4 mt-2">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h5 class="mb-0 text-dark">Agadir</h5>
+                                <span class="text-primary fw-medium">
+                                    Explorer
+                                    <i class="fa fa-arrow-right ms-1"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex mb-1">
+                                <small class="border-end me-3 pe-3 text-muted">
+                                    <i class="fa fa-hotel text-primary me-2"></i>
+                                    2
+                                    Hôtels
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                                    Agadir, Maroc
+                                </small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .room-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+</style>
+
+
+    
+    <div class="container-xxl py-5" id="services">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title text-center text-primary text-uppercase">
+                Pourquoi Nous Choisir
+            </h6>
+            <h1 class="mb-5">
+                La Plateforme Hôtelière
+                <span class="text-primary text-uppercase">N°1 au Maroc</span>
+            </h1>
+        </div>
+        <div class="row g-4">
+
+            
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <a class="service-item rounded" href="/#villes" style="text-decoration: none;">
+                    <div class="service-icon bg-transparent border rounded p-1">
+                        <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                            <i class="fa fa-city fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <h5 class="mb-3">Plusieurs Villes</h5>
+                    <p class="text-body mb-0">
+                        Explorez des hôtels dans les plus belles villes du Maroc —
+                        Marrakech, Casablanca, Agadir, Tanger et bien plus encore.
+                    </p>
+                </a>
+            </div>
+
+            
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+                <a class="service-item rounded" href="/#villes" style="text-decoration: none;">
+                    <div class="service-icon bg-transparent border rounded p-1">
+                        <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                            <i class="fa fa-hotel fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <h5 class="mb-3">Hôtels Sélectionnés</h5>
+                    <p class="text-body mb-0">
+                        Des établissements soigneusement sélectionnés avec des
+                        chambres vérifiées, des photos réelles et des avis authentiques.
+                    </p>
+                </a>
+            </div>
+
+            
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <a class="service-item rounded" href="/#villes" style="text-decoration: none;">
+                    <div class="service-icon bg-transparent border rounded p-1">
+                        <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                            <i class="fa fa-calendar-check fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <h5 class="mb-3">Réservation Instantanée</h5>
+                    <p class="text-body mb-0">
+                        Réservez votre chambre en quelques clics. Confirmation
+                        immédiate, sans frais cachés ni surprises.
+                    </p>
+                </a>
+            </div>
+
+            
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+                <a class="service-item rounded" href="/#villes" style="text-decoration: none;">
+                    <div class="service-icon bg-transparent border rounded p-1">
+                        <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                            <i class="fa fa-bed fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <h5 class="mb-3">Chambres Variées</h5>
+                    <p class="text-body mb-0">
+                        Simple, Double, Suite ou Deluxe — trouvez la chambre qui
+                        correspond à vos besoins et à votre budget.
+                    </p>
+                </a>
+            </div>
+
+            
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                <a class="service-item rounded" href="/#villes" style="text-decoration: none;">
+                    <div class="service-icon bg-transparent border rounded p-1">
+                        <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                            <i class="fa fa-user-shield fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <h5 class="mb-3">Gestion Simplifiée</h5>
+                    <p class="text-body mb-0">
+                        Chaque hôtel dispose de son propre espace admin pour gérer
+                        les chambres, les disponibilités et les réservations.
+                    </p>
+                </a>
+            </div>
+
+            
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+                <a class="service-item rounded" href="/#villes" style="text-decoration: none;">
+                    <div class="service-icon bg-transparent border rounded p-1">
+                        <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                            <i class="fa fa-headset fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <h5 class="mb-3">Support 24h/24</h5>
+                    <p class="text-body mb-0">
+                        Notre équipe est disponible à tout moment pour vous aider
+                        avant, pendant et après votre séjour.
+                    </p>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+    
+    <div class="container-xxl testimonial my-5 py-5 bg-dark wow zoomIn" id="testimonial" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h6 class="section-title text-center text-primary text-uppercase">Témoignages</h6>
+            <h1 class="text-white">Ce que disent nos <span class="text-primary">clients</span></h1>
+        </div>
+
+        
+                    <div class="owl-carousel testimonial-carousel py-5" id="testimonial-carousel">
+                                    <div class="testimonial-item position-relative bg-white rounded overflow-hidden p-4">
+                        
+                        <div class="d-flex mb-3">
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-muted opacity-25"></i>
+                                                            <i class="fa fa-star text-muted opacity-25"></i>
+                                                    </div>
+                        <p class="text-body mb-3">
+                            "Expérience correcte mais quelques bémols. L&#039;attente à la réception était un peu longue à notre arrivée et la décoration de notre chambre semblait un peu vieillotte. Cependant, le personnel est très chaleureux et l&#039;emplacement est idéal."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="flex-shrink-0">
+                                                                    <img class="rounded shadow-sm" 
+                                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;w=256&amp;q=80" 
+                                         alt="Sarah Benjelloun"
+                                         style="width: 60px; height: 60px; object-fit: cover; border: 2px solid rgba(255,126,33,0.1);">
+                                                            </div>
+                            <div class="ps-3">
+                                <h6 class="fw-bold mb-1">Sarah Benjelloun</h6>
+                                <small class="text-muted">Jun 2026</small>
+                            </div>
+                        </div>
+                        <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
+                    </div>
+                                    <div class="testimonial-item position-relative bg-white rounded overflow-hidden p-4">
+                        
+                        <div class="d-flex mb-3">
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                    </div>
+                        <p class="text-body mb-3">
+                            "Séjour incroyable dans cet hôtel ! Le service est impeccable, la chambre était spacieuse et très propre. Le petit-déjeuner sous forme de buffet offre un large choix. Je recommande vivement pour une escapade en famille ou en couple."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="flex-shrink-0">
+                                                                    <img class="rounded shadow-sm" 
+                                         src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&amp;fit=crop&amp;w=256&amp;q=80" 
+                                         alt="Karim Alaoui"
+                                         style="width: 60px; height: 60px; object-fit: cover; border: 2px solid rgba(255,126,33,0.1);">
+                                                            </div>
+                            <div class="ps-3">
+                                <h6 class="fw-bold mb-1">Karim Alaoui</h6>
+                                <small class="text-muted">Jun 2026</small>
+                            </div>
+                        </div>
+                        <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
+                    </div>
+                                    <div class="testimonial-item position-relative bg-white rounded overflow-hidden p-4">
+                        
+                        <div class="d-flex mb-3">
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                    </div>
+                        <p class="text-body mb-3">
+                            "Absolument parfait. De la réservation jusqu&#039;au départ, on se sent chouchoutés. Le spa est un vrai plus et le restaurant de l&#039;hôtel vaut vraiment le détour. C&#039;est l&#039;un des meilleurs établissements que j&#039;ai pu visiter dans la région."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="flex-shrink-0">
+                                                                    <img class="rounded shadow-sm" 
+                                         src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?auto=format&amp;fit=crop&amp;w=256&amp;q=80" 
+                                         alt="Youssef Fahimi"
+                                         style="width: 60px; height: 60px; object-fit: cover; border: 2px solid rgba(255,126,33,0.1);">
+                                                            </div>
+                            <div class="ps-3">
+                                <h6 class="fw-bold mb-1">Youssef Fahimi</h6>
+                                <small class="text-muted">May 2026</small>
+                            </div>
+                        </div>
+                        <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
+                    </div>
+                            </div>
+            </div>
+</div>
+
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9">
+                <div class="text-center mb-4">
+                    <h6 class="section-title text-center text-primary text-uppercase">Votre Avis Compte</h6>
+                    <h1 class="mb-3">Partagez votre expérience</h1>
+                    <p class="text-muted mb-0">Votre avis sera visible publiquement après validation par notre équipe.</p>
+                </div>
+
+                
+                <div id="review-alert-container">
+                                            <div class="alert alert-warning d-flex align-items-center gap-2 mb-4 shadow-sm" style="border:1px solid rgba(0,0,0,0.05);" role="alert">
+                            <i class="bi bi-info-circle-fill fs-5 text-warning"></i>
+                            <span class="text-dark">Veuillez vous <a href="/login?redirect=http%3A%2F%2Flocalhost%23review-form-section" class="alert-link fw-bold text-dark text-decoration-underline">connecter</a> pour laisser un avis.</span>
+                        </div>
+                                    </div>
+
+                
+                <div class="bg-white rounded p-4 shadow-sm position-relative" style="border: 1px solid rgba(0,0,0,0.08);" id="review-form-section">
+
+
+                    <form id="review-form" novalidate>
+                        <input type="hidden" name="_token" value="kXCCXHA5UvlNDGQqxERicXrzSqpOQLYBQQjGFN0v" autocomplete="off">
+                        
+                        <div class="mb-3 d-flex align-items-center gap-2 text-muted bg-light p-2 rounded border" style="font-size:0.9rem;">
+                            <i class="bi bi-person-circle fs-5"></i>
+                                                            <span>Connectez-vous pour afficher votre nom</span>
+                                                    </div>
+
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Votre note
+                            </label>
+                            <div class="d-flex gap-1 align-items-center" id="star-rating">
+                                                                    <i class="fa fa-star fa-lg text-muted star-btn"
+                                       data-value="1"
+                                       style="cursor:pointer; transition: color .15s;"
+                                       title="1 étoile"></i>
+                                                                    <i class="fa fa-star fa-lg text-muted star-btn"
+                                       data-value="2"
+                                       style="cursor:pointer; transition: color .15s;"
+                                       title="2 étoiles"></i>
+                                                                    <i class="fa fa-star fa-lg text-muted star-btn"
+                                       data-value="3"
+                                       style="cursor:pointer; transition: color .15s;"
+                                       title="3 étoiles"></i>
+                                                                    <i class="fa fa-star fa-lg text-muted star-btn"
+                                       data-value="4"
+                                       style="cursor:pointer; transition: color .15s;"
+                                       title="4 étoiles"></i>
+                                                                    <i class="fa fa-star fa-lg text-muted star-btn"
+                                       data-value="5"
+                                       style="cursor:pointer; transition: color .15s;"
+                                       title="5 étoiles"></i>
+                                                                <span class="ms-2 text-muted small" id="star-label">Sélectionnez une note</span>
+                            </div>
+                            <input type="hidden" name="rating" id="review_rating" value="5">
+                            <div class="text-danger small mt-1 d-none" id="error-rating"></div>
+                        </div>
+
+                        
+                        <div class="mb-4">
+                            <label for="review_content" class="form-label fw-semibold">
+                                Votre témoignage
+                            </label>
+                            <textarea id="review_content"
+                                      name="content"
+                                      rows="3"
+                                      class="form-control"
+                                      placeholder="Partagez votre expérience avec Hotelia..."
+                                      maxlength="1000"
+                                      required></textarea>
+                            <div class="d-flex justify-content-between mt-1">
+                                <div class="invalid-feedback" id="error-content"></div>
+                                <small class="text-muted ms-auto" id="char-counter">0 / 1000</small>
+                            </div>
+                        </div>
+
+                        
+                        <div class="d-grid mt-2">
+                            <button type="submit" class="btn btn-primary py-2 fw-bold" id="review-submit-btn"  disabled >
+                                Envoyer mon témoignage
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+    <div id="newsletter" class="container newsletter mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 border rounded p-1">
+            <div class="border rounded text-center p-1">
+                <div class="bg-white rounded text-center p-4 p-md-5">
+
+                    <i class="fa fa-envelope-open-text fa-2x text-primary mb-3"></i>
+
+                    <h4 class="mb-2">
+                        Restez informé avec
+                        <span class="text-primary text-uppercase">Hotelia</span>
+                    </h4>
+
+                    <p class="text-muted mb-4 px-2 px-md-4">
+                        Recevez en avant-première nos meilleures offres d'hôtels,
+                        nos nouvelles destinations et nos promotions exclusives au Maroc.
+                    </p>
+
+                    
+                    <div id="newsletter-feedback" class="mx-auto mb-3 d-none" style="max-width:460px;"></div>
+
+                    <div class="mx-auto" style="max-width:460px;">
+                        <form id="newsletter-form" method="POST" action="/newsletter">
+                            <input type="hidden" name="_token" value="kXCCXHA5UvlNDGQqxERicXrzSqpOQLYBQQjGFN0v" autocomplete="off">                            <div class="d-flex flex-column flex-sm-row gap-2">
+                                <input id="newsletter-email"
+                                       class="form-control py-3 ps-4"
+                                       type="email"
+                                       name="email"
+                                       placeholder="Votre adresse email"
+                                       required
+                                       style="border-radius:8px;">
+                                <button id="newsletter-btn"
+                                        type="submit"
+                                        class="btn btn-primary py-3 px-4 flex-shrink-0"
+                                        style="border-radius:8px;white-space:nowrap;">
+                                    <i class="fa fa-paper-plane me-2"></i>S'abonner
+                                </button>
+                            </div>
+                            <div id="newsletter-error" class="text-danger text-start mt-2 small d-none"></div>
+                        </form>
+                    </div>
+
+                    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                        <small class="text-muted">
+                            <i class="fa fa-shield-alt text-primary me-1"></i>Aucun spam
+                        </small>
+                        <small class="text-muted">
+                            <i class="fa fa-times-circle text-primary me-1"></i>Désabonnement facile
+                        </small>
+                        <small class="text-muted">
+                            <i class="fa fa-tag text-primary me-1"></i>Offres exclusives
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('newsletter-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const form      = this;
+    const btn       = document.getElementById('newsletter-btn');
+    const feedback  = document.getElementById('newsletter-feedback');
+    const errorBox  = document.getElementById('newsletter-error');
+    const emailInput = document.getElementById('newsletter-email');
+
+    // Reset state
+    feedback.className = 'mx-auto mb-3 d-none';
+    feedback.innerHTML = '';
+    errorBox.className = 'text-danger text-start mt-2 small d-none';
+    errorBox.innerHTML = '';
+
+    // Loading state
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Envoi...';
+
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+            },
+            body: new FormData(form),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // ✅ Success
+            feedback.innerHTML = `<div class="alert alert-success d-flex align-items-center gap-2 mb-0">
+                <i class="fa fa-check-circle"></i>${data.message}
+            </div>`;
+            feedback.className = 'mx-auto mb-3';
+            emailInput.value = '';
+            form.style.display = 'none';
+        } else {
+            // ❌ Validation error
+            const msg = data.errors?.email?.[0] ?? 'Une erreur est survenue.';
+            errorBox.textContent = msg;
+            errorBox.className = 'text-danger text-start mt-2 small';
+            // Reset button
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa fa-paper-plane me-2"></i>S\'abonner';
+        }
+
+    } catch (err) {
+        errorBox.textContent = 'Erreur réseau. Veuillez réessayer.';
+        errorBox.className = 'text-danger text-start mt-2 small';
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa fa-paper-plane me-2"></i>S\'abonner';
+    }
+});
+</script>
+
+
+
+                <footer class="container-fluid site-footer wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row g-5">
+            
+            
+            <div class="col-12 col-md-4 footer-col">
+                <h6 class="footer-title">Contact</h6>
+                <div class="footer-contact-item mb-4">
+                    <a href="mailto:hotelia@gmail.com" class="text-decoration-none" style="color: #666; font-size: 15px;">
+                        <i class="fa fa-envelope text-primary me-2"></i>hotelia@gmail.com
+                    </a>
+                </div>
+                <div class="footer-social-box">
+                    <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            
+            <div class="col-12 col-md-4 footer-col">
+                <h6 class="footer-title">Plateforme</h6>
+                <ul class="footer-links">
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/#villes">Nos Villes</a></li>
+                    <li><a href="/login">Connexion</a></li>
+                    <li><a href="/register">S'inscrire</a></li>
+                                    </ul>
+            </div>
+
+            
+            <div class="col-12 col-md-4 footer-col">
+                <h6 class="footer-title">Destinations</h6>
+                <ul class="footer-links">
+                    <li><a href="/#villes">Marrakech</a></li>
+                    <li><a href="/#villes">Casablanca</a></li>
+                    <li><a href="/#villes">Agadir</a></li>
+                    <li><a href="/#villes">Tanger</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        
+        <div class="footer-bottom">
+            <p class="mb-0">© 2026 Hotelia. Tous droits réservés.</p>
+        </div>
+    </div>
+</footer>
+
+        </div>
+    
+    <!-- Global Chatbot FAB -->
+    <div class="chatbot-wrapper">
+    
+    
+    <div class="chat-window card shadow-sm p-0 mb-3 border-0" id="chatbot-window">
+        
+        <!-- Native Header Style -->
+        <div class="chat-header d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 small fw-bold text-uppercase" style="letter-spacing: 1.5px; color: #FFFFFF; font-family: 'Montserrat', sans-serif;">Chat de Support</h6>
+
+            <button class="btn btn-sm p-0 border-0" id="chatbot-close" style="color: #FFFFFF !important;">
+                <i class="bi bi-x-lg" style="font-size: 1.1rem;"></i>
+            </button>
+        </div>
+
+
+        
+        <!-- Messages Area -->
+        <div class="chat-messages p-3" id="chatbot-messages">
+            <!-- Messages dynamically added here -->
+
+        </div>
+
+        <!-- Suggestions Area -->
+        <div id="chatbot-suggestions" class="px-3 d-flex flex-wrap gap-2 mb-2">
+            <!-- suggestions like 'Show me available hotels' -->
+        </div>
+
+        <!-- Input Area (Sticky Bottom) -->
+
+        <div class="chat-input-area border-top p-3 bg-white">
+            <div class="input-group">
+                <input type="text" class="form-control form-control-sm border shadow-none" id="chatbot-input" placeholder="Votre message..." autocomplete="off" style="border-radius: 8px 0 0 8px !important;">
+
+                <button class="btn btn-primary btn-sm px-3" id="chatbot-send" style="color: var(--chat-dark) !important; border-radius: 0 8px 8px 0 !important;">
+                    <i class="bi bi-send-fill" style="font-size: 14px;"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <button class="chatbot-fab" id="chatbot-toggle">
+        <i class="bi bi-chat-dots-fill"></i>
+    </button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('chatbot-toggle');
+    const close = document.getElementById('chatbot-close');
+    const windowEl = document.getElementById('chatbot-window');
+    const input = document.getElementById('chatbot-input');
+    const send = document.getElementById('chatbot-send');
+    const messages = document.getElementById('chatbot-messages');
+    
+    let sessionId = null;
+    const csrfToken = 'kXCCXHA5UvlNDGQqxERicXrzSqpOQLYBQQjGFN0v';
+
+    // Render role-based suggestions
+    function renderSuggestions(list) {
+        messages.scrollTop = messages.scrollHeight;
+        const container = document.getElementById('chatbot-suggestions');
+        container.innerHTML = '';
+        if(!list || list.length === 0) return;
+
+        list.forEach(text => {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-sm btn-outline-secondary py-1 px-2 border-0 shadow-none';
+            btn.style.fontSize = '12px';
+            btn.style.backgroundColor = '#f1f5f9';
+            btn.style.color = 'var(--chat-dark)';
+            btn.style.fontWeight = '500';
+            btn.innerText = text;
+            btn.onclick = () => {
+                addMsg(text, 'user');
+                sendMessageToBackend(text);
+            };
+            container.appendChild(btn);
+        });
+    }
+
+    // Step 4: Initialize Chat Session safely
+    async function initSession() {
+        if(sessionId) return;
+        try {
+            const res = await fetch('/api/chatbot/init', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken }
+            });
+            const data = await res.json();
+            sessionId = data.session_id;
+            
+            // Show initial suggestions
+            if(data.suggestions) renderSuggestions(data.suggestions);
+            
+        } catch (err) {
+            console.error('Chatbot Init Error:', err);
+        }
+    }
+
+
+    toggle.addEventListener('click', () => {
+        windowEl.classList.toggle('active');
+        if(windowEl.classList.contains('active')) {
+            input.focus();
+            initSession(); // Start session on first open
+        }
+    });
+
+    close.addEventListener('click', () => {
+        windowEl.classList.remove('active');
+    });
+
+    function addMsg(text, type) {
+        if(!text.trim()) return;
+        const div = document.createElement('div');
+        div.className = `msg msg-${type} mb-2 shadow-sm border-0`;
+        div.innerText = text;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Step 4: AI Backend Integration with Fallback
+    async function sendMessageToBackend(msg) {
+        if(!sessionId) await initSession();
+        
+        try {
+            const res = await fetch('/api/chatbot/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                body: JSON.stringify({ session_id: sessionId, message: msg })
+            });
+
+            if(!res.ok) throw new Error('Network error');
+
+            const data = await res.json();
+            addMsg(data.reply, 'bot');
+            
+            // Update suggestions based on new context
+            if(data.suggestions) renderSuggestions(data.suggestions);
+            else renderSuggestions([]);
+
+        } catch (err) {
+            console.error('Chatbot Error:', err);
+            addMsg("Aucune donnée disponible actuellement.", 'bot');
+        }
+
+    }
+
+    send.addEventListener('click', () => {
+        const val = input.value;
+        if(!val) return;
+        
+        addMsg(val, 'user');
+        input.value = '';
+        
+        sendMessageToBackend(val);
+    });
+
+    input.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') {
+            e.preventDefault();
+            send.click();
+        }
+    });
+
+    if(window.innerWidth < 576) {
+        windowEl.style.width = 'calc(100vw - 60px)';
+    }
+});
+</script>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/wow/wow.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/counterup/counterup.min.js"></script>
+        <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js?v=2.3"></script>
+
+    
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    // ── Owl Carousel (uniquement si des avis existent)
+    if ($('#testimonial-carousel').length) {
+        $('#testimonial-carousel').owlCarousel({
+            loop: true,
+            margin: 20,
+            nav: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            responsive: {
+                0:    { items: 1 },
+                768:  { items: 2 },
+                1024: { items: 3 }
+            },
+            navText: [
+                '<i class="fa fa-chevron-left"></i>',
+                '<i class="fa fa-chevron-right"></i>'
+            ]
+        });
+    }
+
+    // ── Star Rating interactif
+    let currentRating = parseInt(document.getElementById('review_rating').value) || 5;
+    const labels = ['', 'Très mauvais', 'Mauvais', 'Correct', 'Bien', 'Excellent'];
+    const starBtns = document.querySelectorAll('.star-btn');
+    const starLabel = document.getElementById('star-label');
+    const ratingInput = document.getElementById('review_rating');
+
+    function paintStars(n) {
+        starBtns.forEach(btn => {
+            const v = parseInt(btn.dataset.value);
+            if (v <= n) {
+                btn.classList.add('text-warning');
+                btn.classList.remove('text-muted');
+            } else {
+                btn.classList.remove('text-warning');
+                btn.classList.add('text-muted');
+            }
+        });
+        starLabel.textContent = n > 0 ? labels[n] + ' (' + n + '/5)' : 'Sélectionnez une note';
+    }
+
+    paintStars(currentRating);
+
+    starBtns.forEach(btn => {
+        btn.addEventListener('mouseenter', () => paintStars(parseInt(btn.dataset.value)));
+        btn.addEventListener('click', () => {
+            currentRating = parseInt(btn.dataset.value);
+            ratingInput.value = currentRating;
+            paintStars(currentRating);
+        });
+    });
+
+    document.getElementById('star-rating').addEventListener('mouseleave', () => paintStars(currentRating));
+
+    // ── Compteur de caractères
+    const textarea = document.getElementById('review_content');
+    const counter = document.getElementById('char-counter');
+
+    textarea.addEventListener('input', function() {
+        const len = this.value.length;
+        counter.textContent = len + ' / 1000';
+        if(len > 950) {
+            counter.classList.add('text-danger');
+        } else {
+            counter.classList.remove('text-danger');
+        }
+    });
+
+    // ── Validation AJAX
+    const form = document.getElementById('review-form');
+    const submitBtn = document.getElementById('review-submit-btn');
+    const alertContainer = document.getElementById('review-alert-container');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Reset errors
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        document.querySelectorAll('.invalid-feedback, .text-danger').forEach(el => {
+            if(el.id && el.id.startsWith('error-')) {
+                el.textContent = '';
+                if(el.id === 'error-rating') el.classList.add('d-none');
+                else el.style.display = 'none';
+            }
+        });
+        alertContainer.innerHTML = '';
+
+        // UI Loading
+        const originalHtml = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Envoi en cours...';
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch("/reviews", {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest', // Important for Laravel validation formats
+                    'Accept': 'application/json'
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                // Success
+                form.reset();
+                paintStars(5);
+                currentRating = 5;
+                counter.textContent = '0 / 1000';
+                
+                alertContainer.innerHTML = `
+                    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
+                        <i class="bi bi-check-circle-fill fs-5"></i>
+                        <span>${data.message}</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                    </div>
+                `;
+            } else if (response.status === 422) {
+                // Validation Errors
+                const errors = data.errors;
+                for (const field in errors) {
+                    const input = document.getElementById('review_' + field);
+                    const errorDiv = document.getElementById('error-' + field);
+                    if (input) input.classList.add('is-invalid');
+                    if (errorDiv) {
+                        errorDiv.textContent = errors[field][0];
+                        if (field === 'rating') errorDiv.classList.remove('d-none');
+                        else errorDiv.style.display = 'block';
+                    }
+                }
+            } else {
+                throw new Error('Unexpected status');
+            }
+        } catch (error) {
+            console.error(error);
+            alertContainer.innerHTML = `
+                <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
+                    <i class="fa fa-exclamation-triangle fs-5"></i>
+                    <span>Une erreur s'est produite lors de l'envoi. Veuillez réessayer.</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                </div>
+            `;
+        }
+
+        // Reset global loader
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHtml;
+    });
+
+});
+</script>
+</body>
+</html>
+
